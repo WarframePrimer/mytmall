@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.warframe.mytmall.dao.PropertyValueDAO">
+
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.PropertyValue">
+        select * from propertyValue WHERE id = #{id};
+    </select>
+
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.PropertyValue">
+        INSERT INTO propertyvalue(id,pid,ptid,`value`) VALUES (#{id},#{product.id},#{property.id},#{value})
+    </insert>
+
+    <select id="listAll" resultType="com.warframe.mytmall.pojo.PropertyValue">
+        SELECT * FROM  propertyvalue
+
+    </select>
+
+    <select id="getTotalNumber" resultType="int">
+        SELECT COUNT(*) FROM propertyvalue
+    </select>
+
+
+    <update id="update" parameterType="com.warframe.mytmall.pojo.PropertyValue">
+        UPDATE propertyvalue set pid=#{product.id},ptid=#{property.id},`value`=#{value} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM propertyvalue where id=#{id}
+    </delete>
+
+
+    <!--分页查询-->
+    <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.PropertyValue">
+        SELECT * FROM propertyvalue limit #{start},#{count}
+    </select>
+
+</mapper>
