@@ -11,7 +11,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface CategoryDAO extends BaseDAO{
+public interface CategoryDAO extends BaseDAO {
 
     @Override
     <T> void add(T t);

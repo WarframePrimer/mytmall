@@ -10,10 +10,10 @@ import java.io.UnsupportedEncodingException;
  */
 public class StringUtil {
 
-    public static String toUTF(String name,String charset) {
+    public static String toUTF(String name, String charset) {
         String str = null;
         try {
-            str = new String(name.getBytes(charset),"utf-8");
+            str = new String(name.getBytes(charset), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

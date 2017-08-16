@@ -9,13 +9,17 @@ import java.util.List;
  */
 public interface CategoryService {
     Category getCategoryById(int id);
+
     void addCategory(Category category);
 
     List<Category> listAll();
 
-    List<Category> list(int start,int count);
+    List<Category> list(int start, int count);
+
     void updateCategory(Category category);
+
     void deleteCategory(int id);
+
     int getTotalNumber();
 
 }

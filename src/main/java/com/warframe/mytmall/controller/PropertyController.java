@@ -45,42 +45,41 @@ public class PropertyController {
     private CategoryService categoryService;
 
 
-
     //属性管理
     @RequestMapping("admin_property_list.do")
-    public ModelAndView listProperty(@RequestParam(value = "cid",defaultValue = "0")int cid,@RequestParam(value = "pageNum",defaultValue = "1")int pageNum){
-        ModelAndView modelAndView = new ModelAndView("admin/listProperty") ;
+    public ModelAndView listProperty(@RequestParam(value = "cid", defaultValue = "0") int cid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+        ModelAndView modelAndView = new ModelAndView("admin/listProperty");
 
-        if(0 == cid) {
-            modelAndView.addObject("cidError","无cid传入");
+        if (0 == cid) {
+            modelAndView.addObject("cidError", "无cid传入");
             return modelAndView;
-        }else {
+        } else {
             Page page = PageUtil.getPage(pageNum);
             page.setTotalRecords(propertyService.getTotalNumberByCategoryId(cid));
             //便于进行返回的查询
-            page.setParam("&cid="+cid);
+            page.setParam("&cid=" + cid);
             //取得分类的对象实体类
             Category category = categoryService.getCategoryById(cid);
-            List<Property> properties = propertyService.listByCategoryId(page.getStart(),page.getCount(),cid);
-            modelAndView.addObject("page",page);
-            modelAndView.addObject("category",category);
-            modelAndView.addObject("properties",properties);
+            List<Property> properties = propertyService.listByCategoryId(page.getStart(), page.getCount(), cid);
+            modelAndView.addObject("page", page);
+            modelAndView.addObject("category", category);
+            modelAndView.addObject("properties", properties);
             return modelAndView;
         }
 
     }
 
     //属性分类的增加只需要新增属性的名称即可，不需要图片的上传
-    @RequestMapping(value = "admin_property_add.do",method = RequestMethod.POST)
-    public ModelAndView addProperty(@RequestParam(value = "cid")int cid,@RequestParam("name")String pname, @RequestParam(value="pageNum",defaultValue = "1") int pageNum){
+    @RequestMapping(value = "admin_property_add.do", method = RequestMethod.POST)
+    public ModelAndView addProperty(@RequestParam(value = "cid") int cid, @RequestParam("name") String pname, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
 
         logger.info("分类编号为：" + cid);
         logger.info("新增属性名称为:" + pname);
         logger.info("分页页数：" + pageNum);
-        logger.info("编码后的属性:" + StringUtil.toUTF(pname,"ISO-8859-1"));
+        logger.info("编码后的属性:" + StringUtil.toUTF(pname, "ISO-8859-1"));
 
         Property property = new Property();
-        property.setName(StringUtil.toUTF(pname,"ISO-8859-1"));
+        property.setName(StringUtil.toUTF(pname, "ISO-8859-1"));
         property.setCategory(categoryService.getCategoryById(cid));
 
         logger.info("保存的属性名称：" + pname);
@@ -91,7 +90,7 @@ public class PropertyController {
         page.setTotalRecords(propertyService.getTotalNumberByCategoryId(cid));
 
         ModelAndView modelAndView = new ModelAndView("redirect:admin_property_list.do?pageNum=" + page.getPageNum() + page.getParam());
-        modelAndView.addObject("page",page);
+        modelAndView.addObject("page", page);
         return modelAndView;
     }
 
@@ -99,13 +98,13 @@ public class PropertyController {
     //ajax实现删除
     @RequestMapping("admin_property_deleteAjax.do")
     @ResponseBody
-    public Map<String,Object> deletePropertyByAjax(@RequestParam("id")int id){
+    public Map<String, Object> deletePropertyByAjax(@RequestParam("id") int id) {
 
         propertyService.deleteProperty(id);
         logger.info("删除编号为：" + id + "的属性");
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("id",id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
 
         return map;
     }
@@ -116,7 +115,7 @@ public class PropertyController {
      * 预修改
      * 请求过程中获取到要编辑修改的属性编号(唯一)，分页页数以及属性所属的分类编号
      */
-    public ModelAndView preEditProperty(@RequestParam("id")int id,@RequestParam(value="pageNum",defaultValue = "1")int pageNum,@RequestParam("cid")int cid){
+    public ModelAndView preEditProperty(@RequestParam("id") int id, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam("cid") int cid) {
 
         //得到要修改的属性bean
         Property property = propertyService.getPropertyById(id);
@@ -125,22 +124,21 @@ public class PropertyController {
 
         ModelAndView modelAndView = new ModelAndView("admin/propertyPreEdit");
 
-        modelAndView.addObject("property",property);
-        modelAndView.addObject("category",category);
-        modelAndView.addObject("pageNum",pageNum);
+        modelAndView.addObject("property", property);
+        modelAndView.addObject("category", category);
+        modelAndView.addObject("pageNum", pageNum);
 
         return modelAndView;
     }
 
 
-    @RequestMapping(value = "admin_property_edit.do",method = RequestMethod.POST)
+    @RequestMapping(value = "admin_property_edit.do", method = RequestMethod.POST)
     /**
      * 对属性进行编辑修改
      * 提交修改使用的是post方法
      */
-    public ModelAndView editProperty(@RequestParam("id")int id, @RequestParam("name")String name, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam("cid")int cid){
+    public ModelAndView editProperty(@RequestParam("id") int id, @RequestParam("name") String name, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam("cid") int cid) {
         //将从表单获取的字段封装成响应的bean，并进行dao操作，同步到数据库
-
 
 
         logger.info("获取到的name：" + name);
@@ -149,7 +147,7 @@ public class PropertyController {
 
         Property property = new Property();
         property.setId(id);
-        property.setName(StringUtil.toUTF(name,"ISO-8859-1"));
+        property.setName(StringUtil.toUTF(name, "ISO-8859-1"));
         Category category = categoryService.getCategoryById(cid);
         property.setCategory(category);
 

@@ -9,13 +9,17 @@ import java.util.List;
  */
 public interface ReviewService {
     Review getReviewById(int id);
+
     void addReview(Review review);
+
     int getTotalNumber();
+
     List<Review> listAll();
+
     void deleteReview(int id);
     //void updateUser(User user);
 
-    List<Review> list(int start,int count);
+    List<Review> list(int start, int count);
 }
 
 

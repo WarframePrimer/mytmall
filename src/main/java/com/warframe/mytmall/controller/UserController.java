@@ -31,14 +31,14 @@ public class UserController {
 
     //用户管理
     @RequestMapping("admin_user_list.do")
-    public ModelAndView listUser(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum){
+    public ModelAndView listUser(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView();
         Page page = PageUtil.getPage(pageNum);
-        int start = (page.getPageNum()-1)*page.getCount();
+        int start = (page.getPageNum() - 1) * page.getCount();
         page.setTotalRecords(userService.getTotalNumber());
-        List<User> users = userService.list(start,page.getCount());
-        modelAndView.addObject("users",users);
-        modelAndView.addObject("page",page);
+        List<User> users = userService.list(start, page.getCount());
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("page", page);
         modelAndView.setViewName("admin/listUser");
         return modelAndView;
     }

@@ -12,21 +12,19 @@ import java.io.*;
  * Created by warframe on 2017/6/20.
  * 图片上传
  * 将用户上传的文件保存到target目录下而不是源项目项下！！
- *  项目正式部署的时候是将编译好后的文件打包成war包进行发布
- *
+ * 项目正式部署的时候是将编译好后的文件打包成war包进行发布
  */
 public class FileUpload {
 
     private static Logger logger = Logger.getLogger(FileUpload.class);
 
     /**
-     *
      * @param imageName 要保存的文件名称
      * @param file      要保存的文件
      * @param response
      * @param request
      */
-    public static void fileUpload(String imageName,CommonsMultipartFile file, HttpServletResponse response, HttpServletRequest request){
+    public static void fileUpload(String imageName, CommonsMultipartFile file, HttpServletResponse response, HttpServletRequest request) {
 
         String fileName = file.getOriginalFilename();
         logger.info("fileName:" + fileName);
@@ -46,13 +44,13 @@ public class FileUpload {
         logger.info("path:" + path);
 
         File f = new File(path);
-        if(!f.exists()) f.mkdirs();
-        if(!file.isEmpty()){
+        if (!f.exists()) f.mkdirs();
+        if (!file.isEmpty()) {
             try {
                 FileOutputStream fos = new FileOutputStream(path + newFileName);
                 InputStream in = file.getInputStream();
                 int b = 0;
-                while((b=in.read())!=-1){
+                while ((b = in.read()) != -1) {
                     fos.write(b);
                 }
                 fos.close();
@@ -64,8 +62,6 @@ public class FileUpload {
                 e.printStackTrace();
             }
         }
-
-
 
 
         logger.info("文件上传到：" + path + newFileName);

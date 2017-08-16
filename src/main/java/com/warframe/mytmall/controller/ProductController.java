@@ -39,37 +39,38 @@ public class ProductController {
     private CategoryService categoryService;
 
 
-
     /**
      * 显示对应分类所包含的所有的产品(传入对应的{category.id})
+     *
      * @return
      */
     @RequestMapping(value = "admin_product_list.do")
-    public ModelAndView listProduct(@RequestParam(value="cid",defaultValue = "0")int cid,@RequestParam(value= "pageNum",defaultValue = "1")int pageNum){
+    public ModelAndView listProduct(@RequestParam(value = "cid", defaultValue = "0") int cid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView("admin/listProduct");
 
         //首先判断传入值是否合理
-        if(0 == cid){
-            modelAndView.addObject("cidError","无cid传入");
+        if (0 == cid) {
+            modelAndView.addObject("cidError", "无cid传入");
             return modelAndView;
-        }else{
+        } else {
             //对page分页实体类进行相关设置(设置总记录数，当前页数，每页记录数)
             Page page = PageUtil.getPage(pageNum);
-            page.setTotalRecords( productService.getTotalNumberByCategoryId(cid));
+            page.setTotalRecords(productService.getTotalNumberByCategoryId(cid));
             page.setParam("&cid=" + cid);
 
             //生成相应cid的category实体类
             Category category = categoryService.getCategoryById(cid);
 
             //获得相应的产品信息
-            List<Product> products = productService.listProductByCategoryId(page.getStart(),page.getCount(),cid);
+            List<Product> products = productService.listProductByCategoryId(page.getStart(), page.getCount(), cid);
 
             //向页面中添加之后构建网页元素的数据
-            modelAndView.addObject("page",page);
-            modelAndView.addObject("category",category);
-            modelAndView.addObject("products",products);
+            modelAndView.addObject("page", page);
+            modelAndView.addObject("category", category);
+            modelAndView.addObject("products", products);
 
             return modelAndView;
+
 
         }
     }
@@ -79,29 +80,28 @@ public class ProductController {
      * 产品增加的方法，在相应的分类中添加从form表单中获取的产品信息列表
      * 需要的产品信息有分类，产品名称，产品小标题，初始价格，优惠价格，库存
      */
-    @RequestMapping(value = "admin_product_add.do",method = RequestMethod.POST)
-    public ModelAndView addProduct(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
-                                   @RequestParam("categoryId")int cid,
-                                   @RequestParam("productName")String pname,
-                                   @RequestParam("subTitle")String subTitle,
+    @RequestMapping(value = "admin_product_add.do", method = RequestMethod.POST)
+    public ModelAndView addProduct(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                   @RequestParam("categoryId") int cid,
+                                   @RequestParam("productName") String pname,
+                                   @RequestParam("subTitle") String subTitle,
                                    @RequestParam float originalPrice,
                                    @RequestParam float promotePrice,
-                                   @RequestParam int stock){
+                                   @RequestParam int stock) {
         /**
          * 可优化
          */
         Category category = categoryService.getCategoryById(cid);
-        logger.info("category:"+ category);
+        logger.info("category:" + category);
 
         Product product = new Product();
         product.setCategory(category);
-        product.setName(StringUtil.toUTF(pname,"ISO-8859-1"));
+        product.setName(StringUtil.toUTF(pname, "ISO-8859-1"));
         product.setOriginalPrice(originalPrice);
         product.setPromotePrice(promotePrice);
         product.setCreateDate(new Date());
-        product.setSubTitle(StringUtil.toUTF(subTitle,"ISO-8859-1"));
+        product.setSubTitle(StringUtil.toUTF(subTitle, "ISO-8859-1"));
         product.setStock(stock);
-
 
 
         logger.info("添加的产品信息为:" + product);

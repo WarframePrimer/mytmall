@@ -10,7 +10,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface OrderDAO extends BaseDAO{
+public interface OrderDAO extends BaseDAO {
     @Override
     <T> void add(T t);
 

@@ -8,7 +8,6 @@ import java.util.List;
  * 一个订单有多个订单项
  * 一个订单项只对应一个点单
  * 一个订单属于一个用户
- *
  */
 public class Order {
     private int id;
@@ -34,9 +33,9 @@ public class Order {
     private float totalPrice;
 
     //获取状态码
-    public String getStatusDesc(){
+    public String getStatusDesc() {
         String desc = "未知";
-        switch (status){
+        switch (status) {
             //          case OrderDAO.waitPay:
 //              desc="待付款";
 //              break;

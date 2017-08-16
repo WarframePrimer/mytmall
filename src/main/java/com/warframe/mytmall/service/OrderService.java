@@ -10,11 +10,15 @@ import java.util.List;
 public interface OrderService {
 
     Order getOrderById(int id);
+
     void addOrder(Order order);
+
     int getTotalNumber();
+
     List<Order> getOrders();
+
     void deleteOrder(int id);
     //void updateUser(Order order);
 
-    List<Order> list(int start,int count);
+    List<Order> list(int start, int count);
 }

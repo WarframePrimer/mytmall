@@ -29,14 +29,14 @@ public class OrderController {
 
     //订单管理
     @RequestMapping("admin_order_list.do")
-    public ModelAndView listOrder(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum){
+    public ModelAndView listOrder(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView();
         Page page = PageUtil.getPage(pageNum);
-        int start = (page.getPageNum()-1)*page.getCount();
+        int start = (page.getPageNum() - 1) * page.getCount();
         page.setTotalRecords(orderService.getTotalNumber());
-        List<Order> orders = orderService.list(start,page.getCount());
-        modelAndView.addObject("orders",orders);
-        modelAndView.addObject("page",page);
+        List<Order> orders = orderService.list(start, page.getCount());
+        modelAndView.addObject("orders", orders);
+        modelAndView.addObject("page", page);
         modelAndView.setViewName("admin/listOrder");
         return modelAndView;
     }

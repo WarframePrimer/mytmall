@@ -8,7 +8,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface OrderItemDAO extends BaseDAO{
+public interface OrderItemDAO extends BaseDAO {
 
 
     @Override

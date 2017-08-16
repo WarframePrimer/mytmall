@@ -28,7 +28,6 @@ import java.util.List;
 /**
  * Created by warframe on 2017/6/7.
  * 后台管理页面的相关controller
- *
  */
 
 public class AdminController {
@@ -60,8 +59,6 @@ public class AdminController {
 
     @Resource
     private OrderItemService orderItemService;
-
-
 
 
 //    //用户管理
@@ -116,8 +113,6 @@ public class AdminController {
 //        }
 //
 //    }
-
-
 
 
 //    //这个可以用@RequestParam注解直接从request中获取到想要的值

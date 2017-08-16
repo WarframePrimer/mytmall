@@ -9,7 +9,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface ProductImageDAO extends BaseDAO{
+public interface ProductImageDAO extends BaseDAO {
 
     @Override
     <T> void add(T t);

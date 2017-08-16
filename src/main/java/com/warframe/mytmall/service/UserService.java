@@ -10,12 +10,17 @@ import java.util.List;
 public interface UserService {
 
     User getUserById(int id);
+
     void addUser(User user);
+
     int getTotalNumber();
+
     List<User> getUsers();
+
     void deleteUser(int id);
+
     void updateUser(User user);
 
-    List<User> list(int start,int count);
+    List<User> list(int start, int count);
 
 }

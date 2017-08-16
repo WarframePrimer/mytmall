@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Repository
-public interface PropertyDAO extends BaseDAO{
+public interface PropertyDAO extends BaseDAO {
 
     @Override
     <T> List<T> listAll();
@@ -39,12 +39,6 @@ public interface PropertyDAO extends BaseDAO{
     List<Property> listByCategoryId(@Param("start") int start, @Param("count") int count, @Param("cid") int cid);
 
     int getTotalNumberByCategoryId(int cid);
-
-
-
-
-
-
 
 
 }

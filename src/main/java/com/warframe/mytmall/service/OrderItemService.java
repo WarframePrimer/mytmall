@@ -10,11 +10,17 @@ import java.util.List;
 public interface OrderItemService {
 
     OrderItem getOrderItemById(int id);
+
     void addOrderItem(OrderItem orderItem);
+
     int getTotalNumber();
+
     List<OrderItem> listAll();
+
     void deleteOrderItem(int id);
+
     void updateOrderItem(OrderItem orderItem);
 
-    List<OrderItem> list(int start,int count);
+
+    List<OrderItem> list(int start, int count);
 }

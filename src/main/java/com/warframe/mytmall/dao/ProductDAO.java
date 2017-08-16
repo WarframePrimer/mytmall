@@ -11,7 +11,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface ProductDAO extends BaseDAO{
+public interface ProductDAO extends BaseDAO {
     @Override
     <T> void add(T t);
 
@@ -37,7 +37,7 @@ public interface ProductDAO extends BaseDAO{
     int getTotalNumberByCategoryId(int cid);
 
     //分页显示对应分类id的产品信息
-    List<Product> listProductByCategoryId(@Param("start") int start,@Param("count") int count,@Param("cid") int cid);
+    List<Product> listProductByCategoryId(@Param("start") int start, @Param("count") int count, @Param("cid") int cid);
 
 //    void addProduct(Product product);
 //

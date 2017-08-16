@@ -11,15 +11,18 @@ import java.util.List;
 public interface PropertyValueService {
 
     PropertyValue getPropertyValueById(int id);
+
     void addPropertyValue(PropertyValue propertyValue);
+
     int getTotalNumber();
+
     List<PropertyValue> getProperties();
+
     void deletePropertyValue(int id);
+
     void updatePropertyValue(PropertyValue propertyValue);
 
     List<PropertyValue> list(int start, int count);
-
-
 
 
 }

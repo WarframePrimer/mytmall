@@ -9,7 +9,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Repository
-public interface PropertyValueDAO extends BaseDAO{
+public interface PropertyValueDAO extends BaseDAO {
 
     @Override
     <T> void add(T t);

@@ -2,7 +2,7 @@ package com.warframe.mytmall.pojo;
 
 /**
  * Created by warframe on 2017/6/2.
- *
+ * <p>
  * 哪个商品的哪个属性
  */
 public class PropertyValue {
