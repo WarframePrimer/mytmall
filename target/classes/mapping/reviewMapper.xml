@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.warframe.mytmall.dao.ReviewDAO">
+
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.Review">
+        select * from review WHERE id = #{id};
+    </select>
+
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.Review">
+        INSERT INTO review(id,uid,pid,createDate,content) VALUES (#{id},#{user.id},#{product.id},#{createDate},#{content})
+    </insert>
+
+    <select id="listAll" resultType="com.warframe.mytmall.pojo.Review">
+        SELECT * FROM  review
+
+    </select>
+
+    <select id="getTotalNumber" resultType="int">
+        SELECT COUNT(*) FROM review
+    </select>
+
+    <!--修改评论，没这种需求吧-->
+
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM review where id=#{id}
+    </delete>
+
+    <!--分页查询-->
+    <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.Review">
+        SELECT * FROM review limit #{start},#{count}
+    </select>
+
+</mapper>
