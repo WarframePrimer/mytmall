@@ -1341,7 +1341,7 @@
       <workItem from="1502884305433" duration="1258000" />
       <workItem from="1502886602592" duration="253000" />
       <workItem from="1502886966754" duration="5456000" />
-      <workItem from="1502949729861" duration="685000" />
+      <workItem from="1502949729861" duration="1275000" />
     </task>
     <task id="LOCAL-00001" summary="git上传测试">
       <created>1502866586896</created>
@@ -1400,7 +1400,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="254198000" />
+    <option name="totallyTimeSpent" value="254788000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
