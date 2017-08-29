@@ -74,7 +74,7 @@ public class PropertyController {
     public ModelAndView addProperty(@RequestParam(value = "cid") int cid, @RequestParam("name") String pname, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
 
         logger.info("分类编号为：" + cid);
-        logger.info("新增属性名称为:" + pname);
+        //logger.info("新增属性名称为:" + pname);
         logger.info("分页页数：" + pageNum);
         logger.info("编码后的属性:" + StringUtil.toUTF(pname, "ISO-8859-1"));
 
@@ -82,7 +82,7 @@ public class PropertyController {
         property.setName(StringUtil.toUTF(pname, "ISO-8859-1"));
         property.setCategory(categoryService.getCategoryById(cid));
 
-        logger.info("保存的属性名称：" + pname);
+        //logger.info("保存的属性名称：" + pname);
         propertyService.addProperty(property);
 
         Page page = PageUtil.getPage(pageNum);
