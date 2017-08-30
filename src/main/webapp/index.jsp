@@ -14,9 +14,11 @@
 </head>
 <body>
 
+
 <!--导航栏-->
 <nav class="header">
-    <div class="header-content">
+
+    <div class="header-content" >
         <a href="#"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
         <span>喵，欢迎来到天猫</span>
         <a href="#">请登录</a>
@@ -27,8 +29,10 @@
                 <span class="glyphicon glyphicon-shopping-cart" style="color: #c40000"></span>
                 购物车<strong style="color: #000">0</strong>件
 
-            </span>
+        </span>
+
     </div>
+    <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; " onclick="javascrtpt:window.location.href='http://localhost:8080/tmall/admin/category/admin_category_list.do'">进入后台</button>
 </nav>
 
 <!--搜索框-->
