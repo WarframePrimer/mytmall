@@ -12,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by warframe on 2017/7/13.
@@ -112,4 +115,85 @@ public class ProductController {
 
         return modelAndView;
     }
+
+
+    //使用ajax进行删除指定产品id的产品信息并同步到数据库
+    @RequestMapping(value = "admin_product_ajaxDelete.do", method = RequestMethod.GET)
+    //ResponseBody注解用来读取Request请求的body的部分数据，使用系统默认配置的HttpMessageConverter进行解析
+    //然后将相应的数据绑定到要返回的对象上。
+    @ResponseBody
+    public Map<String, Object> deleteProduct(@RequestParam("pid") int pid) {
+
+
+        productService.deleteProduct(pid);
+        logger.info("删除的产品id：" + pid);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("pid", pid);
+        return map;
+    }
+
+
+    @RequestMapping("admin_product_preEdit.do")
+    public ModelAndView preEditProduct(@RequestParam("pid") int pid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam("cid") int cid) {
+        Product product = productService.getProductById(pid);
+
+        Category category = categoryService.getCategoryById(cid);
+
+        logger.info("编辑前的产品信息：" + product);
+        logger.info("产品所属分类：" + category.getName());
+
+
+        ModelAndView modelAndView = new ModelAndView("admin/productPreEdit");
+        modelAndView.addObject("category", category);
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("pageNum", pageNum);
+
+
+        return modelAndView;
+    }
+
+
+    /**
+     * 修改商品
+     *
+     * @return
+     */
+    @RequestMapping(value = "admin_product_edit.do", method = RequestMethod.POST)
+    public ModelAndView editProduct(@RequestParam("productName") String productName,
+                                    @RequestParam("cid") int cid,
+                                    @RequestParam("pid") int pid,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                    @RequestParam("subTitle") String subTitle,
+                                    @RequestParam("originalPrice") float originalPrice,
+                                    @RequestParam("promotePrice") float promotePrice,
+                                    @RequestParam("stock") int stock) {
+
+        Category category = categoryService.getCategoryById(cid);
+
+
+        Product product = new Product();
+        product.setId(pid);
+        product.setSubTitle(StringUtil.toUTF(subTitle,"ISO-8859-1"));
+        product.setStock(stock);
+        product.setOriginalPrice(originalPrice);
+        product.setPromotePrice(promotePrice);
+        product.setName(StringUtil.toUTF(productName,"ISO-8859-1"));
+        product.setCategory(category);
+        product.setCreateDate(new Date());
+
+        logger.info("修改后的商品信息：" + product);
+
+        productService.updateProduct(product);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:admin_product_list.do?cid=" + cid + "&pageNum=" + pageNum);
+
+
+        return modelAndView;
+    }
+
+
+
+    
+
 }
