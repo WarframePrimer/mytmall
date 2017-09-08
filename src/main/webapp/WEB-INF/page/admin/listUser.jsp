@@ -24,17 +24,12 @@
         </thead>
         <!--具体信息-->
         <tbody>
-        <tr class="userListTableContentTR">
-            <td>1</td>
-
-            <td>姚嘉斌</td>
-        </tr>
-        <tr class="userListTableContentTR">
-            <td>2</td>
-
-            <td>智人</td>
-        </tr>
-
+        <c:forEach items="${users}" var="user">
+            <tr class="userListTableContentTR">
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 

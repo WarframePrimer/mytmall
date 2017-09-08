@@ -137,6 +137,26 @@ public class TestMybatis {
         }
     }
 
+
+    @Test
+    public void testPropertyCustom(){
+
+        //mybatis中使用resultType实现
+        List<PropertyCustom> propertyCustoms = propertyService.findPropertyCategoryByCategoryId(1);
+        for(PropertyCustom propertyCustom:propertyCustoms){
+            System.out.println(propertyCustom);
+        }
+    }
+
+    @Test
+    public void testPropertyValueCustomByProductId(){
+        List<PropertyValueCustom> propertyValueCustoms = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(1,1);
+        for(PropertyValueCustom propertyValueCustom:propertyValueCustoms){
+            System.out.println(propertyValueCustom);
+        }
+    }
+
+
 //    @Test
 //    public void test3(){
 //        Category category = new Category();

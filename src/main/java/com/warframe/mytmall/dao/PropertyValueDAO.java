@@ -1,5 +1,8 @@
 package com.warframe.mytmall.dao;
 
+import com.warframe.mytmall.pojo.PropertyValue;
+import com.warframe.mytmall.pojo.PropertyValueCustom;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -31,4 +34,14 @@ public interface PropertyValueDAO extends BaseDAO {
 
     @Override
     int getTotalNumber();
+
+
+    //获取到指定产品的属性值记录数
+    int getTotalNumberByProductId(int pid);
+
+
+    //通过产品id获取所有的属性值不需要分页
+    List<PropertyValue> getPropertyValuesByProductId(@Param("pid") int pid);
+
+    List<PropertyValueCustom> getPropertyValueCustomByProductIdAndCategoryId(@Param("pid") int pid,@Param("cid") int cid);
 }

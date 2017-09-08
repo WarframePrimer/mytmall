@@ -55,7 +55,11 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
   <servlet-mapping>
     <servlet-name>dispatcherServlet</servlet-name>
     <!--先配置成*.do告诉spring容器只对.do结尾的请求进行拦截转发-->
-    <url-pattern>*.do</url-pattern>
+    <!--因为涉及到前后端之间的地址传递，考虑使用/拦截所有的URL地址-->
+    <!--如果是使用*.do不会存在静态资源无法访问的问题
+        但是在使用拦截所有URL地址之后会出现静态资源无法加载(被拦截)
+    -->
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
 

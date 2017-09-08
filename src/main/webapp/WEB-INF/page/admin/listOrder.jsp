@@ -32,31 +32,26 @@
         </thead>
         <!--具体信息-->
         <tbody>
-        <tr class="orderListTableContentTR">
-            <td>1</td>
-            <td>待发货</td>
-            <td>￥152.90</td>
-            <td>2</td>
-            <td>姚嘉斌</td>
-            <td>2017-06-09 14:44:00</td>
-            <td>2017-06-09 14:44:05</td>
-            <td></td>
-            <td></td>
-            <td><button class="btn btn-primary btn-xs">查看详情</button></td>
-        </tr>
-        <tr class="orderListTableContentTR">
-            <td>1</td>
-            <td>待发货</td>
-            <td>￥152.90</td>
-            <td>2</td>
-            <td>姚嘉斌</td>
-            <td>2017-06-09 14:44:00</td>
-            <td>2017-06-09 14:44:05</td>
-            <td></td>
-            <td></td>
-            <!--添加onclick事件-->
-            <td><button class="btn btn-primary btn-xs" type="submit">查看详情</button></td>
-        </tr>
+        <c:forEach items="${orders}" var="order">
+            <tr class="orderListTableContentTR">
+                <td>${order.id}</td>
+                <td>${order.statusDesc}</td>
+                <td></td>
+                <td></td>
+                <td>${order.receiver}</td>
+                <td><fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><fmt:formatDate value="${order.payDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><fmt:formatDate value="${order.deliveryDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><fmt:formatDate value="${order.confirmDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+
+                <td>
+                    <button class="btn btn-primary btn-xs">查看详情</button>
+                    <button class="btn btn-primary btn-xs">发货</button>
+                </td>
+
+            </tr>
+
+        </c:forEach>
 
         </tbody>
     </table>

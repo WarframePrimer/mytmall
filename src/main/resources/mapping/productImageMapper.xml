@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--注释一下-->
+<mapper namespace="com.warframe.mytmall.dao.ProductImageDAO">
+
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.ProductImage">
+        select * from product WHERE id = #{id};
+    </select>
+
+    <!--useGeneratedKeys="true" keyProperty="id"-->
+
+
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.ProductImage" useGeneratedKeys="true" keyProperty="id">
+        <!--对于id主键，应该使用其数据库中的主键策略进行自增-->
+        <!--下列使用的数据库增加语句中，有指定id就按指定id(在主键不冲突的情况下)进行相关操作
+            否则就按空(采用数据库主键自增策略)进行相关操作
+        -->
+        INSERT INTO productimage(id,pid,`type`) VALUES (#{id},#{product.id},#{type})
+    </insert>
+
+    <select id="listAll" resultType="com.warframe.mytmall.pojo.ProductImage">
+        SELECT * FROM  productimage
+
+    </select>
+
+    <select id="getTotalNumber" resultType="int">
+        SELECT COUNT(*) FROM productimage
+    </select>
+
+
+    <update id="update" parameterType="com.warframe.mytmall.pojo.ProductImage">
+        <!--这里不对update进行实现，在具体修改图片是一般是 将图片删除然后重新添加-->
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM productimage where id=#{id}
+    </delete>
+
+    <!--分页查询-->
+    <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.ProductImage">
+        <!--对于产品图片来说，数量不会很大，所以不考虑分页-->
+    </select>
+
+    <select id="listProductImageByProductIdAndType" resultType="com.warframe.mytmall.pojo.ProductImage">
+        SELECT * FROM productimage where pid=#{pid} and `type`=#{type}
+    </select>
+
+    <select id="getFirstProductImageByProductId" resultType="com.warframe.mytmall.pojo.ProductImage">
+       SELECT * FROM productimage WHERE pid=#{pid} AND `type`='type_single' LIMIT 1;
+    </select>
+
+</mapper>

@@ -2,6 +2,7 @@ package com.warframe.mytmall.service.impl;
 
 import com.warframe.mytmall.dao.PropertyValueDAO;
 import com.warframe.mytmall.pojo.PropertyValue;
+import com.warframe.mytmall.pojo.PropertyValueCustom;
 import com.warframe.mytmall.service.PropertyValueService;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,20 @@ public class PropertyValueServiceImpl implements PropertyValueService{
     @Override
     public List<PropertyValue> list(int start, int count) {
         return propertyValueDAO.list(start, count);
+    }
+
+    @Override
+    public int getTotalNumberByProductId(int pid) {
+        return propertyValueDAO.getTotalNumberByProductId(pid);
+    }
+
+    @Override
+    public List<PropertyValue> getPropertyValuesByProductId(int pid) {
+        return propertyValueDAO.getPropertyValuesByProductId(pid);
+    }
+
+    @Override
+    public List<PropertyValueCustom> getPropertyValueCustomByProductIdAndCategoryId(int pid,int cid) {
+        return propertyValueDAO.getPropertyValueCustomByProductIdAndCategoryId(pid,cid);
     }
 }

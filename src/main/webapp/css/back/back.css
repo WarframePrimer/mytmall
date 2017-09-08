@@ -31,6 +31,7 @@ tr.listTableTH{
 div.addDiv{
     width:400px;
     margin:20px auto;
+    font-size: 16px;
 }
 div.addDiv div.panel-heading{
     font-size: 14px;
@@ -49,6 +50,8 @@ button.deleteRecord{
     border:0px;
     background-color: transparent;
     color:#337AB7;
+    /*不显示外框线*/
+    outline: none;
 }
 
 
@@ -79,6 +82,9 @@ a.propertyEdit{
 }
 
 
+/**
+contentDiv和listDiv其实是一样的@_@ORZ
+ */
 div.contentDiv{
     margin:20px 40px;
 }

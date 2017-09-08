@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -18,7 +17,7 @@
 <!--导航栏-->
 <nav class="header">
 
-    <div class="header-content" >
+    <div class="header-content">
         <a href="#"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
         <span>喵，欢迎来到天猫</span>
         <a href="#">请登录</a>
@@ -32,7 +31,10 @@
         </span>
 
     </div>
-    <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; " onclick="javascrtpt:window.location.href='http://localhost:8080/tmall/admin/category/admin_category_list.do'">进入后台</button>
+    <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; "
+            onclick="javascrtpt:window.location.href='http://localhost:8080/tmall/admin/category/admin_category_list.do'">
+        进入后台
+    </button>
 </nav>
 
 <!--搜索框-->
@@ -62,7 +64,8 @@
         </div>
 
 
-        <img src="img/site/catear.png" alt="图片加载失败" style="position:absolute;display: none;height: 15px; " class="carear" id="catear">
+        <img src="img/site/catear.png" alt="图片加载失败" style="position:absolute;display: none;height: 15px; "
+             class="carear" id="catear">
 
         <div class="rightMenu">
             <span><a href="#"><img src="img/site/chaoshi.png" alt="图片加载失败"></a></span>
@@ -737,7 +740,7 @@
     <!--轮播-->
     <div data-ride="carousel" class="carousel-of-product carousel slide" id="carousel-of-product">
         <!--indicators-->
-        <ol class="carousel-indicators" >
+        <ol class="carousel-indicators">
             <li class="active" data-slide-to="0" data-target="#carousel-of-product"></li>
             <li data-slide-to="1" data-target="#carousel-of-product"></li>
             <li data-slide-to="2" data-target="#carousel-of-product"></li>
@@ -749,10 +752,9 @@
             <div class="item active"><a href="#"><img src="img/site/lunbo/lunbo/1.jpg" alt="图片加载失败"></a></div>
             <div class="item"><a href="#"><img src="img/site/lunbo/lunbo/2.jpg" alt="图片加载失败"></a></div>
             <div class="item"><a href="#"><img src="img/site/lunbo/lunbo/3.jpg" alt="图片加载失败"></a></div>
-            <div class="item"><a href="#"><img src="img/site/lunbo/lunbo/4.jpg" alt="图片加载失败"></a> </div>
+            <div class="item"><a href="#"><img src="img/site/lunbo/lunbo/4.jpg" alt="图片加载失败"></a></div>
         </div>
     </div>
-
 
 
 </div>
@@ -880,7 +882,6 @@
 </div>
 
 
-
 <!--存放页脚-->
 <div id="footer" class="container">
 
@@ -930,7 +931,6 @@
     </div>
 
 
-
     <!--页脚二-->
     <div class="footer2">
         <div class="footer2_middle">
@@ -947,9 +947,14 @@
                     <a href="#">关于天猫</a>
                     <a href="#">关于天猫</a>
                 </div>
-                <div class="white_link"><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
-                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
-                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                <div class="white_link"><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a href="#">阿里旅行</a><span>|</span><a
+                        href="#">阿里旅行</a><span>|</span><a
                         href="#">阿里旅行</a>
                 </div>
                 <div class="license">
@@ -977,9 +982,9 @@
             var left = $(this).position().left;
             var top = $(this).position().top;
             var width = $(this).css("width");
-            var destLeft = parseInt(left) + parseInt(width)/2;
-            $("img#catear").css("left",destLeft);
-            $("img#catear").css("top",top-20);
+            var destLeft = parseInt(left) + parseInt(width) / 2;
+            $("img#catear").css("left", destLeft);
+            $("img#catear").css("top", top - 20);
             $("img#catear").fadeIn(500);
         });
         $("div.rightMenu span").mouseleave(function () {
@@ -988,14 +993,15 @@
     });
 
     function showAsideCategryInfo(cid) {
-        $("div.eachCategory[cid="+cid+"]").css("background-color","white");
-        $("div.eachCategory[cid="+cid+"] a").css({"color":"lightskyblue","font-weight":"bold"});
-        $("div.productAsideCategory[cid="+cid+"]").show();
+        $("div.eachCategory[cid=" + cid + "]").css("background-color", "white");
+        $("div.eachCategory[cid=" + cid + "] a").css({"color": "lightskyblue", "font-weight": "bold"});
+        $("div.productAsideCategory[cid=" + cid + "]").show();
     }
+
     function hideAsideCategryInfo(cid) {
-        $("div.eachCategory[cid="+cid+"]").css("background-color","#e2e2e3");
-        $("div.eachCategory[cid="+cid+"] a").css({"color":"black","font-weight":"100"});
-        $("div.productAsideCategory[cid="+cid+"]").hide();
+        $("div.eachCategory[cid=" + cid + "]").css("background-color", "#e2e2e3");
+        $("div.eachCategory[cid=" + cid + "] a").css({"color": "black", "font-weight": "100"});
+        $("div.productAsideCategory[cid=" + cid + "]").hide();
     }
 
     $("div.eachCategory").mouseenter(function () {

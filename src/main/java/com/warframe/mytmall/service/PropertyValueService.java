@@ -2,6 +2,7 @@ package com.warframe.mytmall.service;
 
 
 import com.warframe.mytmall.pojo.PropertyValue;
+import com.warframe.mytmall.pojo.PropertyValueCustom;
 
 import java.util.List;
 
@@ -23,6 +24,12 @@ public interface PropertyValueService {
     void updatePropertyValue(PropertyValue propertyValue);
 
     List<PropertyValue> list(int start, int count);
+
+    int getTotalNumberByProductId(int pid);
+
+    List<PropertyValue> getPropertyValuesByProductId(int pid);
+
+    List<PropertyValueCustom> getPropertyValueCustomByProductIdAndCategoryId(int pid,int cid);
 
 
 }

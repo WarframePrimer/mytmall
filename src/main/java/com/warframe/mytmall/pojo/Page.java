@@ -5,7 +5,7 @@ package com.warframe.mytmall.pojo;
  * Created by warframe on 2017/6/8.
  * 分页类，存储分页的相关信息
  * <p>
- * 一直其实页数和每页记录数，对应mysql数据库中的记录就是(pageNum-1)*count,count
+ *页数和每页记录数，对应mysql数据库中的记录就是(pageNum-1)*count,count
  * for example pageNum=3,count=6 那么对应数据库中应该从(3-1)*6开始，也就是记录的第13条(mysql中记录是从0开始的)
  * 使用泛型
  */

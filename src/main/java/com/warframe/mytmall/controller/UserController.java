@@ -34,9 +34,8 @@ public class UserController {
     public ModelAndView listUser(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView();
         Page page = PageUtil.getPage(pageNum);
-        int start = (page.getPageNum() - 1) * page.getCount();
         page.setTotalRecords(userService.getTotalNumber());
-        List<User> users = userService.list(start, page.getCount());
+        List<User> users = userService.list(page.getStart(), page.getCount());
         modelAndView.addObject("users", users);
         modelAndView.addObject("page", page);
         modelAndView.setViewName("admin/listUser");

@@ -9,7 +9,7 @@
         select * from propertyValue WHERE id = #{id};
     </select>
 
-    <insert id="add" parameterType="com.warframe.mytmall.pojo.PropertyValue">
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.PropertyValue" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO propertyvalue(id,pid,ptid,`value`) VALUES (#{id},#{product.id},#{property.id},#{value})
     </insert>
 
@@ -35,6 +35,22 @@
     <!--分页查询-->
     <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.PropertyValue">
         SELECT * FROM propertyvalue limit #{start},#{count}
+    </select>
+
+
+    <select id="getTotalNumberByProductId" parameterType="int" resultType="int">
+        SELECT count(*) FROM propertyvalue where pid=#{pid}
+    </select>
+
+    <select id="getPropertyValuesByProductId" resultType="com.warframe.mytmall.pojo.PropertyValue">
+        SELECT * FROM propertyvalue WHERE pid=#{pid}
+    </select>
+
+    <!--三表查询，查询出指定产品的属性以及属性值-->
+    <select id="getPropertyValueCustomByProductIdAndCategoryId" resultType="com.warframe.mytmall.pojo.PropertyValueCustom">
+        SELECT property.cid AS `categoryId`,propertyvalue.id,property.name AS `propertyName`,propertyvalue.value,property.id AS `propertyId`
+        FROM (SELECT * FROM property WHERE property.cid=#{cid}) property LEFT JOIN (SELECT * FROM propertyvalue WHERE propertyvalue.pid=#{pid}) propertyvalue
+        ON property.id=propertyvalue.ptid;
     </select>
 
 </mapper>

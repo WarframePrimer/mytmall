@@ -2,6 +2,7 @@ package com.warframe.mytmall.service.impl;
 
 import com.warframe.mytmall.dao.PropertyDAO;
 import com.warframe.mytmall.pojo.Property;
+import com.warframe.mytmall.pojo.PropertyCustom;
 import com.warframe.mytmall.service.PropertyService;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +55,17 @@ public class PropertyServiceImpl implements PropertyService{
     }
 
     @Override
-    public List<Property> listByCategoryId(int start, int count, int cid) {
-        return propertyDAO.listByCategoryId(start, count, cid);
+    public List<Property> listByCategoryId(int cid) {
+        return propertyDAO.listByCategoryId(cid);
     }
 
     @Override
     public int getTotalNumberByCategoryId(int cid) {
         return propertyDAO.getTotalNumberByCategoryId(cid);
+    }
+
+    @Override
+    public List<PropertyCustom> findPropertyCategoryByCategoryId(int cid) {
+        return propertyDAO.findPropertyCategoryByCategoryId(cid);
     }
 }

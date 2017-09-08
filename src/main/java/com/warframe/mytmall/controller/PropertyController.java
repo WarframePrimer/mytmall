@@ -60,7 +60,7 @@ public class PropertyController {
             page.setParam("&cid=" + cid);
             //取得分类的对象实体类
             Category category = categoryService.getCategoryById(cid);
-            List<Property> properties = propertyService.listByCategoryId(page.getStart(), page.getCount(), cid);
+            List<Property> properties = propertyService.listByCategoryId(cid);
             modelAndView.addObject("page", page);
             modelAndView.addObject("category", category);
             modelAndView.addObject("properties", properties);

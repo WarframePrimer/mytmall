@@ -3,16 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="com.warframe.mytmall.dao.CategoryDAO">
-
-
+    <!---->
     <resultMap id="categoryResultMap" type="com.warframe.mytmall.pojo.Category">
 
         <id column="cid" property="id"/>
         <result column="cname" property="name"/>
 
-
+        <!--category关联一系列属于此category的products-->
         <collection property="products" ofType="com.warframe.mytmall.pojo.Product">
+            <!--主键使用id标签-->
             <id property="id" column="pid"/>
             <result column="pname" property="name"/>
             <result column="subTitle" property="subTitle"/>
@@ -28,7 +29,7 @@
         SELECT * FROM  category where id = #{id}
     </select>
 
-    <insert id="add" parameterType="com.warframe.mytmall.pojo.Category">
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.Category" useGeneratedKeys="true" keyProperty="id">
         insert INTO category VALUES(#{id},#{name})
     </insert>
 

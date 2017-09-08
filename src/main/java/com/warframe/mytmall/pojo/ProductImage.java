@@ -3,6 +3,8 @@ package com.warframe.mytmall.pojo;
 /**
  * Created by warframe on 2017/6/2.
  * 一个商品有多张图片，一个图片只对应一个商品
+ *
+ * 图片属于哪一个产品
  */
 public class ProductImage {
 

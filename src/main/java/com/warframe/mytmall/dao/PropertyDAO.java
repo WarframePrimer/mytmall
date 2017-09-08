@@ -2,6 +2,7 @@ package com.warframe.mytmall.dao;
 
 
 import com.warframe.mytmall.pojo.Property;
+import com.warframe.mytmall.pojo.PropertyCustom;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,9 +37,12 @@ public interface PropertyDAO extends BaseDAO {
     int getTotalNumber();
 
 
-    List<Property> listByCategoryId(@Param("start") int start, @Param("count") int count, @Param("cid") int cid);
+    //显示分类所需的属性不需要分类
+    List<Property> listByCategoryId(@Param("cid") int cid);
 
     int getTotalNumberByCategoryId(int cid);
+
+    List<PropertyCustom> findPropertyCategoryByCategoryId(int cid);
 
 
 }

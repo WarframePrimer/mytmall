@@ -1,6 +1,7 @@
 package com.warframe.mytmall.service;
 
 import com.warframe.mytmall.pojo.Property;
+import com.warframe.mytmall.pojo.PropertyCustom;
 
 import java.util.List;
 
@@ -22,9 +23,11 @@ public interface PropertyService {
 
     int getTotalNumber();
 
-    List<Property> listByCategoryId(int start, int count, int cid);
+    List<Property> listByCategoryId(int cid);
 
     int getTotalNumberByCategoryId(int cid);
+
+    List<PropertyCustom> findPropertyCategoryByCategoryId(int cid);
 
 
 }

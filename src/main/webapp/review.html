@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品评价页面</title>
+    <!-BootStrap3->
+    <script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+    <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <style>
+        body{
+            font-size:12px;
+            font-family: Arial;
+        }
+        div.reviewDiv{
+            max-width:1013px;
+            margin:20px auto;
+        }
+
+        div.reviewProductImage{
+            float: left;
+            border:1px solid #d4d4d4;
+            width:464px;
+            height:464px;
+        }
+        div.reviewProductRightDiv{
+            /*隐藏溢出的部分*/
+            overflow: hidden;
+            border-top:1px solid #d4d4d4;
+
+        }
+        table.reviewProductInfoTable{
+            margin:20px 20px;
+        }
+        table.reviewProductInfoTable td{
+            padding:10px 0;
+            color:black;
+        }
+
+        table.reviewProductInfoTable td.reviewProductTD{
+            color:#999999;
+        }
+        strong.reviewProductPromotePrice{
+            font-weight: 700;
+            font-size:20px;
+            color:#c40000;
+        }
+        strong.reviewProductMonthSaleNumber{
+            color:#c40000;
+        }
+
+        div.reviewProductInfoRightBelowDiv{
+            border:1px solid #F6F5F3;
+            margin:10px 5px;
+            background-color: #FBFBFB;
+            text-align: center;
+            height: 172px;
+            position: relative;
+        }
+
+        div.reviewProductInfoRightBelowDiv span.reviewProductInfoRightBelowImage{
+            position: absolute;
+            margin-top:10px;
+            display: inline-block;
+            border:1px solid #E1E1E1;
+            height: 40px;
+
+            left: 85px;
+        }
+        span.reviewProductInfoRightBelowText{
+            position: absolute;
+            display: inline-block;
+            border:1px solid #EFEFEF;
+            line-height: 19px;
+            border-left:0px;
+            top:10px;
+            left:110px;
+            width:282px;
+            text-align: left;
+        }
+
+
+        /*进行评价div的属性设置*/
+        div.reviewProductDiv{
+            margin:20px 0px;
+        }
+
+
+        div.reviewProductTitleLeft{
+            float:left;
+            /*background-color: #c40000;*/
+        }
+        div.reviewProductTitleRight{
+            /*自动填满右边!!*/
+            overflow: hidden;
+        }
+
+        div.reviewProductTitleLeftTop{
+            height: 6px;
+            width:180px;
+            background-color: #c40000;
+        }
+        div.reviewProductTitleContent{
+            width:180px;
+            line-height:29px;
+            background-color: #F6F5F1;
+            text-align: center;
+            font-size:14px;
+            font-weight: bold;
+            border-left:1px solid #d5d4d4;
+            border-right:1px solid #d5d4d4;
+        }
+        span.reviewProductCommentNumber{
+            color:#284CA5;
+            display: inline-block;
+            margin-left:5px;
+        }
+        div.reviewProductTitleLeftFoot{
+            width:180px;
+            height:6px;
+            background-color: #F6F5F1;
+            border-left:1px solid #d5d4d4;
+            border-bottom:1px solid #d5d4d4;
+        }
+
+        div.reviewProductTitleRightTopEmpty{
+            height:35px;
+        }
+        div.reviewProductTitleRightFoot{
+            height:6px;
+            background-color: #F6F5F1;
+            border:1px solid #d5d4d4;
+            border-left:0px;
+        }
+
+        /*具体的评价内容div的设置*/
+        div.reviewProductContentDiv{
+            border:1px solid #d5d4d4;
+            margin-top:20px;
+            background-color: #F6F5F1;
+        }
+
+        div.reviewProductContentText{
+            margin:20px 40px;
+            font-size:16px;
+            font-weight: bold;
+        }
+
+        table.reviewProductContentTable{
+            border:1px solid #E7E7E7;
+            background-color: white;
+            margin:20px 40px;
+            width:510px;
+            height: 141px;
+        }
+        table.reviewProductContentTable td{
+            border:1px solid #e7e7e7;
+            padding:10px;
+        }
+
+        textarea.reviewProductTextArea{
+            /*不能调整大小*/
+            resize:none;
+            width:420px;
+            height:120px;
+            border:0px;
+            outline: none;
+        }
+
+        /*提交评价按钮div的设置*/
+        div.submitButtonDiv{
+            margin-top:20px;
+            margin-bottom:10px;
+            background-color: white;
+            height:56px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        /*评价按钮设置*/
+        button.reviewProductSubmitButton{
+            margin-top:15px;
+            margin-bottom:15px;
+            height:26px;
+            width:72px;
+            color: white;
+            background-color: #c40000;
+            border:1px solid #c40000;
+            border-radius: 2px;
+            font-weight: bold;
+
+        }
+
+    </style>
+</head>
+<body>
+    <!--评价页面-->
+    <div class="reviewDiv">
+        <!--评价商品的详细信息-->
+        <div class="reviewProductInfoDiv">
+            <div class="reviewProductImage">
+                <img width="460px" height="460px" src="img/site/renjianshige.jpg" alt="图片加载失败">
+            </div>
+            <div class="reviewProductRightDiv">
+                <!--商品的详细信息表-->
+                <table class="reviewProductInfoTable" width="526px">
+                    <tr>
+                        <td colspan="2"><h4>【当当网 正版书籍】人间失格 太宰治著残酷而永恒的青春文学 世界文学名著 外国当代自传体小说</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="reviewProductTD" width="75px">价格</td>
+                        <td><strong class="reviewProductPromotePrice">19.80</strong><span>元</span></td>
+                    </tr>
+                    <tr>
+                        <td class="reviewProductTD">配送</td>
+                        <td>快递：<span class="productTransportPrice">5.00</span></td>
+                    </tr>
+                    <tr>
+                        <td class="reviewProductTD">月销量</td>
+                        <td><strong class="reviewProductMonthSaleNumber">1673</strong> 件</td>
+                    </tr>
+                </table>
+                <div class="reviewProductInfoRightBelowDiv">
+                    <span class="reviewProductInfoRightBelowImage"><img src="img/site/reviewLight.png"/></span>
+                    <span class="reviewProductInfoRightBelowText">现在查看的是 您所购买商品的信息
+    于2016年09月12下单购买了此商品 </span>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <!--评价-->
+        <div class="reviewProductDiv">
+            <!--显示累计评价-->
+            <!--评价的标题设置-->
+            <div class="reviewProductTitle">
+                <div class="reviewProductTitleLeft">
+                    <div class="reviewProductTitleLeftTop"></div>
+                    <div class="reviewProductTitleContent">累计评价<span class="reviewProductCommentNumber">13</span></div>
+                    <div class="reviewProductTitleLeftFoot"></div>
+                </div>
+                <div class="reviewProductTitleRight">
+                    <div class="reviewProductTitleRightTopEmpty"></div>
+                    <div class="reviewProductTitleRightFoot"></div>
+                </div>
+            </div>
+            <!--评价的具体Content-->
+            <div class="reviewProductContentDiv">
+                <!--表单评价内容的提交-->
+                <form method="post">
+                    <div class="reviewProductContentText">其他买家，需要你的建议哦！</div>
+                    <!--一行两列的表格：评价商品----评价内容-->
+                    <table class="reviewProductContentTable">
+                        <tbody>
+                            <tr>
+                                <td width="69px">评价商品</td>
+                                <td><textarea class="reviewProductTextArea"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--进行提交-->
+                    <div class="submitButtonDiv">
+                        <button class="reviewProductSubmitButton">提交评价</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

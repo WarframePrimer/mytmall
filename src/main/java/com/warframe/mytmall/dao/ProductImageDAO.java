@@ -1,6 +1,7 @@
 package com.warframe.mytmall.dao;
 
 import com.warframe.mytmall.pojo.ProductImage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +32,10 @@ public interface ProductImageDAO extends BaseDAO {
 
     @Override
     int getTotalNumber();
+
+
+    //添加功能根据相应产品id以及需要的图片(缩略图or详情)进行查询
+    List<ProductImage> listProductImageByProductIdAndType(@Param("pid") int pid, @Param("type") String type);
+
+    ProductImage getFirstProductImageByProductId(int pid);
 }

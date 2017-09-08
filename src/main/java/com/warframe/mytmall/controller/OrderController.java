@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * Created by warframe on 2017/6/27.
+ * 对于订单，增加和删除都交给用户在页面进行处理
+ *
  */
 @Controller
 @RequestMapping("admin/order")
@@ -32,9 +34,10 @@ public class OrderController {
     public ModelAndView listOrder(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView();
         Page page = PageUtil.getPage(pageNum);
-        int start = (page.getPageNum() - 1) * page.getCount();
         page.setTotalRecords(orderService.getTotalNumber());
-        List<Order> orders = orderService.list(start, page.getCount());
+        List<Order> orders = orderService.list(page.getStart(), page.getCount());
+
+
         modelAndView.addObject("orders", orders);
         modelAndView.addObject("page", page);
         modelAndView.setViewName("admin/listOrder");

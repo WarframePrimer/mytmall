@@ -5,6 +5,7 @@ import com.warframe.mytmall.pojo.Page;
 import com.warframe.mytmall.service.*;
 import com.warframe.mytmall.util.FileUpload;
 import com.warframe.mytmall.util.PageUtil;
+import org.apache.ibatis.executor.statement.BaseStatementHandler;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,7 @@ public class CategoryController {
 
 
     //分类管理
+    //修改，将.do去掉
     @RequestMapping(value = {"admin_category_list.do"})
     public ModelAndView listCategory(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView();
@@ -61,16 +63,22 @@ public class CategoryController {
      * 添加分类的过程中会涉及到分类图片的上传
      */
     @RequestMapping("admin_category_add.do")
-    public ModelAndView addCategory(@RequestParam("filePath") CommonsMultipartFile file, @RequestParam("name") String cname, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView addCategory(@RequestParam("filePath") CommonsMultipartFile file,
+                                    @RequestParam("name") String cname,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                    HttpServletRequest request) {
         Category c = new Category();
         c.setName(cname);
 
         logger.info("保存的分类名称：" + cname);
         categoryService.addCategory(c);
         //logger.info("此时的pageNum：" + pageNum);
+        //会将增长后的id在设置回分类的实体类中
+        logger.info(c.getId());
+
 
         //将从用户上传的文件保存到本服务器上
-        FileUpload.fileUpload(c.getName(), file, response, request);
+        FileUpload.fileUploadCategory(String.valueOf(c.getId()), file, request);
 
         Page page = PageUtil.getPage(pageNum);
         page.setTotalRecords(categoryService.getTotalNumber());
@@ -81,6 +89,7 @@ public class CategoryController {
     }
 
 
+    @Deprecated
     @RequestMapping("admin_category_delete.do")
     public ModelAndView deleteCategory(@RequestParam("cid") int cid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
 
@@ -104,10 +113,25 @@ public class CategoryController {
     /*使用ajax实现分类的删除，是的删除后停留在删除记录的那一页*/
     @RequestMapping("admin_category_delete_ajax.do")
     @ResponseBody
-    public Map<String, Object> deleteCategoryByAjax(@RequestParam("cid") int cid) {
+    public Map<String, Object> deleteCategoryByAjax(@RequestParam("cid") int cid, HttpServletRequest request) {
 
+
+        //删除在数据库中的记录
         categoryService.deleteCategory(cid);
         logger.info("成功删除编号为" + cid + "的分类");
+
+        //删除在本地中的图片
+        String path = request.getSession().getServletContext().getRealPath("img/category");
+
+        logger.info("path:" + path);
+        File fileToDelete = new File(path,cid+".jpg");
+
+        if(fileToDelete.exists()){
+            fileToDelete.delete();
+        }else{
+            logger.info("文件不存在！！！");
+        }
+
 
         Map<String, Object> map = new HashMap<>();
         map.put("cid", cid);
@@ -122,10 +146,11 @@ public class CategoryController {
      * 分类的编辑包括分类图片的上传
      *
      * @param cid
+     * @param pageNum
      * @return
      */
     @RequestMapping("admin_category_preEdit.do")
-    public ModelAndView preEditCategory(@RequestParam("cid") int cid, @RequestParam("pageNum") int pageNum) {
+    public ModelAndView preEditCategory(@RequestParam(value = "cid") int cid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         Category category = categoryService.getCategoryById(cid);
 
         //Page page = PageUtil.getPage(pageNum);
@@ -142,7 +167,12 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "admin_category_edit.do", method = RequestMethod.POST)
-    public ModelAndView editCategory(@RequestParam("pageNum") int pageNum, @RequestParam("cid") int cid, @RequestParam("name") String name, @RequestParam("filePath") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView editCategory(@RequestParam("pageNum") int pageNum,
+                                     @RequestParam("cid") int cid,
+                                     @RequestParam("name") String name,
+                                     @RequestParam("filePath") CommonsMultipartFile file,
+                                     HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("redirect:admin_category_list.do?pageNum=" + pageNum);
         Category category = new Category();
         category.setId(cid);
         category.setName(name);
@@ -151,10 +181,8 @@ public class CategoryController {
 
         categoryService.updateCategory(category);
         logger.info("编辑后的分类消息:" + category);
-        FileUpload.fileUpload(name, file, response, request);
+        FileUpload.fileUploadCategory(String.valueOf(cid), file, request);
 
-
-        ModelAndView modelAndView = new ModelAndView("redirect:admin_category_list.do?pageNum=" + pageNum);
 
         return modelAndView;
     }

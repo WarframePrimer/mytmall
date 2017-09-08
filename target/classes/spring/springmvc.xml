@@ -16,16 +16,22 @@
     <context:component-scan base-package="com.warframe.mytmall.controller"/>
 
     <!-- 静态资源访问（不拦截此目录下的东西的访问） -->
-    <mvc:resources location="/img"  mapping="/img/**" />
+    <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+
 
 
     <!--配置视图解析器-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="suffix" value=".jsp"/>
+        <!--要寻找的Views都去WEB-INF下的page文件夹中找-->
         <property name="prefix" value="/WEB-INF/page/"/>
     </bean>
 
-    <!-- 文件上传解析器 -->
+    <!-- 文件上传解析器
+     对于上传文件时，需要将表单提交方式enctype="multipart/form-data"并且使用POST方式提交
+     -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"></property>
         <property name="maxUploadSize" value="10485760000"></property><!-- 最大上传文件大小 -->

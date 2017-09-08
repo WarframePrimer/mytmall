@@ -11,6 +11,7 @@ import java.util.List;
  */
 @Repository
 public interface OrderDAO extends BaseDAO {
+
     @Override
     <T> void add(T t);
 

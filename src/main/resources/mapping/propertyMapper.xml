@@ -4,6 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.warframe.mytmall.dao.PropertyDAO">
+    
+    <resultMap id="propertyResultMap" type="com.warframe.mytmall.pojo.Property">
+        <id column="id" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+
+        <!--property对象存有一个相应的category对象的引用,-->
+    </resultMap>
+    
 
     <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.Property">
         select * from property WHERE id = #{id};
@@ -37,13 +45,26 @@
     </select>
 
 
+    <!--不需要分页，直接显示全部都属性-->
     <select id="listByCategoryId" parameterType="int" resultType="com.warframe.mytmall.pojo.Property">
-        SELECT * FROM property where cid = #{cid} limit #{start},#{count}
+        SELECT * FROM property where cid = #{cid}
     </select>
 
     <select id="getTotalNumberByCategoryId" resultType="int" parameterType="int">
         SELECT COUNT(*) FROM property where cid = #{cid}
     </select>
 
+
+    <!--新增-->
+    <select id="findPropertyCategoryByCategoryId" resultType="com.warframe.mytmall.pojo.PropertyCustom">
+        SELECT
+          property.id,
+          property.name,
+          category.name as `categoryName`
+        FROM
+          property,category
+        WHERE property.cid=category.id and property.cid=#{cid}
+
+    </select>
 
 </mapper>

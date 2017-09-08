@@ -43,4 +43,12 @@ public class PropertyValue {
     public void setProperty(Property property) {
         this.property = property;
     }
+
+    @Override
+    public String toString() {
+        return "PropertyValue{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }
