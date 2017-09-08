@@ -7,5 +7,5 @@ out
 .idea
 logs
 
-src
+src\main\webapp\*.html
 
