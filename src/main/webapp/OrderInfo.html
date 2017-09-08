@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单状态详情</title>
+    <!-BootStrap3->
+    <script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+    <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <style>
+        body{
+            font-size:12px;
+            font-family:Arial;
+            margin:0px;
+            padding:0px;
+        }
+        div.orderDiv{
+            max-width:1013px;
+            margin:50px auto;
+        }
+        div.orderType div{
+            border-bottom:2px solid #e8e8e8;
+            float:left;
+        }
+        div.orderType a{
+            border-right: 1px solid #e8e8e8;
+            font-size:16px;
+            font-weight:bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 0 20px;
+            color:black;
+        }
+        div.orderType a:hover{
+            color:#FF4400;
+        }
+
+        div.selectedOrderType{
+            border-bottom:2px solid #FF4400 !important;
+
+        }
+        div.selectedOrderType a{
+            color:#FF4400;
+        }
+
+        div.orderTypeLastOne{
+            /*隐藏滚动条*/
+            /*可以理解为：对子容器中超出父容器的部分进行隐藏*/
+            overflow: hidden;
+            float:none !important;
+            height:34px;
+        }
+
+        table.orderListTitleTable{
+            border:1px solid #e8e8e8;
+            width:100%;
+            margin:20px 0px;
+            background-color: #F5f5f5;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        table.orderListItemTable{
+            border:1px solid #ECECEC;
+            width:100%;
+            margin:20px 0px;
+        }
+        table.orderListItemTable:hover{
+            border:1px solid #aaa !important;
+        }
+        table.orderListItemTable td{
+            padding:8px 10px;
+        }
+
+        tr.orderListItemFirstTR{
+            background-color: #f1f1f1;
+        }
+        /*旺旺图标*/
+        div.orderItemWangWangGif{
+            display: inline-block;
+            width:76px;
+            height:22px;
+            background-image: url("img/site/wangwang.gif");
+            background-repeat:no-repeat;
+            background-color: transparent;
+            background-position: -0px -0px;
+            background-attachment: scroll;
+            position:relative;
+            top:0px;
+            left:2px;
+        }
+        td.orderItemDeleteTD{
+            text-align: right;
+        }
+
+        span.orderListItemDelete{
+            display: inline-block;
+            font-size: 16px;
+            margin:0px 10px;
+            color:#999999;
+        }
+
+        div.orderListItemProductLinkOutDiv{
+            position: relative;
+            height:80px;
+        }
+        div.orderListItemProductLinkOutDiv div.orderListItemProductLinkInnerDiv{
+            position: absolute;
+            bottom:0px;
+        }
+
+        /*原始价格*/
+        div.orderItemProductOriginalPrice{
+            color:#999999;
+            text-decoration: line-through;
+            font-size:14px;
+        }
+        div.orderItemProductPromotePrice{
+            font-size:14px;
+        }
+
+        td.orderListItemProductNumberTD{
+            text-align: center;
+            vertical-align: middle;
+        }
+        /*td.orderListItemProductTD{
+            border:1px solid #ECECEC;
+        }*/
+        td.orderListItemProductTD{
+            border-right:1px solid #ECECEC;
+        }
+        tr.orderListItemProductInfoTR td:first-child,td:last-child{
+            border-right: none;
+        }
+
+        td.orderListItemProductRealPriceTD{
+            text-align: center;/*水平居中*/
+            vertical-align: middle;/*垂直居中*/
+        }
+        div.orderListItemProductRealPrice{
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        td.orderListItemButtonTD{
+            text-align: center;
+            vertical-align: middle;
+        }
+        button.orderListItemReview{
+            color:#3c3c3c;
+            font-weight: bold;
+            border:1px solid #DCDCDC;
+            background-color: white;
+            padding:5px 10px;
+            border-radius: 2px;
+        }
+        button.orderListItemReview:hover{
+            color:#c40000;
+            border-color: #c40000;
+        }
+        /*所有链接*/
+        a{
+            color:#999;
+        }
+        a:hover{
+            color:#FF4400;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <!--我的订单-->
+    <div class="orderDiv">
+        <div class="orderType">
+            <div class="selectedOrderType"><a href="#nowhere" orderStatus="all">所有订单</a></div>
+            <div class=""><a href="#nowhere" orderStatus="waitPay">待付款</a></div>
+            <div class=""><a href="#nowhere" orderStatus="waitDelivery">待发货</a></div>
+            <div class=""><a href="#nowhere" orderStatus="waitConfirm">待收货</a></div>
+            <div class=""><a href="#nowhere" orderStatus="waitReview">待评价</a></div>
+
+            <div class="orderTypeLastOne"></div>
+        </div>
+        <div style="clear: both"></div>
+
+        <!--订单详情列表-->
+        <div class="orderListTitle">
+            <!--详情表头-->
+            <table class="orderListTitleTable">
+                <!--订单详情的表头-->
+                <tbody>
+                    <tr>
+                        <td>宝贝</td>
+                        <td width="100px">单价</td>
+                        <td width="100px">数量</td>
+                        <td width="120px">实收款</td>
+                        <td width="100px">交易操作</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!--订单详情-->
+        <div class="orderListItem">
+            <table class="orderListItemTable" oid="1" orderStatus="waitReview">
+                <tbody>
+                    <!--一个订单项这里用两行来表示一个订单项，第一行是订单编号和我聊聊以及删除-->
+                    <tr class="orderListItemFirstTR">
+                        <td colspan="2">
+                            <b>2017-05-16 19:49:00</b>
+                            <span>订单号：20170516194900456212</span>
+                        </td>
+                        <td colspan="2">
+                            <img src="img/site/orderItemTmall.png" alt="图片加载失败" width="13px">天猫商场
+                        </td>
+                        <td colspan="1">
+                            <a href="#nowhere" class="wangwanglink">
+                                <div class="orderItemWangWangGif"></div>
+                            </a>
+                        </td>
+                        <td class="orderItemDeleteTD">
+                            <a href="#nowhere" class="deleteOrderLink">
+                                <span class="orderListItemDelete glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <!--这一行开始才是具体订单项详情-->
+                    <!--注意点：一个订单不止一件商品-->
+                    <tr class="orderListItemProductInfoTR">
+                        <td class="orderListItemProductTD">
+                            <img src="img/site/productSingle_middle/3796.jpg" alt="图片加载失败" width="90px">
+
+                        </td>
+                        <td class="orderListItemProductTD">
+                            <div class="orderListItemProductLinkOutDiv">
+                                <a href="#nowhere">公众智能扫地机器人家用全自动电动清洁地毯擦拖地一体机吸尘器</a>
+                                <div class="orderListItemProductLinkInnerDiv">
+                                    <img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡">
+                                    <img src="img/site/7day.png" alt="图片加载失败" title="正品保证">
+                                    <img src="img/site/promise.png" alt="图片加载失败" title="如实描述">
+                                </div>
+                            </div>
+
+                        </td>
+                        <td width="100px" class="orderListItemProductTD">
+                            <div class="orderItemProductOriginalPrice">￥2499.00</div>
+                            <div class="orderItemProductPromotePrice">￥2124.00</div>
+                        </td>
+                        <td width="100px" valign="top" class="orderListItemProductTD orderListItemProductNumberTD" rowspan="1">
+                            <span class="orderListItemProductNumber">1</span>
+                        </td>
+                        <td width="120px" valign="top" class="orderListItemProductRealPriceTD orderListItemProductTD" rowspan="1">
+                            <div class="orderListItemProductRealPrice">￥2124.00</div>
+                            <div class="orderListItemPriceWithTransport">(含运费：￥0.00)</div>
+                        </td>
+                        <td width="100px" valign="top" class="orderListItemButtonTD orderListItemProductTD" rowspan="1">
+                            <a href="#nowhere">
+                                <button class="orderListItemReview">评价</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <table class="orderListItemTable" oid="2" orderStatus="waitPay">
+                <tbody>
+                <!--一个订单项这里用两行来表示一个订单项，第一行是订单编号和我聊聊以及删除-->
+                <tr class="orderListItemFirstTR">
+                    <td colspan="2">
+                        <b>2017-05-16 19:49:00</b>
+                        <span>订单号：20170516194900456212</span>
+                    </td>
+                    <td colspan="2">
+                        <img src="img/site/orderItemTmall.png" alt="图片加载失败" width="13px">天猫商场
+                    </td>
+                    <td colspan="1">
+                        <a href="#nowhere" class="wangwanglink">
+                            <div class="orderItemWangWangGif"></div>
+                        </a>
+                    </td>
+                    <td class="orderItemDeleteTD">
+                        <a href="#nowhere" class="deleteOrderLink">
+                            <span class="orderListItemDelete glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+                <!--这一行开始才是具体订单项详情-->
+                <tr class="orderListItemProductInfoTR">
+                    <td class="orderListItemProductTD">
+                        <img src="img/site/productSingle_middle/3796.jpg" alt="图片加载失败" width="90px">
+                    </td>
+                    <td class="orderListItemProductTD">
+                        <div class="orderListItemProductLinkOutDiv">
+                            <a href="#nowhere">公众智能扫地机器人家用全自动电动清洁地毯擦拖地一体机吸尘器</a>
+                            <div class="orderListItemProductLinkInnerDiv">
+                                <img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡">
+                                <img src="img/site/7day.png" alt="图片加载失败" title="正品保证">
+                                <img src="img/site/promise.png" alt="图片加载失败" title="如实描述">
+                            </div>
+                        </div>
+                    </td>
+                    <td width="100px" class="orderListItemProductTD">
+                        <div class="orderItemProductOriginalPrice">￥2499.00</div>
+                        <div class="orderItemProductPromotePrice">￥2124.00</div>
+                    </td>
+                    <td width="100px" valign="top" class="orderListItemProductTD orderListItemProductNumberTD" rowspan="1">
+                        <span class="orderListItemProductNumber">1</span>
+                    </td>
+                    <td width="120px" valign="top" class="orderListItemProductRealPriceTD orderListItemProductTD" rowspan="1">
+                        <div class="orderListItemProductRealPrice">￥2124.00</div>
+                        <div class="orderListItemPriceWithTransport">(含运费：￥0.00)</div>
+                    </td>
+                    <td width="100px" valign="top" class="orderListItemButtonTD orderListItemProductTD" rowspan="1">
+                        <a href="#nowhere">
+                            <button class="orderListItemReview">待付款</button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!--交互-->
+    <script>
+        <!--载入完成后执行的函数-->
+        $(function () {
+            <!--上方的订单分类被点击时运行的函数-->
+            $("div.orderType a").click(function () {
+                var orderStatus =  $(this).attr("orderStatus");
+                //alert(orderStatus);
+                if("all" == orderStatus){
+                    $("table.orderListItemTable").show();
+                }else{
+                    $("table.orderListItemTable").hide();
+                    $("table.orderListItemTable[orderStatus= "+ orderStatus + "]").show();
+                }
+                /*重新初始化被点击中的orderType*/
+                $("div.orderType div").removeClass("selectedOrderType");
+                $(this).parent("div").addClass("selectedOrderType");
+            });
+        })
+
+    </script>
+</body>
+</html>

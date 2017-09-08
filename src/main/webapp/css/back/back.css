@@ -1,0 +1,193 @@
+body{
+    font-size:12px;
+    font-family: Arial;
+
+}
+
+/*列表div的属性设置*/
+div.contentDiv table{
+    margin:20px 0px;
+}
+div.listDiv table{
+    margin:20px 0px;
+}
+div.contentDiv table span{
+    font-size: 14px;
+}
+div.listDiv table span{
+    font-size: 14px;
+}
+
+/*div.listDiv{
+    margin:20px 40px;
+}*/
+
+
+tr.listTableTH{
+    background-color: #DFF0D8;
+}
+
+/*添加div的属性设置*/
+div.addDiv{
+    width:400px;
+    margin:20px auto;
+    font-size: 16px;
+}
+div.addDiv div.panel-heading{
+    font-size: 14px;
+}
+table.addTable{
+    width: 100%;
+    font-size: 14px;
+}
+table.addTable td{
+    text-align: center;
+    padding:5px 5px;
+}
+
+/*分类按钮的属性设置*/
+button.deleteRecord{
+    border:0px;
+    background-color: transparent;
+    color:#337AB7;
+    /*不显示外框线*/
+    outline: none;
+}
+
+
+
+div.editDiv{
+    width:400px;
+    margin:20px auto;
+}
+
+table.editTable{
+    width:100%;
+}
+table.editTable td{
+    text-align: center;
+    padding:10px 5px;
+}
+
+/*===================调整面包树结构中字体的大小===================*/
+ol.breadcrumb{
+    font-size: 14px;
+}
+
+
+a.propertyEdit{
+
+    /*光标移到此焦点变成手型*/
+    cursor: pointer;
+}
+
+
+/**
+contentDiv和listDiv其实是一样的@_@ORZ
+ */
+div.contentDiv{
+    margin:20px 40px;
+}
+div.listDiv{
+    margin:20px 40px;
+}
+
+
+div.footer{
+    text-align: center;
+    /*height:60px;*/
+    background-color: #222222;
+    line-height:20px;
+    padding-top:20px;
+    padding-bottom: 20px;
+    color:#9D9D9D;
+    font-weight: bold;
+
+}
+
+
+
+/*===========================================*/
+/*===============用户管理的样式设置===============*/
+/*div.userListDiv{
+    padding:0px 40px;
+}
+
+table.userListTable{
+    border:1px solid #DDDDDD;
+    max-width: 100%;
+    width:100%;
+    margin-top:20px;
+
+}
+table.userListTable tr.userListTableTH{
+
+    background-color: #DFF0D8;
+
+}
+tr.userListTableTH th{
+    text-align: left;
+    padding:5px 5px;
+    border: 1px solid #DDDDDD;
+    font-size: 14px;
+}
+
+tr.userListTableContentTR td{
+    border: 1px solid #DDDDDD;
+    padding:5px 5px;
+    height:35px;
+
+}
+tr.userListTableContentTR td span{
+    font-size:16px;
+}*/
+/*===========================================*/
+
+/*===订单管理====*/
+/*div.orderListDiv{
+    padding:0px 40px;
+}
+
+table.orderListTable{
+    border:1px solid #DDDDDD;
+    max-width: 100%;
+    width:100%;
+    margin-top:20px;
+
+}
+table.orderListTable tr.orderListTableTH{
+
+    background-color: #DFF0D8;
+
+}
+tr.orderListTableTH th{
+    text-align: left;
+    padding:5px 5px;
+    border: 1px solid #DDDDDD;
+    font-size: 14px;
+}
+
+tr.orderListTableContentTR td{
+    border: 1px solid #DDDDDD;
+    padding:5px 5px;
+    height:35px;
+
+}
+tr.orderListTableContentTR td span{
+    font-size:16px;
+}*/
+
+
+/*=========*/
+
+
+div.paginationDiv{
+    margin-top:20px;
+    text-align: center;
+
+}
+div.paginationDiv ul.pagination{
+    font-size:14px;
+}
+
+

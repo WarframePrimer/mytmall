@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.warframe.mytmall.dao.PropertyDAO">
+    
+    <resultMap id="propertyResultMap" type="com.warframe.mytmall.pojo.Property">
+        <id column="id" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+
+        <!--property对象存有一个相应的category对象的引用,-->
+    </resultMap>
+    
+
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.Property">
+        select * from property WHERE id = #{id};
+    </select>
+
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.Property">
+        INSERT INTO property(id,`name`,cid) VALUES (#{id},#{name},#{category.id})
+    </insert>
+
+    <select id="listAll" resultType="com.warframe.mytmall.pojo.Property">
+        SELECT * FROM  property
+
+    </select>
+
+    <select id="getTotalNumber" resultType="int">
+        SELECT COUNT(*) FROM property
+    </select>
+
+
+    <update id="update" parameterType="com.warframe.mytmall.pojo.Property">
+        UPDATE property set `name`=#{name},cid=#{category.id} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM property where id=#{id}
+    </delete>
+
+    <!--分页查询-->
+    <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.Property">
+        SELECT * FROM property limit #{start},#{count}
+    </select>
+
+
+    <!--不需要分页，直接显示全部都属性-->
+    <select id="listByCategoryId" parameterType="int" resultType="com.warframe.mytmall.pojo.Property">
+        SELECT * FROM property where cid = #{cid}
+    </select>
+
+    <select id="getTotalNumberByCategoryId" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM property where cid = #{cid}
+    </select>
+
+
+    <!--新增-->
+    <select id="findPropertyCategoryByCategoryId" resultType="com.warframe.mytmall.pojo.PropertyCustom">
+        SELECT
+          property.id,
+          property.name,
+          category.name as `categoryName`
+        FROM
+          property,category
+        WHERE property.cid=category.id and property.cid=#{cid}
+
+    </select>
+
+</mapper>

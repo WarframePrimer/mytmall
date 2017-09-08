@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.warframe.mytmall.dao.CategoryDAO">
+    <!---->
+    <resultMap id="categoryResultMap" type="com.warframe.mytmall.pojo.Category">
+
+        <id column="cid" property="id"/>
+        <result column="cname" property="name"/>
+
+        <!--category关联一系列属于此category的products-->
+        <collection property="products" ofType="com.warframe.mytmall.pojo.Product">
+            <!--主键使用id标签-->
+            <id property="id" column="pid"/>
+            <result column="pname" property="name"/>
+            <result column="subTitle" property="subTitle"/>
+            <result column="originalPrice" property="originalPrice"/>
+            <result column="promotePrice" property="promotePrice"/>
+            <result column="stock" property="stock"/>
+            <result column="createDate" property="createDate"/>
+        </collection>
+    </resultMap>
+
+    
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.Category">
+        SELECT * FROM  category where id = #{id}
+    </select>
+
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.Category" useGeneratedKeys="true" keyProperty="id">
+        insert INTO category VALUES(#{id},#{name})
+    </insert>
+
+    <select id="listAll" resultType="com.warframe.mytmall.pojo.Category">
+      SELECT * FROM category
+    </select>
+
+    <select id="getTotalNumber" resultType="int">
+        SELECT COUNT(*) FROM category
+    </select>
+
+    <update id="update" parameterType="com.warframe.mytmall.pojo.Category">
+        UPDATE category set `name`=#{name} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM category where id=#{id}
+    </delete>
+
+
+    <!--分页查询-->
+    <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.Category">
+        SELECT * FROM category limit #{start},#{count}
+    </select>
+
+
+
+</mapper>

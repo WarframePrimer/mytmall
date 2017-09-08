@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登良页面</title>
+    <!-BootStrap3->
+    <script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+    <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <style>
+        body{
+            font-size:12px;
+            font-family: Arial;
+        }
+        div.loginDiv{
+            max-width:1190px;
+            margin:0 auto;
+        }
+
+        div.loginImg{
+            padding:32px 0;
+        }
+
+        div.loginBackgroundImg{
+            position: relative;
+        }
+
+
+        /*背景图片的背景色*/
+        div.loginBackground{
+            height:600px;
+            width:100%;
+            background-color: #921313;
+            position: absolute;
+            top:91px;
+            z-index:-1;
+        }
+
+
+        /*账号密码的表单属性设置*/
+        div.loginTitle{
+            font-weight: bold;
+            font-size:16px;
+            margin:20px 20px;
+        }
+        div.loginInput{
+            height:41px;
+            margin:20px 20px;
+            border:1px solid #d4d4d4;
+        }
+
+
+        div.loginInput span{
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+            top:-1px;
+            display: inline-block;
+            width:40px;
+            height:40px;
+            background-color: #d4d4d4;
+            font-size: 20px;
+
+        }
+        div.loginInput input{
+            border:0px ;
+            display: inline-block;
+            margin:0px 10px;
+            outline: none;
+            font-size:14px;
+        }
+        div.loginLink a{
+            color:#999999;
+            text-decoration: none;
+            display: inline-block;
+
+            margin:0px 20px;
+        }
+        div.loginLink a:hover{
+            color:#c40000;
+        }
+
+        div.loginButtonDiv{
+            margin:20px 20px;
+        }
+
+        button.redButton{
+            border:1px solid #c40000;
+            background-color: #c40000;
+            color:white;
+            font-size:14px;
+            font-weight: bold;
+            width:308px;
+            height: 42px;
+            margin:0px auto;
+
+        }
+        button.redButton:hover{
+            color:white;
+        }
+
+
+        div.loginForm{
+            position: absolute;
+            width:350px;
+            height:350px;
+            background-color: white;
+            top:191px;
+            left:1300px;
+        }
+
+
+        /*为表单进行绝对定位*/
+
+
+
+
+    </style>
+</head>
+<body>
+    <!--登录-->
+    <div class="loginDiv">
+        <div class="loginImg">
+            <img src="img/site/simpleLogo.png" alt="图片加载失败">
+        </div>
+        <div class="loginBackgroundImg">
+            <img src="img/site/loginBackground.png" alt="图片加载失败">
+        </div>
+
+
+        <!--登录的表单框-->
+        <div class="loginForm">
+            <div class="loginTitle">账户登录</div>
+            <div class="loginInput">
+                <span class="glyphicon glyphicon-user"></span>
+                <input id="name" name="name" type="text" placeholder="手机/会员名/邮箱">
+            </div>
+            <div class="loginInput">
+                <span class="glyphicon glyphicon-lock"></span>
+                <input id="password" name="password" type="password" placeholder="密码">
+            </div>
+
+            <div class="loginLink">
+                <a href="#">忘记登录密码</a>
+                <a href="#" class="pull-right">免费注册</a>
+            </div>
+
+            <div class="loginButtonDiv">
+                <button class="btn btn-block redButton" type="submit">登录</button>
+            </div>
+
+        </div>
+    </div>
+    <!--背景色-->
+    <div class="loginBackground"></div>
+
+
+    <!--交互-->
+    <script>
+        $(function () {
+            $("button.redButton").click(function () {
+               var name = $("input[name='name']").val();
+               var password = $("input[name='password']").val();
+               
+            })
+
+
+        })
+    </script>
+</body>
+</html>
