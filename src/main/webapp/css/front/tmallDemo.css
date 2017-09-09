@@ -70,8 +70,8 @@ div.searchDiv button{
 }
 
 div.searchDiv div.searchBelow{
-    margin: 5px 0px 0px -20px;
-
+    margin: 5px 0px 0px 10px;
+    /*background-color: #00aaee;*/
 }
 
 div.searchDiv div.searchBelow span{
@@ -79,8 +79,10 @@ div.searchDiv div.searchBelow span{
 }
 
 div.searchDiv div.searchBelow a{
+    /*background-color: #0f0f0f;*/
+    width: 50px;
     font-size: 14px;
-    margin: 0px 20px;
+    /*margin: 0px 20px;*/
 }
 
 img.logo{
