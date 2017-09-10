@@ -12,6 +12,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +22,7 @@
     <link href="<%=request.getContextPath()%>/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/js/bootstrap/3.3.6/bootstrap.min.js"></script>
     <link href="<%=request.getContextPath()%>/css/front/tmallDemo.css" rel="stylesheet"/>
-
+    <link href="<%=request.getContextPath()%>/css/front/productPage.css" rel="stylesheet"/>
     <!--添加一些必要的js交互-->
 
 </head>

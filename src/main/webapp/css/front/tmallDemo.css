@@ -70,7 +70,7 @@ div.searchDiv button{
 }
 
 div.searchDiv div.searchBelow{
-    margin: 5px 0px 0px 10px;
+    margin: 5px 0px 0px 0px;
     /*background-color: #00aaee;*/
 }
 
@@ -176,7 +176,9 @@ div.categoryMenu div.eachCategory a:hover{
     text-decoration: none;
 }
 div.productAsideCategory{
+    /*绝对定位*/
     position: absolute;
+    /*640px??*/
     margin-left: 640px;
     z-index: 1;
     display: none;

@@ -1,5 +1,6 @@
 package com.warframe.mytmall.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class Category {
     private List<Product> products;
 
     //这个的作用在后面会出现后面的商品分类展示中需要将每一分类的商品进行按行展示
-    private List<List<Product>> productsByRows;
+    private List<List<Product>> productsByRow;
 
     public int getId() {
         return id;
@@ -38,12 +39,28 @@ public class Category {
         this.products = products;
     }
 
-    public List<List<Product>> getProductsByRows() {
-        return productsByRows;
+    public List<List<Product>> getProductsByRow() {
+        return productsByRow;
     }
 
-    public void setProductsByRows(List<List<Product>> productsByRows) {
-        this.productsByRows = productsByRows;
+
+    public void setProductsByRow(List<List<Product>> productsByRow) {
+        this.productsByRow = productsByRow;
+    }
+
+    //productByRows属性是根据List<Product>来进行设置的，每8个产品放入一个list，在把这个list放到List<List<Product>>中
+    public List<List<Product>> createProductsByRows(List<Product> products){
+        int productNumberEachRow = 8;
+
+        List<List<Product>> productsByRow = new ArrayList<>();
+        for(int i = 0;i<products.size();i+=productNumberEachRow){
+            int size = i+productNumberEachRow;
+            size = size>products.size()?products.size():size;
+            List<Product> productsOfEachRow = products.subList(i,size);
+            productsByRow.add(productsOfEachRow);
+        }
+
+        return productsByRow;
     }
 
 

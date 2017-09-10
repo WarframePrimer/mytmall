@@ -43,26 +43,38 @@ public class ForeController {
     @RequestMapping("home")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("frontPage/home");
+
         //获取所有分类
         List<Category> categoryList = categoryService.listAll();
-        //获取所属分类的产品,并且放入一个map中
-        //这里使用LinkedHashMap的原因是这样可以保证顺序不变，如果使用HashMap会导致前端页面每次获取到产品页面会变动
-        Map<Category, List<Product>> productsByCategoryMap = new LinkedHashMap<>(categoryList.size());
+
+
+//        //获取所属分类的产品,并且放入一个map中
+//        //这里使用LinkedHashMap的原因是这样可以保证顺序不变，如果使用HashMap会导致前端页面每次获取到产品页面会变动
+//        Map<Category, List<Product>> productsByCategoryMap = new LinkedHashMap<>(categoryList.size());
+
+        //添加每个分类下的产品关键词中用于在分类旁的推荐中进行显示
 
 
         for (Category category : categoryList) {
-            List<Product> productList = productService.listProductByCategoryId(0, 5, category.getId());
+            List<Product> productList = productService.listProductByCategoryId(0, productService.getTotalNumberByCategoryId(category.getId()), category.getId());
+
             //为每一个产品set一个展示图片
             for (Product product : productList) {
                 product.setFirstProductImage(productImageService.getFirstProductImageByProductId(product.getId()));
             }
 
-            productsByCategoryMap.put(category, productList);
+            //将该分类的所有商品都赋值给category的products属性
+            category.setProducts(productList);
+
+            //给每个分类设置productsByRow
+            category.setProductsByRow(category.createProductsByRows(productList));
+
+            //productsByCategoryMap.put(category, productList);
         }
 
 
         modelAndView.addObject("categoryList", categoryList);
-        modelAndView.addObject("productsByCategoryMap", productsByCategoryMap);
+        //modelAndView.addObject("productsByCategoryMap", productsByCategoryMap);
         return modelAndView;
     }
 
