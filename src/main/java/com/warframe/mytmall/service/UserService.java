@@ -23,4 +23,6 @@ public interface UserService {
 
     List<User> list(int start, int count);
 
+    boolean isExist(String name);
+
 }

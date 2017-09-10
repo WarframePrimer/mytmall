@@ -32,6 +32,9 @@ public interface UserDAO extends BaseDAO {
     @Override
     int getTotalNumber();
 
+    int isExist(String name);
+
+
     //    User getUserById(int id);
 //
 //    List<User> getUsers();

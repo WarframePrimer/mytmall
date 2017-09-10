@@ -23,6 +23,7 @@
     <script src="<%=request.getContextPath()%>/js/bootstrap/3.3.6/bootstrap.min.js"></script>
     <link href="<%=request.getContextPath()%>/css/front/tmallDemo.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/productPage.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/css/front/register.css" rel="stylesheet"/>
     <!--添加一些必要的js交互-->
 
 </head>

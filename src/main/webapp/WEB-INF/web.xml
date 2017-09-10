@@ -59,7 +59,8 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <!--如果是使用*.do不会存在静态资源无法访问的问题
         但是在使用拦截所有URL地址之后会出现静态资源无法加载(被拦截)
     -->
-    <url-pattern>/</url-pattern>
+    <!--<url-pattern>/</url-pattern>-->
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 
 

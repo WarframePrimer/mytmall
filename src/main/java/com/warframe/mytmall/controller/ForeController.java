@@ -5,12 +5,16 @@ import com.warframe.mytmall.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 
-import java.util.LinkedHashMap;
+
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,8 @@ public class ForeController {
 
     private static Logger logger = Logger.getLogger(ForeController.class);
 
+    @Resource
+    private UserService userService;
 
     @Resource
     private CategoryService categoryService;
@@ -38,9 +44,29 @@ public class ForeController {
     @Resource
     private PropertyValueService propertyValueService;
 
+    //实现登录注册
 
-    //进入tmall首页
-    @RequestMapping("home")
+    @RequestMapping("register.do")
+    public ModelAndView register(){
+        ModelAndView modelAndView = new ModelAndView("frontPage/register");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "registerUser.do",method= RequestMethod.POST)
+
+    public ModelAndView registerUser(@RequestParam("name")String name,
+                                     @RequestParam("password")String password){
+
+
+
+        return null;
+    }
+
+
+
+
+
+    @RequestMapping("home.do")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("frontPage/home");
 
@@ -78,8 +104,8 @@ public class ForeController {
         return modelAndView;
     }
 
-
-    @RequestMapping("getProductDetail")
+    //商品页面
+    @RequestMapping("getProductDetail.do")
     public ModelAndView getProductDetail(@RequestParam("pid") int pid,
                                          @RequestParam("cid") int cid) {
         ModelAndView modelAndView = new ModelAndView("frontPage/product");
@@ -107,5 +133,8 @@ public class ForeController {
         modelAndView.addObject("propertyValueCustomList",propertyValueCustomList);
         return modelAndView;
     }
+
+
+
 
 }

@@ -52,4 +52,11 @@ public class UserServiceImpl implements UserService{
     public List<User> list(int start, int count) {
         return userDAO.list(start, count);
     }
+
+    @Override
+    public boolean isExist(String name) {
+        int count = userDAO.isExist(name);
+        //如果返回结果大于等于1，表示数据库中已经存在该用户了，返回true
+        return  count>=1?true:false;
+    }
 }

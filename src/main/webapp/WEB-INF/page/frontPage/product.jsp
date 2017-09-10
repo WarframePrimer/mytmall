@@ -15,6 +15,4 @@
 
 <%@include file="../include/product/productPage.jsp"%>
 
-
-
 <%@include file="../include/footer.jsp"%>

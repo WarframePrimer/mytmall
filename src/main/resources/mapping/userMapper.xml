@@ -9,7 +9,7 @@
         select * from `user` WHERE id = #{id};
     </select>
 
-    <insert id="add" parameterType="com.warframe.mytmall.pojo.User">
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `user`(id,`name`,password) VALUES (#{id},#{name},#{password})
     </insert>
 
@@ -34,6 +34,11 @@
     <!--分页查询-->
     <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.User">
         SELECT * FROM `user` limit #{start},#{count}
+    </select>
+
+    <!--查询用户名是否已经存在-->
+    <select id="isExist" parameterType="String">
+        SELECT count(*) FROM `user` WHERE `name` = #{name}
     </select>
 
 </mapper>

@@ -23,10 +23,10 @@
             <c:forEach items="${category.products}" var="product">
                 <div class="productItem">
                     <!--跳转到商品详情页面-->
-                    <a href="getProductDetail?pid=${product.id}&cid=${category.id}">
+                    <a href="getProductDetail.do?pid=${product.id}&cid=${category.id}" target="_blank">
                         <img width="100px" src="<%=request.getContextPath()%>/img/productImage/${product.firstProductImage.id}.jpg" alt="图片加载失败">
                     </a>
-                    <a href="getProductDetail?pid=${product.id}&cid=${category.id}" class="productItemDescLink"><span
+                    <a href="getProductDetail.do?pid=${product.id}&cid=${category.id}" class="productItemDescLink"><span
                             class="productItemDesc">${product.subTitle}</span>
                     </a>
                     <span class="productPrice">${product.originalPrice}</span>

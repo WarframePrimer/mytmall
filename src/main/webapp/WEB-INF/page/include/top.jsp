@@ -11,10 +11,10 @@
 <nav class="header">
 
     <div class="header-content">
-        <a href="<%=request.getContextPath()%>/home"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
+        <a href="<%=request.getContextPath()%>/home.do"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
         <span>喵，欢迎来到天猫</span>
-        <a href="#">请登录</a>
-        <a href="#">免费注册</a>
+        <a href="login.html" target="_blank">请登录</a>
+        <a href="register.do" target="_blank">免费注册</a>
 
         <span class="pull-right">
                     <a href="#">我的订单</a>
