@@ -25,4 +25,5 @@ public interface UserService {
 
     boolean isExist(String name);
 
+    boolean checkUser(String name,String password);
 }

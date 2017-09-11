@@ -110,11 +110,11 @@ public class ProductController {
 
         Product product = new Product();
         product.setCategory(category);
-        product.setName(StringUtil.toUTF(pname, "ISO-8859-1"));
+        product.setName(StringUtil.toUTF(pname));
         product.setOriginalPrice(originalPrice);
         product.setPromotePrice(promotePrice);
         product.setCreateDate(new Date());
-        product.setSubTitle(StringUtil.toUTF(subTitle, "ISO-8859-1"));
+        product.setSubTitle(StringUtil.toUTF(subTitle));
         product.setStock(stock);
 
 
@@ -185,11 +185,11 @@ public class ProductController {
 
         Product product = new Product();
         product.setId(pid);
-        product.setSubTitle(StringUtil.toUTF(subTitle, "ISO-8859-1"));
+        product.setSubTitle(StringUtil.toUTF(subTitle));
         product.setStock(stock);
         product.setOriginalPrice(originalPrice);
         product.setPromotePrice(promotePrice);
-        product.setName(StringUtil.toUTF(productName, "ISO-8859-1"));
+        product.setName(StringUtil.toUTF(productName));
         product.setCategory(category);
         product.setCreateDate(new Date());
 

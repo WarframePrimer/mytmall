@@ -9,11 +9,12 @@ import java.io.UnsupportedEncodingException;
  * I've no idea;
  */
 public class StringUtil {
+    public static final String CHARSET = "ISO-8859-1";
 
-    public static String toUTF(String name, String charset) {
+    public static String toUTF(String name) {
         String str = null;
         try {
-            str = new String(name.getBytes(charset), "utf-8");
+            str = new String(name.getBytes(CHARSET), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

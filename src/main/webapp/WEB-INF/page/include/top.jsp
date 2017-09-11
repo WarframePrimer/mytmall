@@ -12,9 +12,17 @@
 
     <div class="header-content">
         <a href="<%=request.getContextPath()%>/home.do"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
-        <span>喵，欢迎来到天猫</span>
-        <a href="login.html" target="_blank">请登录</a>
-        <a href="register.do" target="_blank">免费注册</a>
+        <c:choose>
+            <c:when test="${!empty userName}">
+                <span>hi,${userName}</span>
+            </c:when>
+            <c:otherwise>
+                <span>喵，欢迎来到天猫</span>
+                <a href="login.do" target="_blank">请登录</a>
+                <a href="register.do" target="_blank">免费注册</a>
+            </c:otherwise>
+        </c:choose>
+
 
         <span class="pull-right">
                     <a href="#">我的订单</a>

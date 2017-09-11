@@ -37,8 +37,12 @@
     </select>
 
     <!--查询用户名是否已经存在-->
-    <select id="isExist" parameterType="String">
+    <select id="isExist" parameterType="String" resultType="int">
         SELECT count(*) FROM `user` WHERE `name` = #{name}
+    </select>
+
+    <select id="checkPassword" resultType="int">
+        select COUNT(*) FROM `user` WHERE name=#{name} and password=#{password}
     </select>
 
 </mapper>

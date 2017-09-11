@@ -1,0 +1,100 @@
+div.loginDiv{
+    max-width:1190px;
+    margin:0 auto;
+}
+
+div.loginImg{
+    padding:32px 0;
+}
+
+div.loginBackgroundImg{
+    position: relative;
+}
+
+
+/*背景图片的背景色*/
+div.loginBackground{
+    height:600px;
+    width:100%;
+    background-color: #921313;
+    position: absolute;
+    top:91px;
+    z-index:-1;
+}
+
+
+/*账号密码的表单属性设置*/
+div.loginTitle{
+    font-weight: bold;
+    font-size:16px;
+    margin:20px 20px;
+}
+div.loginInput{
+    height:41px;
+    margin:20px 20px;
+    border:1px solid #d4d4d4;
+}
+
+
+div.loginInput span{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    top:-1px;
+    display: inline-block;
+    width:40px;
+    height:40px;
+    background-color: #d4d4d4;
+    font-size: 20px;
+
+}
+div.loginInput input{
+    border:0px ;
+    display: inline-block;
+    margin:0px 10px;
+    outline: none;
+    font-size:14px;
+}
+div.loginLink a{
+    color:#999999;
+    text-decoration: none;
+    display: inline-block;
+
+    margin:0px 20px;
+}
+div.loginLink a:hover{
+    color:#c40000;
+}
+
+div.loginButtonDiv{
+    margin:20px 20px;
+}
+
+button.redButton{
+    border:1px solid #c40000;
+    background-color: #c40000;
+    color:white;
+    font-size:14px;
+    font-weight: bold;
+    width:308px;
+    height: 42px;
+    margin:0px auto;
+
+}
+button.redButton:hover{
+    color:white;
+}
+
+
+div.loginFormDiv{
+    position: absolute;
+    width:350px;
+    height:350px;
+    background-color: white;
+    top:191px;
+    left:1300px;
+}
+
+div.loginErrorMessageDiv{
+
+}

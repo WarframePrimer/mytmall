@@ -76,10 +76,10 @@ public class PropertyController {
         logger.info("分类编号为：" + cid);
         //logger.info("新增属性名称为:" + pname);
         logger.info("分页页数：" + pageNum);
-        logger.info("编码后的属性:" + StringUtil.toUTF(pname, "ISO-8859-1"));
+        logger.info("编码后的属性:" + StringUtil.toUTF(pname));
 
         Property property = new Property();
-        property.setName(StringUtil.toUTF(pname, "ISO-8859-1"));
+        property.setName(StringUtil.toUTF(pname));
         property.setCategory(categoryService.getCategoryById(cid));
 
         //logger.info("保存的属性名称：" + pname);
@@ -147,7 +147,7 @@ public class PropertyController {
 
         Property property = new Property();
         property.setId(id);
-        property.setName(StringUtil.toUTF(name, "ISO-8859-1"));
+        property.setName(StringUtil.toUTF(name));
         Category category = categoryService.getCategoryById(cid);
         property.setCategory(category);
 

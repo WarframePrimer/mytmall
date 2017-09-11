@@ -59,4 +59,10 @@ public class UserServiceImpl implements UserService{
         //如果返回结果大于等于1，表示数据库中已经存在该用户了，返回true
         return  count>=1?true:false;
     }
+
+    @Override
+    public boolean checkUser(String name, String password) {
+        int count = userDAO.checkPassword(name, password);
+        return count==1?true:false;
+    }
 }
