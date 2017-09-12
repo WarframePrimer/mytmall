@@ -1,6 +1,7 @@
 package com.warframe.mytmall.service;
 
 import com.warframe.mytmall.pojo.Review;
+import com.warframe.mytmall.pojo.ReviewCustom;
 
 import java.util.List;
 
@@ -20,6 +21,12 @@ public interface ReviewService {
     //void updateUser(User user);
 
     List<Review> list(int start, int count);
+
+
+    int getReviewCountByProductId(int pid);
+
+    List<ReviewCustom> getReviewCustomsByProductId(int pid);
+
 }
 
 

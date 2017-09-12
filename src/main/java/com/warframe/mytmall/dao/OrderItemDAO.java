@@ -31,6 +31,8 @@ public interface OrderItemDAO extends BaseDAO {
 
     @Override
     int getTotalNumber();
+
+    List<Integer> getNumberByProductId(int pid);
 }
 
 

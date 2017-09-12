@@ -36,4 +36,8 @@
         SELECT * FROM orderitem limit #{start},#{count}
     </select>
 
+    <select id="getNumberByProductId" resultType="int">
+        SELECT number FROM orderitem WHERE pid=#{pid}
+    </select>
+
 </mapper>

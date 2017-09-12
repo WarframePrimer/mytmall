@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
@@ -17,7 +18,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -41,16 +44,23 @@ public class ForeController {
     private ProductService productService;
     @Resource
     private ProductImageService productImageService;
-    @Resource
-    private PropertyService propertyService;
+
     @Resource
     private PropertyValueService propertyValueService;
+
+    @Resource
+    private ReviewService reviewService;
+
+    @Resource
+    private OrderItemService orderItemService;
+
 
     //实现登录注册
 
 
     /**
      * register.do和login.do只是单纯的到指定的页面，没有任何额外操作
+     *
      * @return
      */
 
@@ -106,15 +116,18 @@ public class ForeController {
         password = HtmlUtils.htmlEscape(StringUtil.toUTF(password));
         logger.info(name + ":" + password);
 
+
         if (userService.isExist(name)) {
 
             //存在该用户名，进行下一步判断
             //logger.info("存在该用户");
             if (userService.checkUser(name, password)) {
                 //用户名和密码都正确，登录成功
+
                 request.getSession().setAttribute("userName", name);
                 modelAndView.setViewName("redirect:home.do");
-                modelAndView.addObject("userName", name);
+                //不需要在modelAndView中添加用户名，userName已经添加到session中了
+                //modelAndView.addObject("userName", name);
             } else {
                 //密码错误
                 modelAndView.setViewName("frontPage/login");
@@ -130,12 +143,59 @@ public class ForeController {
         return modelAndView;
     }
 
+    //检查用户是否登陆，只需要检查session中是否有userName这个属性即可
+    @RequestMapping("checkLogin.do")
+    @ResponseBody
+    //将返回的map对象转换为json对象
+    public Map<String, String> checkLogin(HttpServletRequest request) {
+        String userName = (String) request.getSession().getAttribute("userName");
+        Map<String, String> map = new HashMap<>();
+        if (null != userName)
+            //表示用户已登录
+            map.put("msg","success");
+        //表示为登陆
+        else map.put("msg","fail");
 
-    //返回登录界面
-    @RequestMapping("returnLogin.do")
-    public ModelAndView returnLogin() {
-        ModelAndView modelAndView = new ModelAndView("");
-        return null;
+        return map;
+    }
+
+    //loginAjax
+    @RequestMapping("loginAjax.do")
+    @ResponseBody
+    public Map<String,String> loginAjax(@RequestParam("name")String name,
+                                        @RequestParam("password")String password,
+                                        HttpServletRequest request){
+        Map<String,String> map = new HashMap<>();
+
+        if (userService.isExist(name)) {
+
+            //存在该用户名，进行下一步判断
+            //logger.info("存在该用户");
+            if (userService.checkUser(name, password)) {
+                //用户名和密码都正确，登录成功
+                request.getSession().setAttribute("userName", name);
+                map.put("msg","success");
+            } else {
+                //密码错误
+               map.put("msg","密码错误!");
+            }
+        } else {
+            //用户名不存在
+            map.put("msg","用户名不存在!!");
+        }
+
+        return map;
+    }
+
+
+
+    //退出登录
+    @RequestMapping("logout.do")
+    public ModelAndView logout(HttpServletRequest request) {
+        //将登陆的用户名从session中remove
+        request.getSession().removeAttribute("userName");
+        ModelAndView modelAndView = new ModelAndView("redirect:home.do");
+        return modelAndView;
     }
 
 
@@ -187,6 +247,8 @@ public class ForeController {
         Category category = categoryService.getCategoryById(cid);
         product.setCategory(category);
 
+        //可不可以将对于产品一系列的初始化转移到响应的service中去的，以便进行更好的封装？
+
         //产品属性属性值
         List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
@@ -197,13 +259,35 @@ public class ForeController {
         product.setProductSingleImage(productSingleImage);
         product.setProductDetailImage(productDetailImage);
 
-        //TODO 产品的销量和评价数
+        //给产品设置评价数量和销量
+        product.setReviewCount(reviewService.getReviewCountByProductId(pid));
 
+        List<Integer> productNumberList = orderItemService.getNumberByProductId(pid);
+        int saleCount = 0;
+        if (!productNumberList.isEmpty()) {
+            for (Integer integer : productNumberList) {
+                saleCount += integer;
+            }
+        }
+        product.setSaleCount(saleCount);
+
+
+        //具体评价内容
+        List<ReviewCustom> reviewCustomList = reviewService.getReviewCustomsByProductId(pid);
+        if (!reviewCustomList.isEmpty()) {
+            //设置匿名昵称
+            String anonymousName;
+            for (ReviewCustom reviewCustom : reviewCustomList) {
+                anonymousName = StringUtil.getAnonymousName(reviewCustom.getUserName());
+                reviewCustom.setUserName(anonymousName);
+            }
+        }
 
         logger.info("productInfo:" + product);
 
         modelAndView.addObject("product", product);
         modelAndView.addObject("propertyValueCustomList", propertyValueCustomList);
+        modelAndView.addObject("reviewCustomList", reviewCustomList);
         return modelAndView;
     }
 

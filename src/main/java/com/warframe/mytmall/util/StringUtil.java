@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 public class StringUtil {
     public static final String CHARSET = "ISO-8859-1";
 
+
+    //字符传编码格式转换
     public static String toUTF(String name) {
         String str = null;
         try {
@@ -20,6 +22,21 @@ public class StringUtil {
         }
 
         return str;
+
+    }
+
+
+    //获取匿名昵称
+    public static String getAnonymousName(String userName) {
+        if (userName.length() <= 1) return "*";
+        if (userName.length() == 2) return userName.substring(0, 1) + "*";
+
+        char[] cs = userName.toCharArray();
+        for (int i = 1; i < userName.length() - 1; i++) {
+            cs[i] = '*';
+        }
+        return new String(cs);
+
 
     }
 

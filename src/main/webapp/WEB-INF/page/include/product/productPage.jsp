@@ -57,8 +57,8 @@
         </div>
 
         <div class="productSaleAndReviewNumber">
-            <div>销量 <span class="redColor boldWord"> 50</span></div>
-            <div>累计评价 <span class="redColor boldWord"> 19</span></div>
+            <div>销量 <span class="redColor boldWord">${product.saleCount}</span></div>
+            <div>累计评价 <span class="redColor boldWord">${product.reviewCount}</span></div>
         </div>
 
         <div class="productNumber">
@@ -93,8 +93,8 @@
         </div>
 
         <div class="buyDiv">
-            <a href="#nowhere" class="buyLink"><button class="buyButton">立即购买</button></a>
-            <a class="addCartLink" href="#nowhere"><button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button></a>
+            <a class="buyLink"><button class="buyButton">立即购买</button></a>
+            <a class="addCartLink"><button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button></a>
         </div>
     </div>
 
@@ -108,7 +108,7 @@
     <!--商品详情和用户评论选项框-->
     <div class="productDetailTopPart">
         <a href="#nowhere" class="productDetailTopPartSelectedLink selected">商品详情</a>
-        <a href="#nowhere" class="productDetailTopPartReviewLink">累计评价<span class="productDetailTopReviewLinkNumber">19</span></a>
+        <a href="#nowhere" class="productDetailTopPartReviewLink">累计评价<span class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
     </div>
     <!--产品参数div-->
     <div class="productParameterPart">
@@ -137,82 +137,33 @@
     <!--商品详情和用户评论选项框-->
     <div class="productReviewTopPart">
         <a href="#nowhere" class="productDetailTopPartSelectedLink">商品详情</a>
-        <a href="#nowhere" class="productDetailTopPartReviewLink selected">累计评价<span class="productDetailTopReviewLinkNumber">19</span></a>
+        <a href="#nowhere" class="productDetailTopPartReviewLink selected">累计评价<span class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
     </div>
     <!--累计评论所在div-->
     <div class="productReviewContentPart">
-        <!--一条评论的div-->
-        <div class="productReviewItem">
-            <!--评论-->
-            <div class="productReviewItemDesc">
-                <!--评论的具体内容-->
-                <div class="productReviewItemContent">
-                    衣服收到了，给朋友买的，真心不错，料子也特别好，穿起来特别有气质，跟模特穿的效果差不多。。。好评，好评
+        <c:forEach items="${reviewCustomList}" var="reviewCustom">
+            <!--一条评论的div-->
+            <div class="productReviewItem">
+                <!--评论-->
+                <div class="productReviewItemDesc">
+                    <!--评论的具体内容-->
+                    <div class="productReviewItemContent">
+                        ${reviewCustom.content}
+                    </div>
+                    <!--评论的时间-->
+                    <div class="productReviewItemDate">${reviewCustom.createDate}</div>
                 </div>
-                <!--评论的时间-->
-                <div class="productReviewItemDate">2016-08-19</div>
-            </div>
-            <!--评论的用户-->
-            <div class="productReviewItemUserInfo">
-                <!--不显示用户的详细昵称-->
-                哀****莉<span class="userInfoGrayPart">（匿名）</span>
-            </div>
-            <div style="clear: both"></div>
-        </div>
-        <!--一条评论的div-->
-        <div class="productReviewItem">
-            <!--评论-->
-            <div class="productReviewItemDesc">
-                <!--评论的具体内容-->
-                <div class="productReviewItemContent">
-                    衣服收到了，给朋友买的，真心不错，料子也特别好，穿起来特别有气质，跟模特穿的效果差不多。。。好评，好评
+                <!--评论的用户-->
+                <div class="productReviewItemUserInfo">
+                    <!--不显示用户的详细昵称-->
+                    ${reviewCustom.userName}<span class="userInfoGrayPart">（匿名）</span>
                 </div>
-                <!--评论的时间-->
-                <div class="productReviewItemDate">2016-08-19</div>
+                <div style="clear: both"></div>
             </div>
-            <!--评论的用户-->
-            <div class="productReviewItemUserInfo">
-                <!--不显示用户的详细昵称-->
-                哀****莉<span class="userInfoGrayPart">（匿名）</span>
-            </div>
-            <div style="clear: both"></div>
-        </div>
-        <!--一条评论的div-->
-        <div class="productReviewItem">
-            <!--评论-->
-            <div class="productReviewItemDesc">
-                <!--评论的具体内容-->
-                <div class="productReviewItemContent">
-                    衣服收到了，给朋友买的，真心不错，料子也特别好，穿起来特别有气质，跟模特穿的效果差不多。。。好评，好评
-                </div>
-                <!--评论的时间-->
-                <div class="productReviewItemDate">2016-08-19</div>
-            </div>
-            <!--评论的用户-->
-            <div class="productReviewItemUserInfo">
-                <!--不显示用户的详细昵称-->
-                哀****莉<span class="userInfoGrayPart">（匿名）</span>
-            </div>
-            <div style="clear: both"></div>
-        </div>
-        <!--一条评论的div-->
-        <div class="productReviewItem">
-            <!--评论-->
-            <div class="productReviewItemDesc">
-                <!--评论的具体内容-->
-                <div class="productReviewItemContent">
-                    衣服收到了，给朋友买的，真心不错，料子也特别好，穿起来特别有气质，跟模特穿的效果差不多。。。好评，好评
-                </div>
-                <!--评论的时间-->
-                <div class="productReviewItemDate">2016-08-19</div>
-            </div>
-            <!--评论的用户-->
-            <div class="productReviewItemUserInfo">
-                <!--不显示用户的详细昵称-->
-                哀****莉<span class="userInfoGrayPart">（匿名）</span>
-            </div>
-            <div style="clear: both"></div>
-        </div>
+        </c:forEach>
+
+
+
 
 
     </div>
@@ -290,6 +241,49 @@
             $("div.productDetailDiv").show();
         });
 
-    })
+        //当点击立即购买和加入购物车的按钮时，触发事件检查是游客还是用户
+        $("a.buyLink").click(function () {
+            var page = "checkLogin.do";
+            $.get(
+                page,
+                function (result) {
+                    if("success" == result['msg']){
+                        //表示登陆,继续下一步操作，立即购买
+                        //TODO
+                    }else{
+                        //为登陆，请先登陆
+                         //显示登陆模态窗口
+                        $("div#loginModal").modal('show');
+                    }
+
+                }
+                
+
+            );
+
+
+        });
+
+
+        $("a.addCartLink").click(function () {
+            var page = "checkLogin.do";
+            $.get(
+                page,
+                function (result) {
+                    if("success" == result['msg']){
+                        //表示登陆,继续下一步操作，加入购物车
+                        //TODO
+                    }else{
+                        //为登陆，请先登陆
+                        //显示登陆模态窗口
+                        $("div#loginModal").modal('show');
+                    }
+
+                }
+
+
+            );
+        });
+    });
 
 </script>

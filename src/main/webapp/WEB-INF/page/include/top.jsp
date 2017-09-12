@@ -15,10 +15,11 @@
         <c:choose>
             <c:when test="${!empty userName}">
                 <span>hi,${userName}</span>
+                <a href="logout.do">退出登录</a>
             </c:when>
             <c:otherwise>
                 <span>喵，欢迎来到天猫</span>
-                <a href="login.do" target="_blank">请登录</a>
+                <a href="login.do">请登录</a>
                 <a href="register.do" target="_blank">免费注册</a>
             </c:otherwise>
         </c:choose>

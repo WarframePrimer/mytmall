@@ -53,4 +53,9 @@ public class OrderItemServiceImpl implements OrderItemService{
     public List<OrderItem> list(int start, int count) {
         return orderItemDAO.list(start, count);
     }
+
+    @Override
+    public List<Integer> getNumberByProductId(int pid) {
+        return orderItemDAO.getNumberByProductId(pid);
+    }
 }

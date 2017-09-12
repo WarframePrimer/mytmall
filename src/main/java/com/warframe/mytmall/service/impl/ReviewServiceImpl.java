@@ -2,6 +2,7 @@ package com.warframe.mytmall.service.impl;
 
 import com.warframe.mytmall.dao.ReviewDAO;
 import com.warframe.mytmall.pojo.Review;
+import com.warframe.mytmall.pojo.ReviewCustom;
 import com.warframe.mytmall.service.ReviewService;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by warframe on 2017/6/3.
  */
 @Service("reviewService")
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
 
     @Resource
     private ReviewDAO reviewDAO;
@@ -47,4 +48,18 @@ public class ReviewServiceImpl implements ReviewService{
     public List<Review> list(int start, int count) {
         return reviewDAO.list(start, count);
     }
+
+
+
+    @Override
+    public int getReviewCountByProductId(int pid) {
+        return reviewDAO.getReviewCountByProductId(pid);
+    }
+
+    @Override
+    public List<ReviewCustom> getReviewCustomsByProductId(int pid) {
+        return reviewDAO.getReviewCustomsByProductId(pid);
+    }
+
+
 }

@@ -34,4 +34,19 @@
         SELECT * FROM review limit #{start},#{count}
     </select>
 
+    <select id="getReviewCountByProductId" resultType="int">
+        SELECT COUNT(*) from review WHERE pid=#{pid}
+    </select>
+
+
+    <!--先不考虑分页-->
+    <select id="getReviewCustomsByProductId" parameterType="int" resultType="com.warframe.mytmall.pojo.ReviewCustom">
+       SELECT r.id,u.name AS 'userName',r.content,r.createDate FROM
+        (SELECT id,uid,createDate,content FROM review WHERE pid=#{pid}) r,`user` u
+       WHERE r.uid=u.id
+    </select>
+
+
+
+
 </mapper>

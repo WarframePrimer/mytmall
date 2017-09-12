@@ -1,5 +1,7 @@
 package com.warframe.mytmall.dao;
 
+import com.warframe.mytmall.pojo.Review;
+import com.warframe.mytmall.pojo.ReviewCustom;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,4 +31,10 @@ public interface ReviewDAO extends BaseDAO {
 
     @Override
     int getTotalNumber();
+
+    List<ReviewCustom> getReviewCustomsByProductId(int pid);
+
+    int getReviewCountByProductId(int pid);
+
+
 }

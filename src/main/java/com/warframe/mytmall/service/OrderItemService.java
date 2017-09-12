@@ -23,4 +23,6 @@ public interface OrderItemService {
 
 
     List<OrderItem> list(int start, int count);
+
+    List<Integer> getNumberByProductId(int pid);
 }

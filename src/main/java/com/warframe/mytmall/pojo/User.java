@@ -39,17 +39,5 @@ public class User {
         this.password = password;
     }
 
-    //获取匿名昵称
-    public String getAnonymousName() {
-        if (name.length() <= 1) return "*";
-        if (name.length() == 2) return name.substring(0, 1) + "*";
 
-        char[] cs = name.toCharArray();
-        for (int i = 1; i < name.length() - 1; i++) {
-            cs[i] = '*';
-        }
-        return new String(cs);
-
-
-    }
 }
