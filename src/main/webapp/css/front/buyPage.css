@@ -1,0 +1,220 @@
+div.buyPageDiv{
+    max-width:1013px;
+    margin:20px auto;
+}
+div.address{
+    margin:20px 5px;
+}
+
+div.addressTip{
+    font-size:16px;
+    font-weight: bold;
+    color:#3c3c3c;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+table.addressTable{
+    margin:30px 20px;
+    width:600px;
+}
+table.addressTable td{
+    height: 30px;
+    vertical-align: top;
+    padding-right: 5px;
+}
+
+table.addressTable td.firstColumn{
+    width: 100px;
+}
+
+table.addressTable td textarea{
+
+    border:1px solid #AFAFAF;
+    width:400px;
+    margin-botton:10px !important;
+}
+table.addressTable td input{
+    border:1px solid #AFAFAF;
+    width: 200px;
+}
+
+span.redStar{
+    color:red;
+
+}
+
+div.productListTitle{
+    font-size:16px;
+    font-weight: bold;
+    margin-bottom:30px;
+}
+
+/*订单产品列表*/
+table.productListTable {
+    width:100%;
+    /*边框折叠*/
+    border-collapse: separate;
+}
+
+table.productListTable th{
+    color:#999999;
+    font-weight: normal;
+    text-align: center;
+    padding-bottom:5px;
+    font-family: 宋体;
+}
+table.productListTable td{
+    text-align: center;
+}
+
+table.productListTable tr.rowBoder td{
+    background-color: #b2d1ff;
+    height:3px;
+    border-right: 2px solid #fff;
+}
+th.productListTableFirstColumn{
+    text-align: left !important;
+}
+a.marketLink{
+    color: #333333;
+    font-weight: normal;
+    font-family: 宋体;
+}
+a.marketLink:hover{
+    font-weight: normal;
+    font-family: 宋体;
+    text-decoration: underline;
+}
+
+span.wangwangLink{
+    display: inline-block;
+    background-image: url("img/site/wangwang.gif");
+    width:25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    /*滚动背景图片*/
+    background-attachment: scroll;
+    /*向上滚动83个像素*/
+    background-position: -83px -0px;
+    position: relative;
+    top:8px;
+    left:2px;
+}
+tbody.productListTableTBody td.orderItemFirstTD{
+    text-align: left;
+}
+
+tr.orderItemTR td{
+    border-bottom: 1px solid #E5e5e5;
+    padding:10px 0;
+}
+
+td.orderItemFirstTD img.orderItemImg{
+    width: 50px;
+    height:50px;
+    border:1px solid #e9e9e9
+}
+
+td.orderItemProductInfo{
+    text-align: left !important;
+}
+
+td.orderItemProductInfo img{
+    height:16px;
+}
+
+td.orderItemProductInfo a.orderItemProductLink{
+    display: block;
+    color:#666666;
+}
+
+
+span.orderItemProductPromotePrice,span.orderItemProductNumber{
+    color:#000000;
+}
+
+span.orderItemProductSumPrice{
+    color: #c40000;
+    font-weight: bold;
+}
+
+tr.orderItemTR td.orderItemFirstTD,tr.orderItemTR td.orderItemLastTD{
+    border:0px solid ;
+}
+
+
+/*普通配送字样*/
+label.orderItemDeliveryLabel{
+    color:#666666;
+    font-family: 宋体;
+    font-weight: normal;
+}
+select.orderItemDeliverySelect{
+    width:100px;
+    height:23px;
+}
+
+
+/*合计div*/
+div.orderItemSumDiv{
+    /*20px的间隙*/
+    padding:20px;
+    border-top:2px solid #B4D0FF;
+    background-color: #F2F6FF;
+    height: 50px;
+}
+div.orderItemSumDiv span{
+    color: #999999;
+}
+
+/*留言*/
+span.leaveMessageText{
+    display: inline-block;
+    margin-right: 10px;
+    /*向左浮动，这样可以水平摆放*/
+    float: left;
+}
+
+/*实付款所在div*/
+div.orderItemTotalSumDiv{
+    /*background-color: #c40000;*/
+    height: 40px;
+    margin:40px;
+}
+
+div.submitOrderDiv{
+    height: 40px;
+
+    margin:20px 0px;
+    /*background-color: #c40000;*/
+}
+
+div.orderItemTotalSumDiv span{
+    color: #999999;
+}
+
+/*实付款金额*/
+span.orderItemTotalSumSpan{
+    color:#c40000 !important;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+/*提交订单按钮*/
+button.submitOrderButton{
+    border:1px solid #c40000;
+    background-color: #c40000;
+    color:white;
+    line-height: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-size:14px;
+    float:right;
+
+    display: inline-block;
+    margin:0px 10px;
+    width:180px;
+    height: 40px;
+}

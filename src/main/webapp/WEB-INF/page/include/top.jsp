@@ -13,8 +13,9 @@
     <div class="header-content">
         <a href="<%=request.getContextPath()%>/home.do"><span class="glyphicon glyphicon-home" style="color: #c40000"></span>天猫首页</a>
         <c:choose>
-            <c:when test="${!empty userName}">
-                <span>hi,${userName}</span>
+            <c:when test="${!empty user}">
+                <span>hi,${user.name}</span>
+                <!--点击退出登录后会回到首页，问不是退出登录那一页(待完善)-->
                 <a href="logout.do">退出登录</a>
             </c:when>
             <c:otherwise>
@@ -27,10 +28,17 @@
 
         <span class="pull-right">
                     <a href="#">我的订单</a>
-                    <span class="glyphicon glyphicon-shopping-cart" style="color: #c40000"></span>
-                    购物车<strong style="color: #000">0</strong>件
+                    <a href="cart.do">
+                        <span class="glyphicon glyphicon-shopping-cart" style="color: #c40000"></span>
+                    购物车<strong style="color: #000">
+                    <c:choose>
+                        <c:when test="${!empty cartItemNumber}">${cartItemNumber}</c:when>
+                        <c:otherwise>0</c:otherwise>
+                    </c:choose>
+                    </strong>件
+                    </a>
 
-            </span>
+        </span>
 
     </div>
     <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; "

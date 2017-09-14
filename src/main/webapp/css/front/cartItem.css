@@ -1,0 +1,157 @@
+div.cartDiv{
+    max-width:1013px;
+    margin: 20px auto;
+}
+
+
+div.cartTitlePrice span{
+    color: black;
+
+}
+div.cartTitlePrice span.cartProductSumPrice{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size:14px;
+    font-weight: bold;
+    color:#FF4400;
+}
+
+div.cartTitlePrice button.createOrderButton{
+    width:54px;
+    height: 24px;
+    color:white;
+    background-color: #AAAAAA;
+    border:0px;
+    border-radius: 2px;
+}
+
+div.cartProductItemList table.cartProductItemTable{
+    width:100%;
+}
+table.cartProductItemTable th{
+    padding:20px;
+    font-weight: normal;
+}
+table.cartProductItemTable tr.cartProductItemTR{
+    border:1px solid #AAAAAA;
+}
+tr.cartProductItemTR td img.productIfSelect{
+    vertical-align: top;
+}
+tr.cartProductItemTR td{
+    padding:20px;
+}
+
+table.cartProductItemTable tr.cartProductItemTR img.productImage{
+    width:80px;
+    height: 80px;
+}
+div.cartProductLinkOutDiv{
+    height: 80px;
+//background-color: #c40000;
+    position: relative;
+}
+div.cartProductLinkInnerDiv{
+    position: absolute;
+    top:63px;
+//background-color: #c40000;
+}
+
+div.cartProductLinkOutDiv a.cartProductLink{
+    color: black;
+}
+div.cartProductLinkOutDiv a.cartProductLink:hover{
+    color:#FF4400;
+}
+
+tr.cartProductItemTR td span.originalPrice{
+    display: block;
+    text-decoration: line-through;
+    color: #AAAAAA;
+}
+tr.cartProductItemTR td span.promotePrice{
+    font-weight: bold;
+    font-size:14px;
+}
+
+tr.cartProductItemTR div.cartProductAmountSetting{
+    width:80px;
+    background-color: #F0F0F0;
+    border:1px solid #E5E5E5;
+}
+tr.cartProductItemTR div.cartProductAmountSetting a{
+    display: inline-block;
+    width:14px;
+
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+tr.cartProductItemTR div.cartProductAmountSetting input.cartProductItemAmount{
+    text-align: center;
+    width:42px;
+    border:1px solid #AAAAAA;
+}
+tr.cartProductItemTR span.cartProductItemSmallSumPrice{
+    font-size:14px;
+    font-weight: bold;
+    color: #FF4400;
+    vertical-align: top;
+}
+
+tr.cartProductItemTR td.deleteCartProduct a{
+    color:black;
+}
+tr.cartProductItemTR td.deleteCartProduct a:hover{
+    color:#FF4400;
+}
+
+
+div.cartFoot{
+    background-color: #E5E5E5;
+    margin-top:20px;
+    line-height: 50px;
+}
+div.cartFoot button.createOrderButton{
+    width:120px;
+    height: 50px;
+    color:white;
+    background-color: #B0B0B0;
+    border:0px;
+    font-weight: bold;
+    text-align: center;
+    font-size:18px;
+    /*文本值之间的间距*/
+    letter-spacing: 8px;
+}
+div.cartFoot span{
+    font-size: 14px;
+}
+div.cartFoot span.cartProductSumNumber{
+    font-weight: bold;
+    color: #FF4400;
+    font-size:16px;
+}
+div.cartFoot span.cartProductSumPrice{
+    font-weight: bold;
+    color: #FF4400;
+    font-size:16px;
+    margin-left:5px;
+    margin-right:5px;
+}
+div.cartFoot img.selectAllProduct{
+    margin-left: 20px;
+}
+
+/*当鼠标悬停到全选及选中商品的按钮式由光标变为可点击*/
+img.selectAllProduct,img.productIfSelect{
+    cursor: pointer;
+}
+div.cartFoot a.deleteAllProduct{
+    color:black;
+    display: inline-block;
+    margin-left:20px;
+}
+div.cartFoot a.deleteAllProduct:hover{
+    color:#FF4400;
+}

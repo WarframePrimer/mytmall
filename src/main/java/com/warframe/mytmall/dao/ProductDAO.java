@@ -39,6 +39,9 @@ public interface ProductDAO extends BaseDAO {
     //分页显示对应分类id的产品信息
     List<Product> listProductByCategoryId(@Param("start") int start, @Param("count") int count, @Param("cid") int cid);
 
+
+    int getCategoryIdByProductId(int pid);
+
 //    void addProduct(Product product);
 //
 //    Product getProductById(int id);

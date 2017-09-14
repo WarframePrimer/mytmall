@@ -11,9 +11,8 @@
 
 <div class="adminNav">
     <nav class="navbar navbar-default navbar-static-top navbar-inverse">
-        <img style="margin-left: 10px;width:40px;" src="<%=request.getContextPath()%>/img/site/tmallbuy.png" class="pull-left" alt="图片加载失败">
-        <a href="#nowwhere" class="navbar-brand">天猫后台</a>
-
+        <a href="<%=request.getContextPath()%>/home.do"><img style="margin-left: 10px;width:40px;" src="<%=request.getContextPath()%>/img/site/tmallbuy.png" class="pull-left" alt="图片加载失败"></a>
+        <a href="<%=request.getContextPath()%>/admin/category/admin_category_list.do" class="navbar-brand">天猫后台</a>
         <a href="<%=request.getContextPath()%>/admin/category/admin_category_list.do" class="navbar-brand">分类管理</a>
         <a href="<%=request.getContextPath()%>/admin/user/admin_user_list.do" class="navbar-brand">用户管理</a>
         <a href="<%=request.getContextPath()%>/admin/order/admin_order_list.do" class="navbar-brand">订单管理</a>

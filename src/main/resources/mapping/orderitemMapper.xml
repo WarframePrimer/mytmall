@@ -10,7 +10,7 @@
     </select>
 
     <insert id="add" parameterType="com.warframe.mytmall.pojo.OrderItem">
-        INSERT INTO orderitem(id,,oid,pid,uid,`number`) VALUES (#{id},#{order.id},#{product.id},`user`.id,#{number})
+        INSERT INTO orderitem(id,oid,pid,uid,`number`) VALUES (#{id},#{order.id},#{product.id},#{user.id},#{number})
     </insert>
 
     <select id="listAll" resultType="com.warframe.mytmall.pojo.OrderItem">
@@ -39,5 +39,27 @@
     <select id="getNumberByProductId" resultType="int">
         SELECT number FROM orderitem WHERE pid=#{pid}
     </select>
+
+    <select id="getOrderItemListWithOutOid" parameterType="int" resultType="com.warframe.mytmall.pojo.OrderItemCustom">
+        SELECT * FROM orderitem WHERE uid=#{uid} AND oid IS NULL
+    </select>
+    <!--指定用户的购物车数量-->
+    <select id="getOrderItemNumber" resultType="int">
+        SELECT count(*) FROM orderitem WHERE uid=#{uid} AND oid IS NULL
+    </select>
+
+    <select id="isExistOrderItemWithOutOidByProductIdAndUserId" resultType="int">
+        SELECT COUNT(*) FROM
+          (SELECT * FROM orderitem WHERE uid=#{uid} AND oid IS NULL) cartitem
+        WHERE pid=#{pid}
+    </select>
+
+    <select id="getOrderItemCustomWithOutOidByProductIdAndUserId" resultType="com.warframe.mytmall.pojo.OrderItemCustom">
+        SELECT * FROM orderitem WHERE uid=#{uid} AND oid IS NULL AND pid=#{pid}
+    </select>
+
+    <update id="updateProductNumberByOrderItemId" parameterType="com.warframe.mytmall.pojo.OrderItemCustom">
+        UPDATE orderitem SET number=#{number} WHERE id=#{id}
+    </update>
 
 </mapper>

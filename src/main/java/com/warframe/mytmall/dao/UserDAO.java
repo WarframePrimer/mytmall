@@ -37,6 +37,8 @@ public interface UserDAO extends BaseDAO {
     //判段密码是否正确
     int checkPassword(@Param("name") String name,@Param("password") String password);
 
+    User getByUserName(String userName);
+
 
     //    User getUserById(int id);
 //

@@ -63,4 +63,9 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> listProductByCategoryId(int start, int count, int cid) {
         return productDAO.listProductByCategoryId(start, count, cid);
     }
+
+    @Override
+    public int getCategoryIdByProductId(int pid) {
+        return productDAO.getCategoryIdByProductId(pid);
+    }
 }

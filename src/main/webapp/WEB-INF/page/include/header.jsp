@@ -25,6 +25,8 @@
     <link href="<%=request.getContextPath()%>/css/front/productPage.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/register.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/login.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/css/front/buyPage.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/css/front/cartItem.css" rel="stylesheet"/>
 
     <!--添加一些必要的js交互-->
 

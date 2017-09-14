@@ -45,4 +45,8 @@
         select COUNT(*) FROM `user` WHERE name=#{name} and password=#{password}
     </select>
 
+    <select id="getByUserName" parameterType="String" resultType="com.warframe.mytmall.pojo.User">
+        SELECT * FROM `user` WHERE `name`= #{userName}
+    </select>
+
 </mapper>

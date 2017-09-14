@@ -39,6 +39,9 @@ public class TestMybatis {
     @Resource
     private PropertyValueService propertyValueService;
 
+    @Resource
+    private OrderItemService orderItemService;
+
 
 
     @Test
@@ -184,5 +187,23 @@ public class TestMybatis {
 //        System.out.println(sf.format(p1.getCreateDate()));
 //
 //    }
+
+    @Test
+    public void testUpdateProduct(){
+        orderItemService.updateProductNumber(6,6,4);
+
+    }
+
+    @Test
+    public void testUpdateProductNumberByOrderItemId(){
+        OrderItemCustom orderItemCustom = new OrderItemCustom();
+        orderItemCustom.setId(1);
+        orderItemCustom.setPid(6);
+        orderItemCustom.setUid(6);
+        orderItemCustom.setNumber(4);
+        orderItemService.updateProductNumberByOrderItemId(orderItemCustom);
+
+
+    }
 
 }

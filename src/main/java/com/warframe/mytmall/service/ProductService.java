@@ -27,5 +27,6 @@ public interface ProductService {
 
     List<Product> listProductByCategoryId(int start, int count, int cid);
 
+    int getCategoryIdByProductId(int pid);
 
 }

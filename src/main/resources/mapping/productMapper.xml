@@ -51,4 +51,8 @@
         SELECT * FROM product where cid=#{cid} limit #{start},#{count}
     </select>
 
+    <select id="getCategoryIdByProductId" resultType="int">
+        SELECT cid FROM product WHERE id=#{pid}
+    </select>
+
 </mapper>

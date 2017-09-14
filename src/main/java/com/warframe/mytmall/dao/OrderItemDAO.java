@@ -1,5 +1,8 @@
 package com.warframe.mytmall.dao;
 
+import com.warframe.mytmall.pojo.OrderItem;
+import com.warframe.mytmall.pojo.OrderItemCustom;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,6 +36,15 @@ public interface OrderItemDAO extends BaseDAO {
     int getTotalNumber();
 
     List<Integer> getNumberByProductId(int pid);
+
+    List<OrderItemCustom> getOrderItemListWithOutOid(int uid);
+    int getOrderItemNumber(int uid);
+
+    int isExistOrderItemWithOutOidByProductIdAndUserId(@Param("pid") int pid,@Param("uid") int uid);
+
+    OrderItemCustom getOrderItemCustomWithOutOidByProductIdAndUserId(@Param("pid") int pid,@Param("uid") int uid);
+
+    int updateProductNumberByOrderItemId(OrderItemCustom orderItem);
 }
 
 

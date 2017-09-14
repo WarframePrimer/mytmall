@@ -1,10 +1,12 @@
 package com.warframe.mytmall.controller;
 
+
 import com.warframe.mytmall.pojo.*;
 import com.warframe.mytmall.service.*;
 import com.warframe.mytmall.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +19,7 @@ import org.springframework.web.util.HtmlUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +56,10 @@ public class ForeController {
     @Resource
     private OrderItemService orderItemService;
 
+    @Resource
+    private OrderService orderService;
 
     //实现登录注册
-
 
     /**
      * register.do和login.do只是单纯的到指定的页面，没有任何额外操作
@@ -123,11 +126,9 @@ public class ForeController {
             //logger.info("存在该用户");
             if (userService.checkUser(name, password)) {
                 //用户名和密码都正确，登录成功
-
-                request.getSession().setAttribute("userName", name);
+                sessionSetUserAndCartItemNumber(request, name);
                 modelAndView.setViewName("redirect:home.do");
-                //不需要在modelAndView中添加用户名，userName已经添加到session中了
-                //modelAndView.addObject("userName", name);
+
             } else {
                 //密码错误
                 modelAndView.setViewName("frontPage/login");
@@ -139,7 +140,6 @@ public class ForeController {
             modelAndView.addObject("msg", "用户名不存在！");
         }
 
-
         return modelAndView;
     }
 
@@ -148,13 +148,13 @@ public class ForeController {
     @ResponseBody
     //将返回的map对象转换为json对象
     public Map<String, String> checkLogin(HttpServletRequest request) {
-        String userName = (String) request.getSession().getAttribute("userName");
+        User user = (User) request.getSession().getAttribute("user");
         Map<String, String> map = new HashMap<>();
-        if (null != userName)
+        if (null != user)
             //表示用户已登录
-            map.put("msg","success");
-        //表示为登陆
-        else map.put("msg","fail");
+            map.put("msg", "success");
+            //表示为登陆
+        else map.put("msg", "fail");
 
         return map;
     }
@@ -162,10 +162,10 @@ public class ForeController {
     //loginAjax
     @RequestMapping("loginAjax.do")
     @ResponseBody
-    public Map<String,String> loginAjax(@RequestParam("name")String name,
-                                        @RequestParam("password")String password,
-                                        HttpServletRequest request){
-        Map<String,String> map = new HashMap<>();
+    public Map<String, String> loginAjax(@RequestParam("name") String name,
+                                         @RequestParam("password") String password,
+                                         HttpServletRequest request) {
+        Map<String, String> map = new HashMap<>();
 
         if (userService.isExist(name)) {
 
@@ -173,27 +173,27 @@ public class ForeController {
             //logger.info("存在该用户");
             if (userService.checkUser(name, password)) {
                 //用户名和密码都正确，登录成功
-                request.getSession().setAttribute("userName", name);
-                map.put("msg","success");
+                sessionSetUserAndCartItemNumber(request, name);
+                map.put("msg", "success");
             } else {
                 //密码错误
-               map.put("msg","密码错误!");
+                map.put("msg", "密码错误!");
             }
         } else {
             //用户名不存在
-            map.put("msg","用户名不存在!!");
+            map.put("msg", "用户名不存在!!");
         }
 
         return map;
     }
 
 
-
     //退出登录
     @RequestMapping("logout.do")
     public ModelAndView logout(HttpServletRequest request) {
-        //将登陆的用户名从session中remove
-        request.getSession().removeAttribute("userName");
+        //将登陆的用户名和购物车数量从session中remove
+        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("cartItemNumber");
         ModelAndView modelAndView = new ModelAndView("redirect:home.do");
         return modelAndView;
     }
@@ -247,29 +247,11 @@ public class ForeController {
         Category category = categoryService.getCategoryById(cid);
         product.setCategory(category);
 
-        //可不可以将对于产品一系列的初始化转移到响应的service中去的，以便进行更好的封装？
-
         //产品属性属性值
         List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
-        //对产品设置缩略图和详情图
-        List<ProductImage> productSingleImage = productImageService.listProductImageByProductIdAndType(pid, "type_single");
-        List<ProductImage> productDetailImage = productImageService.listProductImageByProductIdAndType(pid, "type_detail");
-
-        product.setProductSingleImage(productSingleImage);
-        product.setProductDetailImage(productDetailImage);
-
-        //给产品设置评价数量和销量
-        product.setReviewCount(reviewService.getReviewCountByProductId(pid));
-
-        List<Integer> productNumberList = orderItemService.getNumberByProductId(pid);
-        int saleCount = 0;
-        if (!productNumberList.isEmpty()) {
-            for (Integer integer : productNumberList) {
-                saleCount += integer;
-            }
-        }
-        product.setSaleCount(saleCount);
+        //对产品具体信息进行填充
+        fillProduct(product);
 
 
         //具体评价内容
@@ -291,5 +273,190 @@ public class ForeController {
         return modelAndView;
     }
 
+
+    //加入购物车 ajax_get请求
+
+    /**
+     * uid,pid,number
+     *
+     * @param pid
+     * @param productNum
+     * @param request
+     * @return
+     */
+    @RequestMapping("addCart.do")
+    @ResponseBody
+    public Map<String, String> addCart(@RequestParam("productId") int pid,
+                                       @RequestParam("productNum") int productNum,
+                                       HttpServletRequest request) {
+        //新的问题，对于同一个产品，如果点击多次加入购物车，不应该新建一个orderItem记录，应该在原有记录上增加数量
+
+
+        Map<String, String> map = new HashMap<>(1);
+        User user = getLoginUser(request);
+        int uid = user.getId();
+
+        //如果已经存在相关记录，只需要在该记录的基础上对number字段增加相应的数量即可
+        if (orderItemService.isExistInOrderItemWithOutOidByProductIdAndUserId(pid, uid)) {
+            //update商品数量
+            orderItemService.updateProductNumber(pid,uid,productNum);
+        } else {
+            //如果不存在就新增orderItem记录
+            Product product = productService.getProductById(pid);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setUser(user);
+            orderItem.setProduct(product);
+            orderItem.setNumber(productNum);
+            //添加到数据库中
+            orderItemService.addOrderItem(orderItem);
+        }
+
+
+        sessionSetUserAndCartItemNumber(request, user.getName());
+
+        //添加成功
+        map.put("msg", "success");
+        return map;
+    }
+
+
+    /**
+     * 购物车
+     * 在数据库中如果orderitem表中有记录中oid字段为空，就表示该条记录为未提交订单的订单项
+     * 并进行提交订单的动作
+     * 确认订单
+     *
+     * @return
+     */
+    @RequestMapping("cart.do")
+    public ModelAndView confirmOrder(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        User user = getLoginUser(request);
+        if (null == user) {
+            modelAndView.setViewName("redirect:login.do");
+            return modelAndView;
+        }
+
+        //购物车信息
+        List<OrderItem> cartItemList = getCartItemList(request);
+
+        modelAndView.setViewName("frontPage/cartItem");
+        modelAndView.addObject("cartItemList", cartItemList);
+
+        return modelAndView;
+    }
+
+
+    //填充Product对象
+    private Product fillProduct(Product product) {
+        int pid = product.getId();
+        //展示图片
+        product.setFirstProductImage(productImageService.getFirstProductImageByProductId(pid));
+
+        //设置商品的分类
+
+
+        Category category = categoryService.getCategoryById(productService.getCategoryIdByProductId(pid));
+
+        product.setCategory(category);
+
+        //对产品设置缩略图和详情图
+        List<ProductImage> productSingleImage = productImageService.listProductImageByProductIdAndType(pid, "type_single");
+        List<ProductImage> productDetailImage = productImageService.listProductImageByProductIdAndType(pid, "type_detail");
+
+        product.setProductSingleImage(productSingleImage);
+        product.setProductDetailImage(productDetailImage);
+
+        //给产品设置评价数量和销量
+        product.setReviewCount(reviewService.getReviewCountByProductId(pid));
+
+        List<Integer> productNumberList = orderItemService.getNumberByProductId(pid);
+        int saleCount = 0;
+        if (!productNumberList.isEmpty()) {
+            for (Integer integer : productNumberList) {
+                saleCount += integer;
+            }
+        }
+        product.setSaleCount(saleCount);
+
+
+        return product;
+
+    }
+
+    //填充OrderItem对象
+    private OrderItem fillOrderItem(OrderItemCustom orderItemCustom) {
+        OrderItem orderItem = new OrderItem();
+        int oid = orderItemCustom.getOid();
+        int id = orderItemCustom.getId();
+        int number = orderItemCustom.getNumber();
+        int pid = orderItemCustom.getPid();
+        int uid = orderItemCustom.getUid();
+
+        logger.info("oid:" + orderItemCustom.getOid());
+        //oid不为空
+        if (0 != orderItemCustom.getOid()) {
+            Order order = orderService.getOrderById(oid);
+            orderItem.setOrder(order);
+        }
+        Product product = productService.getProductById(pid);
+        product = fillProduct(product);
+        orderItem.setProduct(product);
+
+        User user = userService.getUserById(uid);
+        orderItem.setUser(user);
+
+        orderItem.setId(id);
+        orderItem.setNumber(number);
+        //logger.info(orderItem);
+        return orderItem;
+    }
+
+    //得到当前登录的User对象
+    private User getLoginUser(HttpServletRequest request) {
+        User user = (User) request.getSession(false).getAttribute("user");
+        return user;
+    }
+
+    //session中设置user对象和cartItemNumber属性
+    private void sessionSetUserAndCartItemNumber(HttpServletRequest request, String userName) {
+        User user = userService.getByUserName(userName);
+        request.getSession().setAttribute("user", user);
+        int cartItemNumber = orderItemService.getCartItemNumber(user.getId());
+        request.getSession().setAttribute("cartItemNumber", cartItemNumber);
+    }
+
+
+    //获取到当前用户的购物车信息
+    private List<OrderItem> getCartItemList(HttpServletRequest request) {
+        List<OrderItemCustom> simpleCartItemList = new ArrayList<>();
+        User user = getLoginUser(request);
+        if (null != user) {
+            logger.info("userId:" + user.getId());
+            simpleCartItemList = orderItemService.getSimpleCartItemList(user.getId());
+        }
+
+//        for(OrderItemCustom orderItemCustom:simpleCartItemList){
+//            logger.info(orderItemCustom);
+//        }
+
+
+        List<OrderItem> cartItemList = new ArrayList<>();
+        OrderItem orderItem;
+        if (!simpleCartItemList.isEmpty()) {
+            for (OrderItemCustom orderItemCustom : simpleCartItemList) {
+                orderItem = fillOrderItem(orderItemCustom);
+                cartItemList.add(orderItem);
+            }
+
+        }
+
+        for (OrderItem orderItem1 : cartItemList) {
+            logger.info(orderItem1);
+        }
+
+
+        return cartItemList;
+    }
 
 }

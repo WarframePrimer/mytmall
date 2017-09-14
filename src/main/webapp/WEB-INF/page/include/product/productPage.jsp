@@ -8,18 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-
 <!--产品图片和价格标题等信息的展示-->
 <div class="imgAndInfo">
     <!--产品图片-->
     <div class="imgInImgAndInfo">
-        <img width="100px" class="bigImg" src="<%=request.getContextPath()%>/img/productImage/${product['productSingleImage'][0]['id']}.jpg"  alt="图片加载失败">
+        <img width="100px" class="bigImg"
+             src="<%=request.getContextPath()%>/img/productImage/${product['productSingleImage'][0]['id']}.jpg"
+             alt="图片加载失败">
         <div class="smallImageDiv">
             <c:forEach items="${product.productSingleImage}" var="singleImage">
-                <img width="56px" src="<%=request.getContextPath()%>/img/productImage/${singleImage.id}.jpg" alt="图片加载失败" class="smallImage" bigImageURL="<%=request.getContextPath()%>/img/productImage/${singleImage.id}.jpg">
+                <img width="56px" src="<%=request.getContextPath()%>/img/productImage/${singleImage.id}.jpg"
+                     alt="图片加载失败" class="smallImage"
+                     bigImageURL="<%=request.getContextPath()%>/img/productImage/${singleImage.id}.jpg">
             </c:forEach>
         </div>
-        <div class="image4load hidden" ></div>
+        <div class="image4load hidden"></div>
     </div>
 
     <!--产品详情-->
@@ -93,8 +96,12 @@
         </div>
 
         <div class="buyDiv">
-            <a class="buyLink"><button class="buyButton">立即购买</button></a>
-            <a class="addCartLink"><button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button></a>
+            <a href="#" class="buyLink">
+                <button class="buyButton">立即购买</button>
+            </a>
+            <a href="#" class="addCartLink">
+                <button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
+            </a>
         </div>
     </div>
 
@@ -108,7 +115,8 @@
     <!--商品详情和用户评论选项框-->
     <div class="productDetailTopPart">
         <a href="#nowhere" class="productDetailTopPartSelectedLink selected">商品详情</a>
-        <a href="#nowhere" class="productDetailTopPartReviewLink">累计评价<span class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
+        <a href="#nowhere" class="productDetailTopPartReviewLink">累计评价<span
+                class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
     </div>
     <!--产品参数div-->
     <div class="productParameterPart">
@@ -132,12 +140,13 @@
     </div>
 </div>
 
-<!--产品详情和累计评论----并且累计评论为点击  -->
+<!--产品详情和累计评论----并且累计评论为点击 -->
 <div class="productReviewDiv" style="display: block">
     <!--商品详情和用户评论选项框-->
     <div class="productReviewTopPart">
         <a href="#nowhere" class="productDetailTopPartSelectedLink">商品详情</a>
-        <a href="#nowhere" class="productDetailTopPartReviewLink selected">累计评价<span class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
+        <a href="#nowhere" class="productDetailTopPartReviewLink selected">累计评价<span
+                class="productDetailTopReviewLinkNumber">${product.reviewCount}</span></a>
     </div>
     <!--累计评论所在div-->
     <div class="productReviewContentPart">
@@ -148,7 +157,7 @@
                 <div class="productReviewItemDesc">
                     <!--评论的具体内容-->
                     <div class="productReviewItemContent">
-                        ${reviewCustom.content}
+                            ${reviewCustom.content}
                     </div>
                     <!--评论的时间-->
                     <div class="productReviewItemDate">${reviewCustom.createDate}</div>
@@ -156,14 +165,11 @@
                 <!--评论的用户-->
                 <div class="productReviewItemUserInfo">
                     <!--不显示用户的详细昵称-->
-                    ${reviewCustom.userName}<span class="userInfoGrayPart">（匿名）</span>
+                        ${reviewCustom.userName}<span class="userInfoGrayPart">（匿名）</span>
                 </div>
                 <div style="clear: both"></div>
             </div>
         </c:forEach>
-
-
-
 
 
     </div>
@@ -182,12 +188,12 @@
             //对于HTML元素本身就带有的固有属性，在处理时，使用prop方法
             //对于HTML元素我们自己自定义的DOM属性，在处理时，使用attr方法
             var bigImageURL = $(this).attr("bigImageURL");
-            $("img.bigImg").attr("src",bigImageURL);
+            $("img.bigImg").attr("src", bigImageURL);
 
             $("img.smallImage").each(function () {
-                $(this).css('border-color','white');
+                $(this).css('border-color', 'white');
             });
-            $(this).css('border-color','black');
+            $(this).css('border-color', 'black');
         });
         //预加载，这里先不用，因为太占内存
 //            $("img.bigImg").load(function () {
@@ -207,11 +213,11 @@
         $(".productNumberSetting").keyup(function () {
             var num = $(".productNumberSetting").val();
             num = parseInt(num);
-            if(isNaN(num)){
+            if (isNaN(num)) {
                 num = 1;
             }
-            if(num<=0) num = 1;
-            if(num>stock) num = stock;
+            if (num <= 0) num = 1;
+            if (num > stock) num = stock;
             $(".productNumberSetting").val(num);
 
         });
@@ -219,13 +225,13 @@
         $("a.increaseNumber").click(function () {
             var num = $(".productNumberSetting").val();
             num++;
-            if(num>stock) num = stock;
+            if (num > stock) num = stock;
             $(".productNumberSetting").val(num);
         });
         $("a.decreaseNumber").click(function () {
             var num = $(".productNumberSetting").val();
             --num;
-            if(num<=0) num = 1;
+            if (num <= 0) num = 1;
             $(".productNumberSetting").val(num);
         });
 
@@ -247,18 +253,18 @@
             $.get(
                 page,
                 function (result) {
-                    if("success" == result['msg']){
+                    if ("success" == result['msg']) {
                         //表示登陆,继续下一步操作，立即购买
                         //TODO
-                    }else{
+
+
+                    } else {
                         //为登陆，请先登陆
-                         //显示登陆模态窗口
+                        //显示登陆模态窗口
                         $("div#loginModal").modal('show');
                     }
 
                 }
-                
-
             );
 
 
@@ -270,18 +276,32 @@
             $.get(
                 page,
                 function (result) {
-                    if("success" == result['msg']){
+                    if ("success" == result['msg']) {
                         //表示登陆,继续下一步操作，加入购物车
-                        //TODO
-                    }else{
+                        var pid = ${product.id};
+                        var num = $("input.productNumberSetting").val();
+                        var addCartPage = "addCart.do";
+                        $.get(
+                            addCartPage,
+                            {"productId": pid, "productNum": num},
+                            function (result) {
+                                if ("success" == result['msg']) {
+                                    $("button.addCartButton").html("已加入购物车");
+                                    $("button.addCartButton").attr("disabled","disabled");
+                                    $("button.addCartButton").css("background-color","lightgray");
+                                    $("button.addCartButton").css("color","black");
+                                }else{
+                                    alert("加入购物车异常！");
+                                }
+                            }
+                        )
+                    } else {
                         //为登陆，请先登陆
                         //显示登陆模态窗口
                         $("div#loginModal").modal('show');
                     }
 
                 }
-
-
             );
         });
     });

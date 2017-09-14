@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService{
         int count = userDAO.checkPassword(name, password);
         return count==1?true:false;
     }
+
+    @Override
+    public User getByUserName(String userName) {
+        return userDAO.getByUserName(userName);
+    }
 }

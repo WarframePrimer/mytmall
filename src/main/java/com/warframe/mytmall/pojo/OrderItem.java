@@ -14,7 +14,7 @@ public class OrderItem {
     private int id;
     private User user;
     private Product product;
-    private String number;
+    private int number;
     private Order order;
 
     public int getId() {
@@ -41,11 +41,11 @@ public class OrderItem {
         this.product = product;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -55,5 +55,16 @@ public class OrderItem {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", user=" + user +
+                ", product=" + product +
+                ", number=" + number +
+                ", order=" + order +
+                '}';
     }
 }
