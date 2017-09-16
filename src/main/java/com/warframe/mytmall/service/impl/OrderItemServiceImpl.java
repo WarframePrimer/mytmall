@@ -134,4 +134,17 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
 
+    /**
+     * 点击立即购买之后创建新的订单项
+     *
+     * @param orderItemCustom
+     */
+    @Override
+    public void createNewOrderItem(OrderItemCustom orderItemCustom) {
+        if(isExistInOrderItemWithOutOidByProductIdAndUserId(orderItemCustom.getPid(),orderItemCustom.getUid())){
+
+        }
+    }
+
+
 }

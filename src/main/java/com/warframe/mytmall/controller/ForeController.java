@@ -7,6 +7,7 @@ import com.warframe.mytmall.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -108,40 +109,40 @@ public class ForeController {
         return modelAndView;
     }
 
-    //登录
+    //登录使用ajax来进行实现
 
-    @RequestMapping("loginUser.do")
-    public ModelAndView loginUser(@RequestParam("name") String name,
-                                  @RequestParam("password") String password,
-                                  HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        name = HtmlUtils.htmlEscape(StringUtil.toUTF(name));
-        password = HtmlUtils.htmlEscape(StringUtil.toUTF(password));
-        logger.info(name + ":" + password);
-
-
-        if (userService.isExist(name)) {
-
-            //存在该用户名，进行下一步判断
-            //logger.info("存在该用户");
-            if (userService.checkUser(name, password)) {
-                //用户名和密码都正确，登录成功
-                sessionSetUserAndCartItemNumber(request, name);
-                modelAndView.setViewName("redirect:home.do");
-
-            } else {
-                //密码错误
-                modelAndView.setViewName("frontPage/login");
-                modelAndView.addObject("msg", "密码错误");
-            }
-        } else {
-            //用户名不存在
-            modelAndView.setViewName("frontPage/login");
-            modelAndView.addObject("msg", "用户名不存在！");
-        }
-
-        return modelAndView;
-    }
+//    @RequestMapping("loginUser.do")
+//    public ModelAndView loginUser(@RequestParam("name") String name,
+//                                  @RequestParam("password") String password,
+//                                  HttpServletRequest request) {
+//        ModelAndView modelAndView = new ModelAndView();
+//        name = HtmlUtils.htmlEscape(StringUtil.toUTF(name));
+//        password = HtmlUtils.htmlEscape(StringUtil.toUTF(password));
+//        logger.info(name + ":" + password);
+//
+//
+//        if (userService.isExist(name)) {
+//
+//            //存在该用户名，进行下一步判断
+//            //logger.info("存在该用户");
+//            if (userService.checkUser(name, password)) {
+//                //用户名和密码都正确，登录成功
+//                sessionSetUserAndCartItemNumber(request, name);
+//                modelAndView.setViewName("redirect:home.do");
+//
+//            } else {
+//                //密码错误
+//                modelAndView.setViewName("frontPage/login");
+//                modelAndView.addObject("msg", "密码错误");
+//            }
+//        } else {
+//            //用户名不存在
+//            modelAndView.setViewName("frontPage/login");
+//            modelAndView.addObject("msg", "用户名不存在！");
+//        }
+//
+//        return modelAndView;
+//    }
 
     //检查用户是否登陆，只需要检查session中是否有userName这个属性即可
     @RequestMapping("checkLogin.do")
@@ -167,6 +168,9 @@ public class ForeController {
                                          HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
 
+        logger.info("userName:" + name);
+        logger.info("password:" + password);
+
         if (userService.isExist(name)) {
 
             //存在该用户名，进行下一步判断
@@ -186,7 +190,6 @@ public class ForeController {
 
         return map;
     }
-
 
     //退出登录
     @RequestMapping("logout.do")
@@ -274,10 +277,9 @@ public class ForeController {
     }
 
 
-    //加入购物车 ajax_get请求
-
     /**
      * uid,pid,number
+     * 添加购物车 使用ajax添加购物车
      *
      * @param pid
      * @param productNum
@@ -299,7 +301,7 @@ public class ForeController {
         //如果已经存在相关记录，只需要在该记录的基础上对number字段增加相应的数量即可
         if (orderItemService.isExistInOrderItemWithOutOidByProductIdAndUserId(pid, uid)) {
             //update商品数量
-            orderItemService.updateProductNumber(pid,uid,productNum);
+            orderItemService.updateProductNumber(pid, uid, productNum);
         } else {
             //如果不存在就新增orderItem记录
             Product product = productService.getProductById(pid);
@@ -320,8 +322,29 @@ public class ForeController {
     }
 
 
+
+
+
+    @RequestMapping(value = "deleteCartItemByAjax.do", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> deleteCartItem(@RequestParam("orderItemId") int oiid, HttpServletRequest request) {
+        logger.info("要删除的订单项:" + oiid);
+        User user = getLoginUser(request);
+        Map<String, String> map = new HashMap<>();
+
+        orderItemService.deleteOrderItem(oiid);
+
+        map.put("msg", "success");
+
+        sessionSetUserAndCartItemNumber(request, user.getName());
+
+        return map;
+
+    }
+
+
     /**
-     * 购物车
+     * 显示购物车信息
      * 在数据库中如果orderitem表中有记录中oid字段为空，就表示该条记录为未提交订单的订单项
      * 并进行提交订单的动作
      * 确认订单
@@ -329,7 +352,7 @@ public class ForeController {
      * @return
      */
     @RequestMapping("cart.do")
-    public ModelAndView confirmOrder(HttpServletRequest request) {
+    public ModelAndView cartList(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         User user = getLoginUser(request);
         if (null == user) {
@@ -346,6 +369,75 @@ public class ForeController {
         return modelAndView;
     }
 
+    /**
+     * 在登录的前提下
+     * 立即购买
+     * 立即购买之后如果没有提交订单那么这次纪录不要更新进数据库
+     *
+     * @return
+     */
+    @RequestMapping("buyProduct.do")
+    public ModelAndView buyProduct(@RequestParam("pid") int pid,
+                                   @RequestParam("num") int productNum,
+                                   HttpServletRequest request) {
+        //跳转到提交订单的页面
+        ModelAndView modelAndView = new ModelAndView("frontPage/confirmOrder");
+
+        User user = getLoginUser(request);
+
+        OrderItemCustom orderItemCustom = new OrderItemCustom();
+        orderItemCustom.setNumber(productNum);
+        orderItemCustom.setPid(pid);
+        orderItemCustom.setUid(user.getId());
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        OrderItem orderItem;
+        float totalPrice;
+
+        /**
+         * 如果点击立即购买，不管数据库中是否有相关记录都新建一个订单项
+         * 这样可以省去很多数据库误读脏读数据的问题
+         *
+         */
+        orderItem = fillOrderItem(orderItemCustom);
+        logger.info(orderItem);
+        orderItemList.add(orderItem);
+        //计算总价格
+        totalPrice = orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
+
+        modelAndView.addObject("orderItemList", orderItemList);
+        modelAndView.addObject("totalPrice", totalPrice);
+
+        return modelAndView;
+    }
+
+    //提交购物车的cartItem信息进行结算
+    //对各订单项的最后数据进行确认，update各订单项
+    // 之后进行提交订单的操作
+    //结算的英文单词：balance
+    @RequestMapping("balance.do")
+    public ModelAndView balance(@RequestParam(value = "totalPrice",required = true)float Price,
+                                HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("frontPage/confirmOrder");
+        User user = getLoginUser(request);
+        List<OrderItem> orderItemList = getCartItemList(request);
+        float totalPrice = Price;
+
+        modelAndView.addObject("orderItemList", orderItemList);
+        modelAndView.addObject("totalPrice", totalPrice);
+
+        return modelAndView;
+    }
+
+
+
+
+    //点击提交订单
+    @RequestMapping("confirmOrder.do")
+    public ModelAndView confirmOrder(){
+        return null;
+    }
+
 
     //填充Product对象
     private Product fillProduct(Product product) {
@@ -354,12 +446,9 @@ public class ForeController {
         product.setFirstProductImage(productImageService.getFirstProductImageByProductId(pid));
 
         //设置商品的分类
-
-
         Category category = categoryService.getCategoryById(productService.getCategoryIdByProductId(pid));
 
         product.setCategory(category);
-
         //对产品设置缩略图和详情图
         List<ProductImage> productSingleImage = productImageService.listProductImageByProductIdAndType(pid, "type_single");
         List<ProductImage> productDetailImage = productImageService.listProductImageByProductIdAndType(pid, "type_detail");
@@ -427,19 +516,20 @@ public class ForeController {
     }
 
 
-    //获取到当前用户的购物车信息
-    private List<OrderItem> getCartItemList(HttpServletRequest request) {
+    //简单购物车信息id,uid,pid,oid等等
+    private List<OrderItemCustom> getSimpleCartItemList(HttpServletRequest request){
         List<OrderItemCustom> simpleCartItemList = new ArrayList<>();
         User user = getLoginUser(request);
         if (null != user) {
             logger.info("userId:" + user.getId());
             simpleCartItemList = orderItemService.getSimpleCartItemList(user.getId());
         }
+        return simpleCartItemList;
+    }
 
-//        for(OrderItemCustom orderItemCustom:simpleCartItemList){
-//            logger.info(orderItemCustom);
-//        }
-
+    //获取到当前用户的详细购物车信息
+    private List<OrderItem> getCartItemList(HttpServletRequest request) {
+        List<OrderItemCustom> simpleCartItemList = getSimpleCartItemList(request);
 
         List<OrderItem> cartItemList = new ArrayList<>();
         OrderItem orderItem;

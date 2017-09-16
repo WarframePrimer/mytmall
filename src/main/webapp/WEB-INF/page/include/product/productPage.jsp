@@ -96,7 +96,8 @@
         </div>
 
         <div class="buyDiv">
-            <a href="#" class="buyLink">
+            <!--参数为pid-->
+            <a href="buyProduct.do?pid=${product.id}" class="buyLink">
                 <button class="buyButton">立即购买</button>
             </a>
             <a href="#" class="addCartLink">
@@ -256,18 +257,26 @@
                     if ("success" == result['msg']) {
                         //表示登陆,继续下一步操作，立即购买
                         //TODO
+                        /**
+                         * 实现步骤：(登录的前提下)
+                         * 点击立即购买按钮之后
+                         * 生成orderItem()
+                         * 跳转到buyPage页面(需要参数:orderitem)
+                         *
+                         */
+                        var productNum = $("input.productNumberSetting").val();
+                        //location.href表示的是本页面跳转
 
-
+                        location.href = $("a.buyLink").attr("href") + "&num=" + productNum;
                     } else {
-                        //为登陆，请先登陆
+                        //未登陆，请先登陆
                         //显示登陆模态窗口
                         $("div#loginModal").modal('show');
                     }
 
                 }
             );
-
-
+            return false;
         });
 
 
@@ -296,13 +305,14 @@
                             }
                         )
                     } else {
-                        //为登陆，请先登陆
+                        //未登陆，请先登陆
                         //显示登陆模态窗口
                         $("div#loginModal").modal('show');
                     }
 
                 }
             );
+            return false;
         });
     });
 

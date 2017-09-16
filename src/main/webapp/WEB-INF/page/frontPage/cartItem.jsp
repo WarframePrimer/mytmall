@@ -7,9 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<%@include file="../include/header.jsp"%>
-<%@include file="../include/top.jsp"%>
-<%@ include file="../include/simpleSearch.jsp"%>
+<%@include file="../include/header.jsp" %>
+<%@include file="../include/top.jsp" %>
+<%@ include file="../include/simpleSearch.jsp" %>
 
 <c:choose>
     <c:when test="${cartItemNumber != 0}">
@@ -29,7 +29,9 @@
                 <table class="cartProductItemTable">
                     <!--列名信息-->
                     <thead>
-                    <th class="selectAll"><img class="selectAllProduct" src="img/site/cartNotSelected.png" selectit="false" oiid="1"/>全选</th>
+                    <th class="selectAll"><img class="selectAllProduct" src="img/site/cartNotSelected.png"
+                                               selectit="false" oiid="1"/>全选
+                    </th>
                     <th>商品信息</th>
                     <th>单价</th>
                     <th>数量</th>
@@ -39,58 +41,73 @@
                     <!--表信息-->
                     <tbody>
 
-                        <c:forEach items="${cartItemList}" var="cartItem">
-                            <!--一行就表明是一个商品信息-->
-                            <tr class="cartProductItemTR" oiid="${cartItem.id}" pid="${cartItem['product']['id']}">
-                                <!--全选框和商品图片-->
-                                <td width="140px">
-                                    <img class="productIfSelect" src="img/site/cartNotSelected.png" selectit="false" oiid = "${cartItem.id}" pid="${cartItem['product']['id']}"/>
-                                    <img class="productImage" src="<%=request.getContextPath()%>/img/productImage/${cartItem['product']['firstProductImage']['id']}.jpg"/>
-                                </td>
-                                <!--商品信息-->
-                                <td>
-                                    <div class="cartProductLinkOutDiv">
-                                        <a href="getProductDetail.do?pid=${cartItem['product']['id']}&cid=${cartItem['product']['category']['id']}" class="cartProductLink">${cartItem['product']['name']}</a>
-                                        <!--商品信息下方的承诺-->
-                                        <div class="cartProductLinkInnerDiv">
-                                            <a href="#nowhere"><img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡支付"></a>
-                                            <a href="#nowhere"><img src="img/site/7day.png" alt="图片加载失败" title="消费者保障服务 卖家承诺7天退换"></a>
-                                            <a href="#nowhere"><img src="img/site/promise.png" alt="图片加载失败" title="消费者保障服务 卖家承诺如实描述"></a>
-                                        </div>
+                    <c:forEach items="${cartItemList}" var="cartItem">
+                        <!--一行就表明是一个商品信息-->
+                        <tr class="cartProductItemTR" oiid="${cartItem.id}" pid="${cartItem['product']['id']}">
+                            <!--全选框和商品图片-->
+                            <td width="140px">
+                                <img class="productIfSelect" src="img/site/cartNotSelected.png" selectit="false"
+                                     oiid="${cartItem.id}" pid="${cartItem['product']['id']}"/>
+                                <img class="productImage"
+                                     src="<%=request.getContextPath()%>/img/productImage/${cartItem['product']['firstProductImage']['id']}.jpg"/>
+                            </td>
+                            <!--商品信息-->
+                            <td>
+                                <div class="cartProductLinkOutDiv">
+                                    <a href="getProductDetail.do?pid=${cartItem['product']['id']}&cid=${cartItem['product']['category']['id']}"
+                                       class="cartProductLink">${cartItem['product']['name']}</a>
+                                    <!--商品信息下方的承诺-->
+                                    <div class="cartProductLinkInnerDiv">
+                                        <a href="#nowhere"><img src="img/site/creditcard.png" alt="图片加载失败"
+                                                                title="支持信用卡支付"></a>
+                                        <a href="#nowhere"><img src="img/site/7day.png" alt="图片加载失败"
+                                                                title="消费者保障服务 卖家承诺7天退换"></a>
+                                        <a href="#nowhere"><img src="img/site/promise.png" alt="图片加载失败"
+                                                                title="消费者保障服务 卖家承诺如实描述"></a>
                                     </div>
-                                </td>
-                                <!--商品单价-->
-                                <td>
-                                    <span class="originalPrice">￥${cartItem['product']['originalPrice']}</span>
-                                    <span class="promotePrice">￥${cartItem['product']['promotePrice']}</span>
-                                </td>
-                                <!--商品数量设置-->
-                                <td>
-                                    <div class="cartProductAmountSetting">
-                                        <!--取text值是为什么会连续取值两次？？？-->
-                                        <!--这些值需要从后台取-->
-                                        <span class="cartProductPromotePrice hidden" oiid = "${cartItem.id}" pid = "${cartItem['product']['id']}">${cartItem['product']['promotePrice']}</span>
+                                </div>
+                            </td>
+                            <!--商品单价-->
+                            <td>
+                                <span class="originalPrice">￥${cartItem['product']['originalPrice']}</span>
+                                <span class="promotePrice">￥${cartItem['product']['promotePrice']}</span>
+                            </td>
+                            <!--商品数量设置-->
+                            <td>
+                                <div class="cartProductAmountSetting">
+                                    <!--取text值是为什么会连续取值两次？？？-->
+                                    <!--这些值需要从后台取-->
+                                    <span class="cartProductPromotePrice hidden" oiid="${cartItem.id}"
+                                          pid="${cartItem['product']['id']}">${cartItem['product']['promotePrice']}</span>
 
-                                        <span class="stock hidden" oiid="${cartItem.id}" pid="${cartItem['product']['id']}">${cartItem['product']['stock']}</span>
-                                        <!------>
-                                        <a href="#nowhere" class="decreaseAmount" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">-</a>
-                                        <input value="${cartItem.number}" class="cartProductItemAmount" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">
-                                        <a href="#nowhere" class="increaseAmount" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">+</a>
-                                    </div>
-                                </td>
-                                <!--单类产品小计价格-->
-                                <td>
-                                    <!--这里设置商品id和订单id是因为之后要将计算得到的小计价格传给这个span显示出来-->
-                                    <span class="cartProductItemSmallSumPrice" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">￥${cartItem['product']['promotePrice']}</span>
-                                </td>
-                                <!--删除操作-->
-                                <!--pid商品id,oiid(OrderItemId)订单项(购物车)id，删除需要知道订单号和商品号即哪个订单中的哪个产品-->
-                                <td class="deleteCartProduct"><a href="#nowhere" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">删除</a></td>
-                            </tr>
+                                    <span class="stock hidden" oiid="${cartItem.id}"
+                                          pid="${cartItem['product']['id']}">${cartItem['product']['stock']}</span>
+                                    <!------>
+                                    <a href="#nowhere" class="decreaseAmount" pid="${cartItem['product']['id']}"
+                                       oiid="${cartItem.id}">-</a>
+                                    <input value="${cartItem.number}" class="cartProductItemAmount"
+                                           pid="${cartItem['product']['id']}" oiid="${cartItem.id}">
+                                    <a href="#nowhere" class="increaseAmount" pid="${cartItem['product']['id']}"
+                                       oiid="${cartItem.id}">+</a>
+                                </div>
+                            </td>
+                            <!--单类产品小计价格-->
+                            <td>
+                                <!--这里设置商品id和订单id是因为之后要将计算得到的小计价格传给这个span显示出来-->
+                                <span class="cartProductItemSmallSumPrice" pid="${cartItem['product']['id']}"
+                                      oiid="${cartItem.id}">￥
+                                        <fmt:formatNumber minFractionDigits="2" value="${cartItem['product']['promotePrice']*cartItem.number}"/>
+                                </span>
+                            </td>
+                            <!--删除操作-->
+                            <!--pid商品id,oiid(OrderItemId)订单项(购物车)id，删除需要知道订单号和商品号即哪个订单中的哪个产品-->
+                            <td class="deleteCartProduct">
+                                <!--通过ajax删除指定的订单项-->
+                                <a href="#" pid="${cartItem['product']['id']}" oiid="${cartItem.id}">删除</a>
+                            </td>
+                        </tr>
 
-                        </c:forEach>
-
-
+                    </c:forEach>
 
 
                     </tbody>
@@ -100,27 +117,26 @@
 
             <!--购物车下方的结算-->
             <div class="cartFoot">
-                <img src="img/site/cartNotSelected.png" alt="图片加载失败" class="selectAllProduct" selectit="false" oiid = "${cartItem.id}">
+                <img src="img/site/cartNotSelected.png" alt="图片加载失败" class="selectAllProduct" selectit="false"
+                     oiid="${cartItem.id}">
                 <span>全选</span>
                 <a href="#nowhere" class="deleteAllProduct" oiid="${cartItem.id}">删除</a>
                 <div class="cartFootPrice pull-right">
                     <span>已选商品 <span class="cartProductSumNumber">0</span> 件</span>·
                     <span>合计(不含运费):<span class="cartProductSumPrice">0.00</span></span>
-                    <button class="createOrderButton" disabled="disabled">结算</button>
+                    <a href="balance.do" class="createOrderLink"><button class="createOrderButton" disabled="disabled">结算</button></a>
                 </div>
             </div>
         </div>
     </c:when>
     <c:otherwise>
-       <div class="cartIsEmpty">
-           <h2>您的购物车还是空的，赶紧行动吧！</h2>
-       </div>
+        <div class="cartIsEmpty">
+            <h2>您的购物车还是空的，赶紧行动吧！</h2>
+        </div>
 
 
     </c:otherwise>
 </c:choose>
-
-
 
 
 <script>
@@ -133,15 +149,15 @@
         //遍历所有商品勾选框
         $("img.productIfSelect").each(function () {
             var selectit = $(this).attr("selectit");
-            if("selectit" == selectit) selectProduct = true;
+            if ("selectit" == selectit) selectProduct = true;
         });
         /*只要有任意商品被选中，就将结算按钮激活*/
-        if(selectProduct){
+        if (selectProduct) {
             $("button.createOrderButton").removeAttr("disabled");
-            $("button.createOrderButton").css("background-color","#FF4400");
-        }else{
-            $("button.createOrderButton").attr("disabled","disabled");
-            $("button.createOrderButton").css("background-color","#B0B0B0");
+            $("button.createOrderButton").css("background-color", "#FF4400");
+        } else {
+            $("button.createOrderButton").attr("disabled", "disabled");
+            $("button.createOrderButton").css("background-color", "#B0B0B0");
         }
 
     }
@@ -153,24 +169,22 @@
 
         var len = $("img.productIfSelect").length;
         console.log(len);
-        if(len>0){
+        if (len > 0) {
             $("img.productIfSelect").each(function () {
                 var selectit = $(this).attr("selectit");
-                if("false" == selectit) selectAll = false;
+                if ("false" == selectit) selectAll = false;
             });
-            if(selectAll){
-                $("img.selectAllProduct").attr("selectit","selectit");
-                $("img.selectAllProduct").attr("src","img/site/cartSelected.png");
-            }else{
-                $("img.selectAllProduct").attr("selectit","false");
-                $("img.selectAllProduct").attr("src","img/site/cartNotSelected.png");
+            if (selectAll) {
+                $("img.selectAllProduct").attr("selectit", "selectit");
+                $("img.selectAllProduct").attr("src", "img/site/cartSelected.png");
+            } else {
+                $("img.selectAllProduct").attr("selectit", "false");
+                $("img.selectAllProduct").attr("src", "img/site/cartNotSelected.png");
             }
-        }else{
-            $("img.selectAllProduct").attr("selectit","false");
-            $("img.selectAllProduct").attr("src","img/site/cartNotSelected.png");
+        } else {
+            $("img.selectAllProduct").attr("selectit", "false");
+            $("img.selectAllProduct").attr("src", "img/site/cartNotSelected.png");
         }
-
-
 
 
     }
@@ -183,30 +197,31 @@
         $("img.productIfSelect[selectit='selectit']").each(function () {
             var pid = $(this).attr("pid");
             //console.log(pid);
-            var price = $("span.cartProductItemSmallSumPrice[pid="+ pid +"]").text();
+            var price = $("span.cartProductItemSmallSumPrice[pid=" + pid + "]").text();
             //console.log(price);
             /*简单的正则表达式将逗号和中文符号替换成空*/
-            price = price.replace(/,/g,"");
-            price = price.replace(/￥/g,"");
+            price = price.replace(/,/g, "");
+            price = price.replace(/￥/g, "");
             //console.log(price);
             sum += new Number(price)
-            var num = $("input.cartProductItemAmount[pid="+ pid +"]").val();
+            var num = $("input.cartProductItemAmount[pid=" + pid + "]").val();
             number += new Number(num);
         });
+        //保留两位小数
+        sum = sum.toFixed(2);
         /*将得到的信息进行响应的显示*/
         $("span.cartProductSumNumber").html(number);
         $("span.cartProductSumPrice").html("￥" + sum);
 
 
-
     }
 
     /*计算单个商品的小计价格*/
-    function calcSmallPrice(pid,price,num) {
+    function calcSmallPrice(pid, price, num) {
         $("input.cartProductItemAmount[pid=" + pid + "]").val(num);
-        var smallPrice = price*num;
-        smallPrice = smallPrice.toFixed(1);
-        $("span.cartProductItemSmallSumPrice[pid=" + pid + "]").html("￥"+smallPrice);
+        var smallPrice = price * num;
+        smallPrice = smallPrice.toFixed(2);
+        $("span.cartProductItemSmallSumPrice[pid=" + pid + "]").html("￥" + smallPrice);
 
         //重新计算总价格和总数目
         calcProductPriceAndNumber();
@@ -218,14 +233,14 @@
         var pid = $(this).attr("pid");
         var oiid = $(this).attr("oiid");
         var selectit = $(this).attr("selectit");
-        if("selectit" == selectit){
-            $(".productIfSelect[pid=" + pid + "]").attr("selectit","false");
-            $(".productIfSelect[pid=" + pid + "]").attr("src","img/site/cartNotSelected.png");
-            $(".productIfSelect[pid=" + pid + "]").parents("tr.cartProductItemTR").css("background-color","#FCFCFC");
-        }else{
-            $(".productIfSelect[pid=" + pid + "]").attr("selectit","selectit");
-            $(".productIfSelect[pid=" + pid + "]").attr("src","img/site/cartSelected.png");
-            $(".productIfSelect[pid=" + pid + "]").parents("tr.cartProductItemTR").css("background-color","#FFF8E1");
+        if ("selectit" == selectit) {
+            $(".productIfSelect[pid=" + pid + "]").attr("selectit", "false");
+            $(".productIfSelect[pid=" + pid + "]").attr("src", "img/site/cartNotSelected.png");
+            $(".productIfSelect[pid=" + pid + "]").parents("tr.cartProductItemTR").css("background-color", "#FCFCFC");
+        } else {
+            $(".productIfSelect[pid=" + pid + "]").attr("selectit", "selectit");
+            $(".productIfSelect[pid=" + pid + "]").attr("src", "img/site/cartSelected.png");
+            $(".productIfSelect[pid=" + pid + "]").parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
         }
         syncSelectAll();
         syncOderButton();
@@ -235,21 +250,21 @@
     $("img.selectAllProduct").click(function () {
         //var oiid = $(this).attr("oiid");并不需要没有意义
         var selectit = $(this).attr("selectit");
-        if("selectit" == selectit){
-            $(this).attr("selectit","false");
-            $(this).attr("src","img/site/cartNotSelected.png");
+        if ("selectit" == selectit) {
+            $(this).attr("selectit", "false");
+            $(this).attr("src", "img/site/cartNotSelected.png");
             $("img.productIfSelect").each(function () {
-                $(this).attr("selectit","false");
-                $(this).parents("tr.cartProductItemTR").css("background-color","#FCFCFC");
-                $(this).attr("src","img/site/cartNotSelected.png");
+                $(this).attr("selectit", "false");
+                $(this).parents("tr.cartProductItemTR").css("background-color", "#FCFCFC");
+                $(this).attr("src", "img/site/cartNotSelected.png");
             });
-        }else{
-            $(this).attr("selectit","selectit");
-            $(this).attr("src","img/site/cartSelected.png");
+        } else {
+            $(this).attr("selectit", "selectit");
+            $(this).attr("src", "img/site/cartSelected.png");
             $("img.productIfSelect").each(function () {
-                $(this).attr("selectit","selectit");
-                $(this).parents("tr.cartProductItemTR").css("background-color","#FFF8E1");
-                $(this).attr("src","img/site/cartSelected.png");
+                $(this).attr("selectit", "selectit");
+                $(this).parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
+                $(this).attr("src", "img/site/cartSelected.png");
             });
         }
         syncSelectAll();
@@ -268,8 +283,8 @@
         //获得当前的数量
         var num = $("input.cartProductItemAmount[pid=" + pid + "]").val();
         --num;
-        if(num<=0) num = 1;
-        calcSmallPrice(pid,price,num);
+        if (num <= 0) num = 1;
+        calcSmallPrice(pid, price, num);
     });
     $("a.increaseAmount").click(function () {
         var pid = $(this).attr("pid");
@@ -282,8 +297,8 @@
         //alert(stock);
         var num = $("input.cartProductItemAmount[pid=" + pid + "]").val();
         num++;
-        if(num>stock) num = stock;
-        calcSmallPrice(pid,price,num);
+        if (num > stock) num = stock;
+        calcSmallPrice(pid, price, num);
     });
 
     //直接对input进行赋值
@@ -296,42 +311,55 @@
         var stock = $("span.stock[pid=" + pid + "]").text();
         var num = $("input.cartProductItemAmount[pid=" + pid + "]").val();
         num = parseInt(num);
-        if(isNaN(num)){
+        if (isNaN(num)) {
             num = 1;
         }
-        if(num<=0) num = 1;
-        if(num>stock) num = stock;
+        if (num <= 0) num = 1;
+        if (num > stock) num = stock;
 
-        calcSmallPrice(pid,price,num);
+        calcSmallPrice(pid, price, num);
     })
 
 
-
-    /*============================mmp的假删除===================================================*/
+    /*===========ajax删除指定订单项====================*/
     //删除选中商品
     $("td.deleteCartProduct a").click(function () {
         var oiid = $(this).attr("oiid");
         var pid = $(this).attr("pid");
+        var now = $(this);
         //console.log(pid);
+        var page = "deleteCartItemByAjax.do";
+        $.get(
+            page,
+            {"orderItemId":oiid},
+            function (result) {
+                if("success"==result['msg']){
+//                    now.parents("tr.cartProductItemTR").remove();
+//                    syncSelectAll();
+//                    syncOderButton();
+//                    calcProductPriceAndNumber();
+                    //直接重新载入.....突出不了ajax局部加载的优势。。。
+                    location.reload();
+                }else{
+                    alert("删除出现未知错误！！");
+                }
+            }
+        )
 
-        $(this).parents("tr.cartProductItemTR").remove();
-        syncSelectAll();
-        syncOderButton();
-        calcProductPriceAndNumber();
     })
 
-    //删除选中商品(只有前台，没有后端的交互，所以是假的)
+    //删除勾选的商品(只有前台，没有后端的交互，所以是假的)这个以后进行完善
     $("a.deleteAllProduct").click(function () {
         var oiid = $(this).attr("oiid");
         //只要选中的就删除
         var selectAny = false;
         $("img.productIfSelect").each(function () {
-            if("selectit" == $(this).attr("selectit")) {
+            if ("selectit" == $(this).attr("selectit")) {
                 $(this).parents("tr.cartProductItemTR").remove();
                 selectAny = true;
             }
         });
-        if(!selectAny){
+        if (!selectAny) {
             alert("请选择宝贝");
         }
 
@@ -341,8 +369,22 @@
 
     });
 
+    //点击结算按钮时触发的事件
+    $("a.createOrderLink").click(function () {
+
+
+        //获取总价格
+        var totalPrice = new Number($("span.cartProductSumPrice").html().replace("￥",""));
+        if(0!=totalPrice.length){
+            location.href=$("a.createOrderLink").attr("href")+"?totalPrice="+totalPrice;
+        }
+        //return false;
+
+        return false;
+    });
+
+
 </script>
 
 
-
-<%@include file="../include/footer.jsp"%>
+<%@include file="../include/footer.jsp" %>

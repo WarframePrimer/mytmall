@@ -63,8 +63,8 @@
             <tr>
                 <th class="productListTableFirstColumn" colspan="2">
                     <img width="15px" src="img/site/orderItemTmall.png" alt="图片加载失败">
-                    <a href="#" class="marketLink"><span>店铺：天猫店铺</span></a>
-                    <a href="#"><span class="wangwangLink"></span></a>
+                    <a href="#nowhere" class="marketLink"><span>店铺：天猫店铺</span></a>
+                    <a href="#nowhere"><span class="wangwangLink"></span></a>
                 </th>
                 <th>单价</th>
                 <th>数量</th>
@@ -81,53 +81,42 @@
             </thead>
 
             <tbody class="productListTableTBody">
-            <tr class="orderItemTR">
-                <td class="orderItemFirstTD" width="60px">
-                    <img class="orderItemImg" src="img/site/productSingle_middle/3796.jpg" alt="图片加载失败" />
-                </td>
-                <td class="orderItemProductInfo">
-                    <a class="orderItemProductLink" href="#">购买商品的信息后台的信息传递通过JSON</a>
-                    <img src="img/site/7day.png" alt="图片加载失败" title="7天保障">
-                    <img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡">
-                    <img src="img/site/promise.png" alt="图片加载失败" title="7天保障">
-                </td>
+                <c:forEach items="${orderItemList}" var="orderItem" varStatus="st">
+                    <tr class="orderItemTR">
+                        <td class="orderItemFirstTD" width="60px">
+                            <a href="getProductDetail.do?pid=${orderItem['product']['id']}&cid=${orderItem['product']['category']['id']}"><img class="orderItemImg" src="<%=request.getContextPath()%>/img/productImage/${orderItem['product']['firstProductImage']['id']}.jpg" alt="图片加载失败" /></a>
+                        </td>
+                        <td class="orderItemProductInfo">
+                            <a class="orderItemProductLink" href="getProductDetail.do?pid=${orderItem['product']['id']}&cid=${orderItem['product']['category']['id']}">${orderItem['product']['name']}</a>
+                            <img src="img/site/7day.png" alt="图片加载失败" title="7天保障">
+                            <img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡">
+                            <img src="img/site/promise.png" alt="图片加载失败" title="7天保障">
+                        </td>
 
-                <td>
-                    <span class="orderItemProductPromotePrice">￥3514.05</span>
-                </td>
-                <td><span class="orderItemProductNumber">2</span></td>
-                <td><span class="orderItemProductSumPrice">￥7028.10</span></td>
+                        <td>
+                            <span class="orderItemProductPromotePrice"><fmt:formatNumber minFractionDigits="2" value="${orderItem['product']['promotePrice']}"/></span>
+                        </td>
+                        <td><span class="orderItemProductNumber">${orderItem.number}</span></td>
+                        <td><span class="orderItemProductSumPrice">
+                            <fmt:formatNumber value="${orderItem.number*orderItem.product.promotePrice}" minFractionDigits="2"/>
+                        </span></td>
 
-                <!--最后一列是订单中所有商品的配送是统一的所以rowspan=5-->
-                <td class="orderItemLastTD" rowspan="5">
-                    <label class="orderItemDeliveryLabel">
-                        <input type="radio" checked="checked" value="">
-                        普通配送
-                    </label>
-                    <!--使用select-->
-                    <select class="orderItemDeliverySelect">
-                        <option>快递 免邮费</option>
-                        <option>快递 不免邮费</option>
+                        <!--最后一列是订单中所有商品的配送是统一的所以rowspan=5-->
+                        <c:if test="${st.count==1}">
+                            <td rowspan="5"  class="orderItemLastTD">
+                                <label class="orderItemDeliveryLabel">
+                                    <input type="radio" value="" checked="checked">
+                                    普通配送
+                                </label>
 
-                    </select>
-                </td>
-            </tr>
-            <tr class="orderItemTR">
-                <td class="orderItemFirstTD">
-                    <img class="orderItemImg" src="img/site/productSingle_middle/3796.jpg" alt="图片加载失败" />
-                </td>
-                <td class="orderItemProductInfo">
-                    <a class="orderItemProductLink" href="#">购买商品的信息</a>
-                    <img src="img/site/7day.png" alt="图片加载失败" title="7天保障">
-                    <img src="img/site/creditcard.png" alt="图片加载失败" title="支持信用卡">
-                    <img src="img/site/promise.png" alt="图片加载失败" title="7天保障">
-                </td>
-                <td>
-                    <span class="orderItemProductPromotePrice">￥3514.05</span>
-                </td>
-                <td><span class="orderItemProductNumber">2</span></td>
-                <td><span class="orderItemProductSumPrice">￥7028.10</span></td>
-            </tr>
+                                <select class="orderItemDeliverySelect" class="form-control">
+                                    <option>快递 免邮费</option>
+                                </select>
+
+                            </td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 
@@ -146,7 +135,7 @@
                     </span>
             </div>
             <span class="pull-right">
-                    店铺合计(含运费):<span clsss="orderItemSumPrice">￥9152.25</span>
+                    店铺合计(含运费):<span clsss="orderItemSumPrice">￥<fmt:formatNumber value="${totalPrice}" minFractionDigits="2"/></span>
                 </span>
         </div>
 
@@ -155,17 +144,28 @@
     <div class="orderItemTotalSumDiv">
         <div class="pull-right">
             <span>实付款:</span>
-            <span class="orderItemTotalSumSpan">￥9152.25</span>
+            <span class="orderItemTotalSumSpan">
+                ￥<fmt:formatNumber value="${totalPrice}" minFractionDigits="2"/>
+            </span>
         </div>
     </div>
 
     <!--提交订单-->
     <div class="submitOrderDiv">
-        <button class="submitOrderButton" type="button">提交订单</button>
+        <a href="#nowhere" class="submitOrderLink"><button class="submitOrderButton" type="button">提交订单</button></a>
 
     </div>
 </div>
 
+
+<script>
+    $(function () {
+        //点击提交订单
+        $("a.submitOrderLink").click(function () {
+            alert("点击提交订单");
+        });
+    });
+</script>
 
 
 

@@ -89,7 +89,7 @@ a.marketLink:hover{
 
 span.wangwangLink{
     display: inline-block;
-    background-image: url("img/site/wangwang.gif");
+    background-image: url("../../img/site/wangwang.gif");
     width:25px;
     height: 25px;
     background-repeat: no-repeat;

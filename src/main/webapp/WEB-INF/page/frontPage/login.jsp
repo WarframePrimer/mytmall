@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<%@include file="../include/header.jsp"%>
+<%@include file="../include/header.jsp" %>
 
 
 <!--登录-->
@@ -22,10 +22,10 @@
 
     <!--登录的表单框-->
     <div class="loginFormDiv">
-        <form class="loginForm" action="<%=request.getContextPath()%>/loginUser.do" method="post">
+        <form class="loginForm" action="#" method="post">
             <!--错误消息的相关显示-->
             <div class="loginErrorMessageDiv">
-                <div class="alert alert-danger" >
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                     <span class="errorMessage"></span>
                 </div>
@@ -56,30 +56,40 @@
 <div class="loginBackground"></div>
 
 
-
 <!--交互-->
 <script>
     $(function () {
-        $("div.loginErrorMessageDiv").hide();
-
-        <c:if test="${!empty msg}">
-        $("span.errorMessage").html("${msg}");
-        $("div.loginErrorMessageDiv").show();
-        </c:if>
-
-
+        //$("div.loginErrorMessageDiv").hide();
 
         $("form.loginForm").submit(function () {
-            if(0==$("#name").val().length||0==$("#password").val().length){
+            var name = $("#name").val();
+            var password = $("#password").val();
+
+            if (0 == name.length || 0 == password.length) {
                 $("span.errorMessage").html("请输入账号密码");
                 $("div.loginErrorMessageDiv").show();
                 return false;
             }
-            return true;
+
+            var page = "loginAjax.do";
+            $.post(
+                page,{name:name,password:password},function (result) {
+                    if("success"==result['msg']){
+                        //重新加载页面
+                        location.href = "home.do";
+                    }else{
+                        $("span.errorMessage").html(result['msg']);
+                        $("div.loginErrorMessageDiv").show();
+
+                    }
+                }
+
+            )
+            return false;
         });
 
     })
 </script>
 
 
-<%@include file="../include/footer.jsp"%>
+<%@include file="../include/footer.jsp" %>

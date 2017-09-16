@@ -46,4 +46,9 @@ public interface OrderItemService {
 
     @Transactional
     int updateProductNumber(int pid,int uid,int productNum);
+
+    //点击立即购买后，添加订单项纪录
+    void createNewOrderItem(OrderItemCustom orderItemCustom);
+
+
 }
