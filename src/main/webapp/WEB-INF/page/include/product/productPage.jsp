@@ -278,8 +278,6 @@
             );
             return false;
         });
-
-
         $("a.addCartLink").click(function () {
             var page = "checkLogin.do";
             $.get(

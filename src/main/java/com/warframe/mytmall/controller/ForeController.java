@@ -411,6 +411,22 @@ public class ForeController {
         return modelAndView;
     }
 
+
+    @RequestMapping("updateOrderItemNumberByAjax.do")
+    @ResponseBody
+    public Map<String,String> updateOrderItemNumber(@RequestParam("oiid")int id,
+                                                    @RequestParam("number")int number){
+        Map<String,String> map = new HashMap<>(1);
+
+        orderItemService.updateProductNumber(id,number);
+
+        map.put("msg","success");
+
+        return map;
+    }
+
+
+
     //提交购物车的cartItem信息进行结算
     //对各订单项的最后数据进行确认，update各订单项
     // 之后进行提交订单的操作

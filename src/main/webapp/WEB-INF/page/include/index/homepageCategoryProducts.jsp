@@ -27,9 +27,9 @@
                         <img width="100px" src="<%=request.getContextPath()%>/img/productImage/${product.firstProductImage.id}.jpg" alt="图片加载失败">
                     </a>
                     <a href="getProductDetail.do?pid=${product.id}&cid=${category.id}" class="productItemDescLink"><span
-                            class="productItemDesc">${product.subTitle}</span>
+                            class="productItemDesc">${product.name}</span>
                     </a>
-                    <span class="productPrice">${product.originalPrice}</span>
+                    <span class="productPrice">￥${product.originalPrice}</span>
                 </div>
 
             </c:forEach>

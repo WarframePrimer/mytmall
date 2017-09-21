@@ -73,18 +73,19 @@
                                 <span class="promotePrice">￥${cartItem['product']['promotePrice']}</span>
                             </td>
                             <!--商品数量设置-->
+                            <!--商品数量设置中，每次只要进行商品数量的改变，数据库中的orderItem记录也要进行相应的update-->
                             <td>
                                 <div class="cartProductAmountSetting">
-                                    <!--取text值是为什么会连续取值两次？？？-->
-                                    <!--这些值需要从后台取-->
+
                                     <span class="cartProductPromotePrice hidden" oiid="${cartItem.id}"
                                           pid="${cartItem['product']['id']}">${cartItem['product']['promotePrice']}</span>
 
                                     <span class="stock hidden" oiid="${cartItem.id}"
                                           pid="${cartItem['product']['id']}">${cartItem['product']['stock']}</span>
-                                    <!------>
+                                    <!--具体对商品购买数量的设置-->
                                     <a href="#nowhere" class="decreaseAmount" pid="${cartItem['product']['id']}"
                                        oiid="${cartItem.id}">-</a>
+                                    <!--实时监听input中值的变化-->
                                     <input value="${cartItem.number}" class="cartProductItemAmount"
                                            pid="${cartItem['product']['id']}" oiid="${cartItem.id}">
                                     <a href="#nowhere" class="increaseAmount" pid="${cartItem['product']['id']}"
@@ -96,7 +97,8 @@
                                 <!--这里设置商品id和订单id是因为之后要将计算得到的小计价格传给这个span显示出来-->
                                 <span class="cartProductItemSmallSumPrice" pid="${cartItem['product']['id']}"
                                       oiid="${cartItem.id}">￥
-                                        <fmt:formatNumber minFractionDigits="2" value="${cartItem['product']['promotePrice']*cartItem.number}"/>
+                                        <fmt:formatNumber minFractionDigits="2"
+                                                          value="${cartItem['product']['promotePrice']*cartItem.number}"/>
                                 </span>
                             </td>
                             <!--删除操作-->
@@ -124,7 +126,9 @@
                 <div class="cartFootPrice pull-right">
                     <span>已选商品 <span class="cartProductSumNumber">0</span> 件</span>·
                     <span>合计(不含运费):<span class="cartProductSumPrice">0.00</span></span>
-                    <a href="balance.do" class="createOrderLink"><button class="createOrderButton" disabled="disabled">结算</button></a>
+                    <a href="balance.do" class="createOrderLink">
+                        <button class="createOrderButton" disabled="disabled">结算</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -285,6 +289,8 @@
         --num;
         if (num <= 0) num = 1;
         calcSmallPrice(pid, price, num);
+        //trigger使得指定元素进行指定的事件类型
+        $("input.cartProductItemAmount[pid=" + pid + "]").trigger("inputpropertychange");
     });
     $("a.increaseAmount").click(function () {
         var pid = $(this).attr("pid");
@@ -299,7 +305,10 @@
         num++;
         if (num > stock) num = stock;
         calcSmallPrice(pid, price, num);
+        //当使用+-对数量进行设置时触发input中的inputpropertychange事件
+        $("input.cartProductItemAmount[pid=" + pid + "]").trigger("inputpropertychange");
     });
+
 
     //直接对input进行赋值
     $("input.cartProductItemAmount").keyup(function () {
@@ -320,6 +329,51 @@
         calcSmallPrice(pid, price, num);
     })
 
+    //更新数据库中订单项中商品购买数量
+
+    function updateOrderItemNumber(oiid, number) {
+        var page = "updateOrderItemNumberByAjax.do";
+        $.post(
+            page,
+            {"oiid": oiid, "number": number},
+            function (result) {
+                if ("success" == result['msg']) {
+                    alert("更新成功！！");
+                } else {
+                    alert("更新数量时出现未知错误！");
+                }
+            }
+        );
+    }
+
+    //对input添加事件
+    $("input.cartProductItemAmount").bind('inputpropertychange', function () {
+        var number = $(this).val();
+        var oiid = $(this).attr("oiid");
+        console.log("nnumber:" + number);
+        console.log("oiid:" + oiid);
+        updateOrderItemNumber(oiid,number);
+    });
+
+
+    $("input.cartProductItemAmount").change(function () {
+        var number = $(this).val();
+        var oiid = $(this).attr("oiid");
+        console.log("nnumber:" + number);
+        console.log("oiid:" + oiid);
+        updateOrderItemNumber(oiid,number);
+    });
+
+    //    //input中内容发生变化是触发事件
+    //    //js改变input中的值怎么监听这个事件??
+    //
+    //    $("input.cartProductItemAmount").change(function () {
+    //        var oiid = $(this).attr("oiid");
+    //        //这里input中value取得是静态下的值，动态更新不会改变value的值
+    //        var number = $(this).val();
+    //        //alert(number);
+    //        updateOrderItemNumber(oiid,number);
+    //    })
 
     /*===========ajax删除指定订单项====================*/
     //删除选中商品
@@ -331,16 +385,16 @@
         var page = "deleteCartItemByAjax.do";
         $.get(
             page,
-            {"orderItemId":oiid},
+            {"orderItemId": oiid},
             function (result) {
-                if("success"==result['msg']){
+                if ("success" == result['msg']) {
 //                    now.parents("tr.cartProductItemTR").remove();
 //                    syncSelectAll();
 //                    syncOderButton();
 //                    calcProductPriceAndNumber();
                     //直接重新载入.....突出不了ajax局部加载的优势。。。
                     location.reload();
-                }else{
+                } else {
                     alert("删除出现未知错误！！");
                 }
             }
@@ -374,9 +428,9 @@
 
 
         //获取总价格
-        var totalPrice = new Number($("span.cartProductSumPrice").html().replace("￥",""));
-        if(0!=totalPrice.length){
-            location.href=$("a.createOrderLink").attr("href")+"?totalPrice="+totalPrice;
+        var totalPrice = new Number($("span.cartProductSumPrice").html().replace("￥", ""));
+        if (0 != totalPrice.length) {
+            location.href = $("a.createOrderLink").attr("href") + "?totalPrice=" + totalPrice;
         }
         //return false;
 

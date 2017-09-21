@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface OrderItemService {
 
-    OrderItem getOrderItemById(int id);
+    OrderItemCustom getOrderItemCustomById(int id);
 
     void addOrderItem(OrderItem orderItem);
 
@@ -46,6 +46,9 @@ public interface OrderItemService {
 
     @Transactional
     int updateProductNumber(int pid,int uid,int productNum);
+
+    @Transactional
+    void updateProductNumber(int id,int productNum);
 
     //点击立即购买后，添加订单项纪录
     void createNewOrderItem(OrderItemCustom orderItemCustom);

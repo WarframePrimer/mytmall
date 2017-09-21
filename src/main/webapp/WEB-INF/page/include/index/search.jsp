@@ -10,7 +10,7 @@
 <div>
     <img src="img/site/logo.gif" alt="图片加载失败" class="logo">
     <div class="searchDiv">
-        <input type="text" placeholder="搜索内容">
+        <input type="text" placeholder="时尚男鞋 太阳镜">
         <button type="submit">搜索</button>
         <div class="searchBelow">
             <a href="#">衬衫男</a><span>|</span>

@@ -23,6 +23,8 @@ import java.util.Map;
 
 /**
  * Created by warframe on 2017/6/20.
+ *
+ * 后端产品数据考虑使用java爬虫爬取相关数据
  */
 
 
@@ -48,9 +50,7 @@ public class CategoryController {
         page.setTotalRecords(categoryService.getTotalNumber());
 
         logger.info("pageNum:" + pageNum);
-
         List<Category> categories = categoryService.list(page.getStart(), page.getCount());
-
         modelAndView.addObject("categories", categories);
 
         //提供分页信息

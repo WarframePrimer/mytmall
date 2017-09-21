@@ -23,7 +23,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 
     @Override
-    public OrderItem getOrderItemById(int id) {
+    public OrderItemCustom getOrderItemCustomById(int id) {
         return orderItemDAO.getById(id);
     }
 
@@ -131,6 +131,15 @@ public class OrderItemServiceImpl implements OrderItemService {
         logger.info(getOrderItemCustomWithoutOidByProductIdAndProductId(pid, uid));
 
         return count;
+    }
+    //overload(参数类型，数量)
+    @Override
+    public void updateProductNumber(int id, int productNum) {
+        OrderItemCustom orderItemCustom = orderItemDAO.getById(id);
+        orderItemCustom.setNumber(productNum);
+        logger.info(orderItemCustom.toString());
+        //更新商品数量
+        updateProductNumberByOrderItemId(orderItemCustom);
     }
 
 

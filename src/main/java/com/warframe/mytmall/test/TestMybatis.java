@@ -206,4 +206,9 @@ public class TestMybatis {
 
     }
 
+    @Test
+    public void testUpdateProductNumber1(){
+        orderItemService.updateProductNumber(6,7);
+    }
+
 }

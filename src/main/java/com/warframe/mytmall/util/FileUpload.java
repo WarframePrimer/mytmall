@@ -31,6 +31,9 @@ public class FileUpload {
         logger.info("fileName:" + fileName);
         String extensionName = fileName.substring(fileName.indexOf("."));
         logger.info("扩展名:" + extensionName);
+        if(!extensionName.equals(".jpg")){
+            extensionName = ".jpg";
+        }
         //新文件名
         String newFileName = imageName + extensionName;
         //获取项目路径

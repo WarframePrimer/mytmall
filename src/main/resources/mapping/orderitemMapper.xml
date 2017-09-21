@@ -5,7 +5,7 @@
 
 <mapper namespace="com.warframe.mytmall.dao.OrderItemDAO">
 
-    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.OrderItem">
+    <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.OrderItemCustom">
         select * from orderitem WHERE id = #{id};
     </select>
 
