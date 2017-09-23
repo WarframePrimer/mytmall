@@ -4,16 +4,6 @@
 
 [个人简历](https://warframeprimer.github.io/)
 
-```
-/**
-* test
-*/
-public void static main(String[] args){
-  test();
-}
-```
-
-
 
 ![image text](https://raw.githubusercontent.com/WarframePrimer/mytmall/master/img-folder/index.jpg)
 ![image text](https://raw.githubusercontent.com/WarframePrimer/mytmall/master/img-folder/admin.jpg)
