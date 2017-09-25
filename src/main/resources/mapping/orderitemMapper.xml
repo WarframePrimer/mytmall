@@ -5,6 +5,14 @@
 
 <mapper namespace="com.warframe.mytmall.dao.OrderItemDAO">
 
+    <!--对于一对一，使用association
+        对于一对多，使用collection
+        mybatis中默认开启一级缓存
+    -->
+
+
+
+
     <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.OrderItemCustom">
         select * from orderitem WHERE id = #{id};
     </select>
@@ -62,4 +70,7 @@
         UPDATE orderitem SET number=#{number} WHERE id=#{id}
     </update>
 
+    <update id="updateOrderId" parameterType="com.warframe.mytmall.pojo.OrderItem">
+        UPDATE orderitem set oid=#{order.id} where id=#{id}
+    </update>
 </mapper>

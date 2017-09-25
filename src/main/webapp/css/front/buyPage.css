@@ -176,6 +176,8 @@ span.leaveMessageText{
     float: left;
 }
 
+
+
 /*实付款所在div*/
 div.orderItemTotalSumDiv{
     /*background-color: #c40000;*/
@@ -185,10 +187,11 @@ div.orderItemTotalSumDiv{
 
 div.submitOrderDiv{
     height: 40px;
-
     margin:20px 0px;
     /*background-color: #c40000;*/
+
 }
+
 
 div.orderItemTotalSumDiv span{
     color: #999999;
@@ -211,10 +214,17 @@ button.submitOrderButton{
     text-align: center;
     font-weight: 700;
     font-size:14px;
-    float:right;
+    float:right !important;
 
     display: inline-block;
     margin:0px 10px;
     width:180px;
     height: 40px;
 }
+a.backToCartLink{
+    display: inline-block;
+    margin-top: 20px;
+    margin-left:70%;
+}
+
+

@@ -155,5 +155,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
     }
 
+    @Override
+    public int updateOrderId(OrderItem orderItem) {
+        return orderItemDAO.updateOrderId(orderItem);
+    }
+
 
 }

@@ -13,7 +13,7 @@ div.cartTitlePrice span.cartProductSumPrice{
     margin-right: 5px;
     font-size:14px;
     font-weight: bold;
-    color:#FF4400;
+    color:#c40000;
 }
 
 div.cartTitlePrice button.createOrderButton{
@@ -61,7 +61,7 @@ div.cartProductLinkOutDiv a.cartProductLink{
     color: black;
 }
 div.cartProductLinkOutDiv a.cartProductLink:hover{
-    color:#FF4400;
+    color:#c40000;
 }
 
 tr.cartProductItemTR td span.originalPrice{
@@ -72,6 +72,7 @@ tr.cartProductItemTR td span.originalPrice{
 tr.cartProductItemTR td span.promotePrice{
     font-weight: bold;
     font-size:14px;
+    color: #c40000;
 }
 
 tr.cartProductItemTR div.cartProductAmountSetting{
@@ -95,7 +96,7 @@ tr.cartProductItemTR div.cartProductAmountSetting input.cartProductItemAmount{
 tr.cartProductItemTR span.cartProductItemSmallSumPrice{
     font-size:14px;
     font-weight: bold;
-    color: #FF4400;
+    color: #c40000;
     vertical-align: top;
 }
 
@@ -103,12 +104,12 @@ tr.cartProductItemTR td.deleteCartProduct a{
     color:black;
 }
 tr.cartProductItemTR td.deleteCartProduct a:hover{
-    color:#FF4400;
+    color:#c40000;
 }
 
 
 div.cartFoot{
-    background-color: #E5E5E5;
+    background-color: #E5E5E5 !important;
     margin-top:20px;
     line-height: 50px;
 }
@@ -127,14 +128,16 @@ div.cartFoot button.createOrderButton{
 div.cartFoot span{
     font-size: 14px;
 }
+
+
 div.cartFoot span.cartProductSumNumber{
     font-weight: bold;
-    color: #FF4400;
+    color: #c40000;
     font-size:16px;
 }
 div.cartFoot span.cartProductSumPrice{
     font-weight: bold;
-    color: #FF4400;
+    color: #c40000;
     font-size:16px;
     margin-left:5px;
     margin-right:5px;
@@ -153,5 +156,5 @@ div.cartFoot a.deleteAllProduct{
     margin-left:20px;
 }
 div.cartFoot a.deleteAllProduct:hover{
-    color:#FF4400;
+    color:#c40000;
 }

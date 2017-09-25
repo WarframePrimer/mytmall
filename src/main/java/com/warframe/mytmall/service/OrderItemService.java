@@ -53,5 +53,7 @@ public interface OrderItemService {
     //点击立即购买后，添加订单项纪录
     void createNewOrderItem(OrderItemCustom orderItemCustom);
 
+    int updateOrderId(OrderItem orderItem);
+
 
 }

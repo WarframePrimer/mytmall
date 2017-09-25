@@ -20,67 +20,70 @@
         <!--样式清除-->
         <div style="clear: both"></div>
     </div>
-    <!--收货地址div-->
-    <div class="address">
-        <div class="addressTip">输入收货地址</div>
-        <div>
-            <!--4行2列-->
-            <table class="addressTable">
-                <tbody>
-                <tr>
-                    <td class="firstColumn">详细地址<span class="redStar">*</span></td>
-                    <td>
-                        <textarea placeholder="建议您填写详细收货地址,例如街道名称,门牌号码,楼层和房间号等信息" name="address"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>邮政编码</td>
-                    <td><input type="text" name="post" placeholder="如果您不清楚邮递区号，请填写000000"></td>
-                </tr>
-                <tr>
-                    <td>收货人姓名<span class="redStar">*</span></td>
-                    <td><input type="text" name="receiver" placeholder="长度不超过25个字符"></td>
-                </tr>
-                <tr>
-                    <td>手机号码<span class="redStar">*</span></td>
-                    <td><input type="text" name="mobile" placeholder="请输入11位手机号码"></td>
-                </tr>
 
-                </tbody>
+    <!--提交表单要进行的表单信息填写-->
+    <form id="orderCommitForm" action="payOrder.do" method="post">
+        <!--收货地址div-->
+        <div class="address">
+            <div class="addressTip">输入收货地址</div>
+            <div>
+                <!--4行2列-->
+                <table class="addressTable">
+                    <tbody>
+                    <tr>
+                        <td class="firstColumn">详细地址<span class="redStar">*</span></td>
+                        <td>
+                            <textarea id="address" placeholder="建议您填写详细收货地址,例如街道名称,门牌号码,楼层和房间号等信息" name="address"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮政编码</td>
+                        <td><input id="post" type="text" name="post" placeholder="如果您不清楚邮递区号，请填写000000"></td>
+                    </tr>
+                    <tr>
+                        <td>收货人姓名<span class="redStar">*</span></td>
+                        <td><input id="receiver" type="text" name="receiver" placeholder="长度不超过25个字符"></td>
+                    </tr>
+                    <tr>
+                        <td>手机号码<span class="redStar">*</span></td>
+                        <td><input id="mobile" type="text" name="mobile" placeholder="请输入11位手机号码"></td>
+                    </tr>
 
-            </table>
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
-    </div>
+        <!--购买商品列表-->
+        <div class="productList">
+            <div class="productListTitle">确认订单信息</div>
+            <!--结算页面只有当前的一个订单所以只会有一个表-->
+            <table class="productListTable">
+                <thead>
+                <tr>
+                    <th class="productListTableFirstColumn" colspan="2">
+                        <img width="15px" src="img/site/orderItemTmall.png" alt="图片加载失败">
+                        <a href="#nowhere" class="marketLink"><span>店铺：天猫店铺</span></a>
+                        <a href="#nowhere"><span class="wangwangLink"></span></a>
+                    </th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>配送方式</th>
+                </tr>
+                <tr class="rowBoder">
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </thead>
 
-    <!--购买商品列表-->
-    <div class="productList">
-        <div class="productListTitle">确认订单信息</div>
-        <!--结算页面只有当前的一个订单所以只会有一个表-->
-        <table class="productListTable">
-            <thead>
-            <tr>
-                <th class="productListTableFirstColumn" colspan="2">
-                    <img width="15px" src="img/site/orderItemTmall.png" alt="图片加载失败">
-                    <a href="#nowhere" class="marketLink"><span>店铺：天猫店铺</span></a>
-                    <a href="#nowhere"><span class="wangwangLink"></span></a>
-                </th>
-                <th>单价</th>
-                <th>数量</th>
-                <th>小计</th>
-                <th>配送方式</th>
-            </tr>
-            <tr class="rowBoder">
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </thead>
-
-            <tbody class="productListTableTBody">
+                <tbody class="productListTableTBody">
                 <c:forEach items="${orderItemList}" var="orderItem" varStatus="st">
                     <tr class="orderItemTR">
                         <td class="orderItemFirstTD" width="60px">
@@ -117,52 +120,74 @@
                         </c:if>
                     </tr>
                 </c:forEach>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
-        <!--订单总计-->
-        <div class="orderItemSumDiv">
-            <div class="pull-left">
-                <span class="leaveMessageText">给卖家留言:</span>
-                <span>
+            <!--订单总计-->
+            <div class="orderItemSumDiv">
+                <div class="pull-left">
+                    <span class="leaveMessageText">给卖家留言:</span>
+                    <span>
                         <img src="img/site/leaveMessage.png" alt="图片加载失败" class="leaveMessageImg">
                     </span>
-                <span class="leaveMessageTextareaSpan" style="display: none">
+                    <span class="leaveMessageTextareaSpan" style="display: none">
                         <textarea class="leaveMessageTextarea" name="userMessage"></textarea>
                         <div style="margin-left:70px;">
                             <span>还可以输入200个字符</span>
                         </div>
                     </span>
-            </div>
-            <span class="pull-right">
+                </div>
+                <span class="pull-right">
                     店铺合计(含运费):<span clsss="orderItemSumPrice">￥<fmt:formatNumber value="${totalPrice}" minFractionDigits="2"/></span>
                 </span>
+            </div>
+
         </div>
 
-    </div>
-
-    <div class="orderItemTotalSumDiv">
-        <div class="pull-right">
-            <span>实付款:</span>
-            <span class="orderItemTotalSumSpan">
+        <div class="orderItemTotalSumDiv">
+            <div class="pull-right">
+                <span>实付款:</span>
+                <span class="orderItemTotalSumSpan">
                 ￥<fmt:formatNumber value="${totalPrice}" minFractionDigits="2"/>
             </span>
+            </div>
         </div>
-    </div>
 
-    <!--提交订单-->
-    <div class="submitOrderDiv">
-        <a href="#nowhere" class="submitOrderLink"><button class="submitOrderButton" type="button">提交订单</button></a>
+        <!--提交订单-->
+        <div class="submitOrderDiv">
+            <a href="https://www.github.com/warframeprimer" class="backToCartLink">返回购物车</a>
+            <a href="#nowhere" class="submitOrderLink"><button class="submitOrderButton" type="button">提交订单</button></a>
+        </div>
+    </form>
 
-    </div>
 </div>
-
 
 <script>
     $(function () {
+        //TODO
+        $("img.leaveMessageImg").click(function () {
+            $(this).css("display","none");
+            $("span.leaveMessageTextareaSpan").css("display","inline-block");
+        })
+
+
         //点击提交订单
+
         $("a.submitOrderLink").click(function () {
-            alert("点击提交订单");
+            //点击提交订单是进行表单验证
+            var address = $("#address").val();
+            var post = $("#post").val();
+            var receiver = $("#receiver").val();
+            var mobile = $("#mobile").val();
+            //alert(address+post+receiver+mobile);
+            /*表单验证错误先简单写写，这不是重点*/
+            if(0==address.length||0==post.length||0==receiver.length||0==mobile.length){
+                alert("所填信息都不能为空！！！");
+            }else{
+                $("#orderCommitForm").submit();
+            }
+
+
         });
     });
 </script>

@@ -3,27 +3,23 @@ package com.warframe.mytmall.controller;
 
 import com.warframe.mytmall.pojo.*;
 import com.warframe.mytmall.service.*;
+import com.warframe.mytmall.util.FormatUtil;
 import com.warframe.mytmall.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -40,6 +36,7 @@ public class ForeController {
 
     @Resource
     private UserService userService;
+
 
     @Resource
     private CategoryService categoryService;
@@ -322,9 +319,6 @@ public class ForeController {
     }
 
 
-
-
-
     @RequestMapping(value = "deleteCartItemByAjax.do", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> deleteCartItem(@RequestParam("orderItemId") int oiid, HttpServletRequest request) {
@@ -405,53 +399,117 @@ public class ForeController {
         //计算总价格
         totalPrice = orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
 
-        modelAndView.addObject("orderItemList", orderItemList);
-        modelAndView.addObject("totalPrice", totalPrice);
-
+        //后续要生成订单，直接将orderitem(这里的orderitem是没有存到数据库中的)和交易金额保存到session中
+        request.getSession(false).setAttribute("orderItemList", orderItemList);
+        request.getSession(false).setAttribute("totalPrice", totalPrice);
         return modelAndView;
     }
 
 
+    /**
+     * 使用ajax对商品购买个数进行设置
+     *
+     * @param id
+     * @param number
+     * @return
+     */
     @RequestMapping("updateOrderItemNumberByAjax.do")
     @ResponseBody
-    public Map<String,String> updateOrderItemNumber(@RequestParam("oiid")int id,
-                                                    @RequestParam("number")int number){
-        Map<String,String> map = new HashMap<>(1);
+    public Map<String, String> updateOrderItemNumber(@RequestParam("oiid") int id,
+                                                     @RequestParam("number") int number) {
+        Map<String, String> map = new HashMap<>(1);
 
-        orderItemService.updateProductNumber(id,number);
+        orderItemService.updateProductNumber(id, number);
 
-        map.put("msg","success");
+        map.put("msg", "success");
 
         return map;
     }
 
 
-
     //提交购物车的cartItem信息进行结算
-    //对各订单项的最后数据进行确认，update各订单项
-    // 之后进行提交订单的操作
+    //要进行操作的是选中的购物车选项
     //结算的英文单词：balance
+    //缺陷：价格不应该在参数中出现，这样就可以进行随意修改了，有很大的隐患
     @RequestMapping("balance.do")
-    public ModelAndView balance(@RequestParam(value = "totalPrice",required = true)float Price,
-                                HttpServletRequest request){
+    public ModelAndView balance(@RequestParam("oiid") List<Integer> oiids,
+                                HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("frontPage/confirmOrder");
-        User user = getLoginUser(request);
-        List<OrderItem> orderItemList = getCartItemList(request);
-        float totalPrice = Price;
 
-        modelAndView.addObject("orderItemList", orderItemList);
-        modelAndView.addObject("totalPrice", totalPrice);
+        List<OrderItem> orderItemList = new ArrayList<>();
+        float totalPrice = 0;
 
+        OrderItem orderItem;
+        for (Integer oiid : oiids) {
+            orderItem = fillOrderItem(orderItemService.getOrderItemCustomById(oiid));
+            totalPrice += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
+            orderItemList.add(orderItem);
+
+        }
+
+
+        //这里考虑将最后要提交的订单项保存到session中，后续的生成订单就可以直接从session中取
+        httpSession.setAttribute("orderItemList", orderItemList);
+        httpSession.setAttribute("totalPrice", totalPrice);
         return modelAndView;
     }
 
 
-
-
     //点击提交订单
-    @RequestMapping("confirmOrder.do")
-    public ModelAndView confirmOrder(){
-        return null;
+
+    /**
+     * 点击提交订单后，之前在结算和立即购买中已经将要提交的订单项添加到session中了
+     * 可以直接从session中获取订单项
+     * 之后进行新增订单操作，映射相关信息
+     *
+     * @param httpSession 这里面保存了要提交的订单项和交易的金额
+     * @return
+     */
+    @RequestMapping("payOrder.do")
+    public ModelAndView confirmOrder(@RequestParam("address") String address,
+                                     @RequestParam("post") String post,
+                                     @RequestParam("receiver") String receiver,
+                                     @RequestParam("mobile") String mobile,
+                                     @RequestParam(value = "userMessage", defaultValue = " ") String userMessage,
+                                     HttpServletRequest request) {
+
+        ModelAndView modelAndView = new ModelAndView("frontPage/payPage");
+        address = StringUtil.toUTF(address);
+        receiver = StringUtil.toUTF(receiver);
+        userMessage = StringUtil.toUTF(userMessage);
+//        logger.info(address + post + receiver + mobile + userMessage);
+        User user = getLoginUser(request);
+        logger.info(user);
+        //TODO这个转型存在问题
+        List<OrderItem> orderItemList = (List<OrderItem>) request.getSession(false).getAttribute("orderItemList");
+        logger.info("orderItemList："+orderItemList.size());
+        float totalPrice = (Float) request.getSession(false).getAttribute("totalPrice");
+        int totalNumber = 0;
+        for (OrderItem orderItem : orderItemList) {
+            totalNumber += orderItem.getNumber();
+        }
+
+        //一旦点击提交订单，无论支付与否都会update进order数据表，并且从购物车中移除，对于未支付的的订单，status为waitPay
+
+        Order order = new Order();
+        order.setAddress(address);
+        order.setMobile(mobile);
+        order.setPost(post);
+        order.setReceiver(receiver);
+        order.setUserMessage(userMessage);
+        order.setUser(user);
+        order.setCreateDate(new Date());
+        order.setTotalPrice(totalPrice);
+        order.setTotalNumber(totalNumber);
+        order.setOrderItems(orderItemList);
+        order.setOrderCode(FormatUtil.createOrderCode(user));
+        order.setStatus("waitPay");
+
+        orderService.createOrder(order);
+        //重新刷新购物车数量
+        sessionSetUserAndCartItemNumber(request,user.getName());
+
+        return modelAndView;
     }
 
 
@@ -533,7 +591,7 @@ public class ForeController {
 
 
     //简单购物车信息id,uid,pid,oid等等
-    private List<OrderItemCustom> getSimpleCartItemList(HttpServletRequest request){
+    private List<OrderItemCustom> getSimpleCartItemList(HttpServletRequest request) {
         List<OrderItemCustom> simpleCartItemList = new ArrayList<>();
         User user = getLoginUser(request);
         if (null != user) {

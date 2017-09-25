@@ -45,6 +45,8 @@ public interface OrderItemDAO extends BaseDAO {
     OrderItemCustom getOrderItemCustomWithOutOidByProductIdAndUserId(@Param("pid") int pid,@Param("uid") int uid);
 
     int updateProductNumberByOrderItemId(OrderItemCustom orderItem);
+
+    int updateOrderId(OrderItem orderItem);
 }
 
 

@@ -256,7 +256,6 @@
                 function (result) {
                     if ("success" == result['msg']) {
                         //表示登陆,继续下一步操作，立即购买
-                        //TODO
                         /**
                          * 实现步骤：(登录的前提下)
                          * 点击立即购买按钮之后

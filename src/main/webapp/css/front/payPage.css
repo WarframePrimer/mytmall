@@ -1,0 +1,34 @@
+/*=================支付页面的样式=======================*/
+div.aliPayPageDiv{
+    max-width: 1013px;
+    margin:20px auto;
+}
+
+/*div.aliPayPageDiv div:nth-child(2),div:nth-child(3),div:nth-child(4){*/
+    /*text-align: center;*/
+/*}*/
+div.aliPayPageDivTextCenter{
+    text-align: center;
+}
+
+
+div.aliPayPageDiv div:nth-child(2) span{
+    display: block;
+}
+span.confirmMoney{
+    margin:10px;
+    font-size:20px;
+    font-weight: bold;
+    color:#FF4400;
+}
+
+button.confirmPay{
+    margin:20px;
+    width:107px;
+    height: 35px;
+    border:1px solid #00aaee;
+    background-color: #00aaee;
+    color:white;
+    font-weight: bold;
+    font-size:14px;
+}

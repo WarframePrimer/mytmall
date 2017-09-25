@@ -1,6 +1,7 @@
 package com.warframe.mytmall.service;
 
 import com.warframe.mytmall.pojo.Order;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,4 +22,8 @@ public interface OrderService {
     //void updateUser(Order order);
 
     List<Order> list(int start, int count);
+
+    @Transactional
+    void createOrder(Order order);
+
 }

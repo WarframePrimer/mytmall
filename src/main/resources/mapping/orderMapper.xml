@@ -9,9 +9,9 @@
         select * from `order` WHERE id = #{id};
     </select>
 
-    <insert id="add" parameterType="com.warframe.mytmall.pojo.Order">
+    <insert id="add" parameterType="com.warframe.mytmall.pojo.Order" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `order`(id,uid,orderCode,address,post,receiver,mobile,userMessage,createDate,payDate,deliveryDate,confirmDate,status) VALUES
-        (#{id},#{uid},#{orderCode},#{address},#{post},#{reveiver},#{mobile},#{userMessage},#{createDate},#{payDate},#{deliveryDate},#{confirmDate},#{status})
+        (#{id},#{user.id},#{orderCode},#{address},#{post},#{receiver},#{mobile},#{userMessage},#{createDate},#{payDate},#{deliveryDate},#{confirmDate},#{status})
     </insert>
 
     <select id="listAll" resultType="com.warframe.mytmall.pojo.Order">

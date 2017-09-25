@@ -30,7 +30,7 @@
                     <!--列名信息-->
                     <thead>
                     <th class="selectAll"><img class="selectAllProduct" src="img/site/cartNotSelected.png"
-                                               selectit="false" oiid="1"/>全选
+                                               selectit="false"/>全选
                     </th>
                     <th>商品信息</th>
                     <th>单价</th>
@@ -55,7 +55,7 @@
                             <td>
                                 <div class="cartProductLinkOutDiv">
                                     <a href="getProductDetail.do?pid=${cartItem['product']['id']}&cid=${cartItem['product']['category']['id']}"
-                                       class="cartProductLink">${cartItem['product']['name']}</a>
+                                       class="cartProductLink" target="_blank">${cartItem['product']['name']}</a>
                                     <!--商品信息下方的承诺-->
                                     <div class="cartProductLinkInnerDiv">
                                         <a href="#nowhere"><img src="img/site/creditcard.png" alt="图片加载失败"
@@ -119,6 +119,7 @@
 
             <!--购物车下方的结算-->
             <div class="cartFoot">
+
                 <img src="img/site/cartNotSelected.png" alt="图片加载失败" class="selectAllProduct" selectit="false"
                      oiid="${cartItem.id}">
                 <span>全选</span>
@@ -158,7 +159,7 @@
         /*只要有任意商品被选中，就将结算按钮激活*/
         if (selectProduct) {
             $("button.createOrderButton").removeAttr("disabled");
-            $("button.createOrderButton").css("background-color", "#FF4400");
+            $("button.createOrderButton").css("background-color", "rgb(196, 0, 0)");
         } else {
             $("button.createOrderButton").attr("disabled", "disabled");
             $("button.createOrderButton").css("background-color", "#B0B0B0");
@@ -352,7 +353,7 @@
         var oiid = $(this).attr("oiid");
         console.log("nnumber:" + number);
         console.log("oiid:" + oiid);
-        updateOrderItemNumber(oiid,number);
+        updateOrderItemNumber(oiid, number);
     });
 
 
@@ -361,7 +362,7 @@
         var oiid = $(this).attr("oiid");
         console.log("nnumber:" + number);
         console.log("oiid:" + oiid);
-        updateOrderItemNumber(oiid,number);
+        updateOrderItemNumber(oiid, number);
     });
 
     //    //input中内容发生变化是触发事件
@@ -425,16 +426,23 @@
 
     //点击结算按钮时触发的事件
     $("a.createOrderLink").click(function () {
-
-
+        var param = "?";
         //获取总价格
-        var totalPrice = new Number($("span.cartProductSumPrice").html().replace("￥", ""));
-        if (0 != totalPrice.length) {
-            location.href = $("a.createOrderLink").attr("href") + "?totalPrice=" + totalPrice;
-        }
-        //return false;
+        $("img.productIfSelect").each(function () {
+            if ("selectit" == $(this).attr("selectit")) {
+                var oiid = $(this).attr("oiid");
+                param += "&oiid=" + oiid;
+            }
+        })
+
+        param = param.substring(0,1)+param.substring(2,param.length);
+
+        location.href = $("a.createOrderLink").attr("href") + param;
+
+        //alert(param);
 
         return false;
+
     });
 
 
