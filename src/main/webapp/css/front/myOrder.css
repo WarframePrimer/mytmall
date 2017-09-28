@@ -67,7 +67,7 @@ table.orderListItemTable tr.orderListItemFirstTR{
 }
 
 div.orderItemWangWangGif{
-    background-image: url("img/site/wangwang.gif");
+    background-image: url("../../img/site/wangwang.gif");
     width:67px;
     height: 22px;
 }
