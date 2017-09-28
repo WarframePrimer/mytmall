@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.Serializers;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,4 +36,7 @@ public interface OrderDAO extends BaseDAO {
     int getTotalNumber();
 
     List<Order> getOrdersByUserId(int uid);
+
+    void updateOrder(Order order);
+
 }

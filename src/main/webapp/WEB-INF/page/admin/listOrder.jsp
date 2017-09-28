@@ -38,7 +38,7 @@
                 <td>${order.statusDesc}</td>
                 <td>${order.totalPrice}</td>
                 <td>${order.totalNumber}</td>
-                <td>${order.receiver}</td>
+                <td>${order.user.name}</td>
                 <td><fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td><fmt:formatDate value="${order.payDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td><fmt:formatDate value="${order.deliveryDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

@@ -12,34 +12,39 @@
 
     <div class="aliPayPageDiv">
         <div class="payLogo">
-            <img src="img/site/simpleLogo.png" alt="图片加载失败" class="pull-left">
+            <img src="<%=request.getContextPath()%>/img/site/simpleLogo.png" alt="图片加载失败" class="pull-left">
             <div style="clear:both;"></div>
         </div>
 
         <div class="aliPayPageDivTextCenter">
             <span class="confirmMoneyText">扫一扫付款(元)</span>
             <span class="confirmMoney">
-                ￥<fmt:formatNumber minFractionDigits="2" value="${totalPrice}"/>
+                ￥<fmt:formatNumber minFractionDigits="2" value="${order.totalPrice}"/>
             </span>
         </div>
         <!--二维码-->
         <div class="aliPayPageDivTextCenter">
-            <img class="aliPay" src="img/site/alipay2wei.png" alt="图片加载失败">
+            <img class="aliPay" src="<%=request.getContextPath()%>/img/site/alipay2wei.png" alt="图片加载失败">
         </div>
         <div class="aliPayPageDivTextCenter">
-            <a href="#"><button class="confirmPay">确认支付</button></a>
+            <!--点击确认支付以后将order中的orderStatus设为'waitDelivery'(待发货)-->
+            <a href="payComplete.do?oid=${order.id}"><button class="confirmPay">确认支付</button></a>
         </div>
 
 
     </div>
 
     <script language="javascript">
-        //防止页面后退,避免出现误操作
-        //暂时没有找到点击上一步失效并且是刷新当前页面的js操作
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', function () {
+        $(function () {
+            //防止页面后退,避免出现误操作
+            //暂时没有找到点击上一步失效并且是刷新当前页面的js操作
             history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', function () {
+                history.pushState(null, null, document.URL);
+            });
+
         });
+
     </script>
 
 

@@ -28,4 +28,6 @@ public interface OrderService {
 
     List<Order> getOrdersByUserId(int uid);
 
+
+    void updateOrder(Order order);
 }

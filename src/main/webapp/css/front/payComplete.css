@@ -1,0 +1,47 @@
+div.payedDiv{
+    max-width:1013px;
+    margin:20px auto;
+    border:1px solid #d4d4d4;
+}
+
+div.payMessage{
+    background-color: #ECFFDC;
+    padding:15px 25px;
+}
+div.payMessage span.payMessageText{
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 14px;
+}
+div.payedDetail{
+    padding:20px 40px;
+}
+
+ul.payedDetailList li{
+    margin:10px 0;
+}
+span.payMoney{
+    color:#c40000;
+    font-weight: bold;
+    font-size:14px;
+}
+
+span.forMoreDetail{
+    display: inline-block;
+    margin-left:25px;
+}
+
+div.borderLine{
+    border-top:1px dotted #d4d4d4;
+    margin:0px 40px;
+}
+
+div.securityRemind{
+    margin:25px 40px;
+}
+
+div.securityRemind span.redFont{
+    color:#c40000;
+    font-weight: bold;
+}

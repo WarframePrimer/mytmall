@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -470,21 +471,54 @@ public class ForeController {
         order.setOrderItems(orderItemList);
         order.setOrderCode(FormatUtil.createOrderCode(user));
         order.setStatus("waitPay");
-
+        //生成订单
         orderService.createOrder(order);
+
         //重新刷新购物车数量
         sessionSetUserAndCartItemNumber(request, user.getName());
+        modelAndView.addObject("order",order);
 
         return modelAndView;
     }
 
+    //点击付款之后跳转到payPage进行支付
     @RequestMapping("payOrderConfirm.do")
-    public ModelAndView payOrderConfirm(@RequestParam("oid")int oid){
+    public ModelAndView payOrderConfirm(@RequestParam("oid")int oid,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("frontPage/payPage");
+        User user = getLoginUser(request);
         Order order = orderService.getOrderById(oid);
+        order = FillUtil.fillOrder(order,user,orderService,productService,
+                userService,productImageService,categoryService,reviewService,orderItemService);
 
+        modelAndView.addObject("order",order);
 
+        return modelAndView;
+    }
 
+    /**
+     * 完成支付
+     * 更新orderStatus为waitDelivery
+     * @param oid
+     * @param request
+     * @return
+     */
+    @RequestMapping("payComplete.do")
+    public ModelAndView payComplete(@RequestParam("oid")int oid,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("frontPage/payComplete");
+        User user = getLoginUser(request);
+
+        Order order = orderService.getOrderById(oid);
+        order.setPayDate(new Date());
+        order.setStatus("waitDelivery");
+
+        logger.info("order:"+order);
+        orderService.updateOrder(order);
+        logger.info("order修改成功!!");
+
+        order = FillUtil.fillOrder(order,user,orderService,productService,
+                userService,productImageService,categoryService,reviewService,orderItemService);
+
+        modelAndView.addObject("order",order);
         return modelAndView;
     }
 

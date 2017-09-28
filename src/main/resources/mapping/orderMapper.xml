@@ -53,7 +53,21 @@
         SELECT COUNT(*) FROM `order`
     </select>
 
-    <!--订单的修改？？-->
+
+    <!--动态实现对order数据表的更新-->
+    <update id="updateOrder" parameterType="com.warframe.mytmall.pojo.Order">
+        UPDATE `order`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="address!=null">address=#{address},</if>
+            <if test="userMessage!=null">userMessage=#{userMessage},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="createDate!=null">createDate=#{createDate},</if>
+            <if test="payDate!=null">payDate=#{payDate},</if>
+            <if test="deliveryDate!=null">deliveryDate=#{deliveryDate},</if>
+            <if test="confirmDate!=null">confirmDate=#{confirmDate},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
 
 
     <delete id="delete" parameterType="int">

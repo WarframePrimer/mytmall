@@ -29,6 +29,7 @@
     <link href="<%=request.getContextPath()%>/css/front/cartItem.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/payPage.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/myOrder.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/css/front/payComplete.css" rel="stylesheet"/>
 
 
     <!--添加一些必要的js交互-->

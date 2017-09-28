@@ -151,3 +151,12 @@ tr.orderListItemDetailTR td:first-child,tr.orderListItemDetailTR td:last-child{
 td.orderListItemDetailTD{
     border-right:1px solid #e8e8e8;
 }
+
+
+/*没有符合条件的订单*/
+div.orderIsNull{
+    height: 300px;
+    text-align: center;
+    padding-top: 100px;
+
+}
