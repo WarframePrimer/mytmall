@@ -1,0 +1,153 @@
+div.orderDiv{
+    max-width:1013px;
+    margin:20px auto;
+}
+
+
+div.orderType div{
+    border-bottom: 2px solid #e8e8e8;
+    float: left;
+}
+
+div.orderType a{
+    text-decoration: none;
+    font-size:16px;
+    font-weight: bold;
+    color:#3c3c3c;
+    display: inline-block;
+    padding:0px 20px;
+    border-right:1px solid #e8e8e8;
+
+    margin-bottom:10px;
+}
+div.orderType a:hover{
+    color: #c40000;
+    text-decoration: none;
+}
+div.orderType a.noRightBorder{
+    border-right: none;
+}
+
+div.orderTypeSelected{
+    border-bottom:2px solid #c40000 !important;
+
+}
+div.orderTypeSelected a{
+    color: #c40000;
+}
+
+
+div.orderTypeLastOne{
+    overflow: hidden;
+    float:none !important;
+    height:34px;
+}
+
+
+table.orderTitleTable{
+    margin:20px 0;
+    background-color: #F5f5f5;
+    width: 100%;
+    text-align: center;
+    line-height:40px;
+}
+table.orderListItemTable{
+    width:100%;
+    border:1px solid #e8e8e8;
+    margin:20px 0;
+}
+table.orderListItemTable:hover{
+    border:1px solid #999999;
+}
+table.orderListItemTable td{
+    padding:8px 10px;
+}
+table.orderListItemTable tr.orderListItemFirstTR{
+    background-color: #f1f1f1;
+}
+
+div.orderItemWangWangGif{
+    background-image: url("img/site/wangwang.gif");
+    width:67px;
+    height: 22px;
+}
+td.orderItemDeleteTD{
+    text-align: right;
+}
+td.orderItemDeleteTD span{
+    display: inline-block;
+    color:#999;
+    font-size: 16px;
+    margin:0px 10px;
+}
+
+div.orderListItemDetailLinkOutDiv{
+    height:80px;
+    position: relative;
+}
+div.orderListItemDetailLinkOutDiv a{
+    position: absolute;
+    top:10px;
+}
+div.orderListItemDetailLinkInnerDiv{
+    position: absolute;
+    bottom:10px;
+}
+td.orderListItemDetailOriginalAndPromotePrice div.orderListItemDetailOriginalPrice{
+    color:#999;
+    font-size:14px;
+}
+td.orderListItemDetailOriginalAndPromotePrice div.orderListItemDetailPromotePrice{
+    color:#3c3c3c;
+    font-size:14px;
+}
+td.orderListItemDetailNumberTD{
+    text-align: center;
+}
+td.orderListItemDetailPriceTD{
+    text-align: center;
+}
+td.orderListItemDetailPriceTD div.orderListItemDetailRealPrice{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+a{
+    color:#999;
+    text-decoration: none;
+}
+a:hover{
+    color:#c40000;
+    text-decoration: none;
+}
+/*按钮属性*/
+td.orderListItemDetailReviewTD{
+    text-align: center;
+}
+td.orderListItemDetailReviewTD button.orderListItemReviewBtn{
+    border-radius: 2px;
+    color: #3c3c3c;
+    background-color: white;
+    border:1px solid #e8e8e8;
+    padding:5px 15px;
+}
+td.orderListItemDetailReviewTD button.orderListItemConfirmBtn{
+    border-radius: 2px;
+    color: white;
+    background-color: deepskyblue;
+    border:1px solid #e8e8e8;
+    padding:5px 15px;
+
+}
+
+td.orderListItemDetailReviewTD button.orderListItemReviewBtn:hover{
+    color: #c40000;
+    border-color: #c40000;
+}
+tr.orderListItemDetailTR td:first-child,tr.orderListItemDetailTR td:last-child{
+    border-right:none;
+}
+
+td.orderListItemDetailTD{
+    border-right:1px solid #e8e8e8;
+}

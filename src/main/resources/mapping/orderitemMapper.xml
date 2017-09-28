@@ -73,4 +73,8 @@
     <update id="updateOrderId" parameterType="com.warframe.mytmall.pojo.OrderItem">
         UPDATE orderitem set oid=#{order.id} where id=#{id}
     </update>
+
+    <select id="getOrderItemCustomByOrderId" parameterType="int" resultType="com.warframe.mytmall.pojo.OrderItemCustom">
+        SELECT * from orderitem where oid=#{oid}
+    </select>
 </mapper>

@@ -3,12 +3,12 @@ package com.warframe.mytmall.controller;
 
 import com.warframe.mytmall.pojo.*;
 import com.warframe.mytmall.service.*;
+import com.warframe.mytmall.util.FillUtil;
 import com.warframe.mytmall.util.FormatUtil;
 import com.warframe.mytmall.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -31,7 +31,6 @@ import java.util.*;
 
 @Controller
 public class ForeController {
-
     private static Logger logger = Logger.getLogger(ForeController.class);
 
     @Resource
@@ -56,6 +55,7 @@ public class ForeController {
 
     @Resource
     private OrderService orderService;
+
 
     //实现登录注册
 
@@ -106,40 +106,6 @@ public class ForeController {
         return modelAndView;
     }
 
-    //登录使用ajax来进行实现
-
-//    @RequestMapping("loginUser.do")
-//    public ModelAndView loginUser(@RequestParam("name") String name,
-//                                  @RequestParam("password") String password,
-//                                  HttpServletRequest request) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        name = HtmlUtils.htmlEscape(StringUtil.toUTF(name));
-//        password = HtmlUtils.htmlEscape(StringUtil.toUTF(password));
-//        logger.info(name + ":" + password);
-//
-//
-//        if (userService.isExist(name)) {
-//
-//            //存在该用户名，进行下一步判断
-//            //logger.info("存在该用户");
-//            if (userService.checkUser(name, password)) {
-//                //用户名和密码都正确，登录成功
-//                sessionSetUserAndCartItemNumber(request, name);
-//                modelAndView.setViewName("redirect:home.do");
-//
-//            } else {
-//                //密码错误
-//                modelAndView.setViewName("frontPage/login");
-//                modelAndView.addObject("msg", "密码错误");
-//            }
-//        } else {
-//            //用户名不存在
-//            modelAndView.setViewName("frontPage/login");
-//            modelAndView.addObject("msg", "用户名不存在！");
-//        }
-//
-//        return modelAndView;
-//    }
 
     //检查用户是否登陆，只需要检查session中是否有userName这个属性即可
     @RequestMapping("checkLogin.do")
@@ -229,7 +195,7 @@ public class ForeController {
             //给每个分类设置productsByRow
             category.setProductsByRow(category.createProductsByRows(productList));
 
-            //productsByCategoryMap.put(category, productList);
+
         }
 
 
@@ -251,7 +217,7 @@ public class ForeController {
         List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
         //对产品具体信息进行填充
-        fillProduct(product);
+        FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
 
 
         //具体评价内容
@@ -288,16 +254,12 @@ public class ForeController {
     public Map<String, String> addCart(@RequestParam("productId") int pid,
                                        @RequestParam("productNum") int productNum,
                                        HttpServletRequest request) {
-        //新的问题，对于同一个产品，如果点击多次加入购物车，不应该新建一个orderItem记录，应该在原有记录上增加数量
-
-
         Map<String, String> map = new HashMap<>(1);
         User user = getLoginUser(request);
         int uid = user.getId();
 
         //如果已经存在相关记录，只需要在该记录的基础上对number字段增加相应的数量即可
         if (orderItemService.isExistInOrderItemWithOutOidByProductIdAndUserId(pid, uid)) {
-            //update商品数量
             orderItemService.updateProductNumber(pid, uid, productNum);
         } else {
             //如果不存在就新增orderItem记录
@@ -393,7 +355,8 @@ public class ForeController {
          * 这样可以省去很多数据库误读脏读数据的问题
          *
          */
-        orderItem = fillOrderItem(orderItemCustom);
+        orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
+                productImageService,categoryService,reviewService,orderItemService);
         logger.info(orderItem);
         orderItemList.add(orderItem);
         //计算总价格
@@ -441,7 +404,9 @@ public class ForeController {
 
         OrderItem orderItem;
         for (Integer oiid : oiids) {
-            orderItem = fillOrderItem(orderItemService.getOrderItemCustomById(oiid));
+            OrderItemCustom orderItemCustom = orderItemService.getOrderItemCustomById(oiid);
+            orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
+                    productImageService,categoryService,reviewService,orderItemService);
             totalPrice += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
             orderItemList.add(orderItem);
 
@@ -471,6 +436,7 @@ public class ForeController {
                                      @RequestParam("receiver") String receiver,
                                      @RequestParam("mobile") String mobile,
                                      @RequestParam(value = "userMessage", defaultValue = " ") String userMessage,
+                                     HttpSession httpSession,
                                      HttpServletRequest request) {
 
         ModelAndView modelAndView = new ModelAndView("frontPage/payPage");
@@ -481,9 +447,9 @@ public class ForeController {
         User user = getLoginUser(request);
         logger.info(user);
         //TODO这个转型存在问题
-        List<OrderItem> orderItemList = (List<OrderItem>) request.getSession(false).getAttribute("orderItemList");
-        logger.info("orderItemList："+orderItemList.size());
-        float totalPrice = (Float) request.getSession(false).getAttribute("totalPrice");
+        List<OrderItem> orderItemList = (List<OrderItem>) httpSession.getAttribute("orderItemList");
+        logger.info("orderItemList：" + orderItemList.size());
+        float totalPrice = (Float) httpSession.getAttribute("totalPrice");
         int totalNumber = 0;
         for (OrderItem orderItem : orderItemList) {
             totalNumber += orderItem.getNumber();
@@ -507,82 +473,59 @@ public class ForeController {
 
         orderService.createOrder(order);
         //重新刷新购物车数量
-        sessionSetUserAndCartItemNumber(request,user.getName());
+        sessionSetUserAndCartItemNumber(request, user.getName());
+
+        return modelAndView;
+    }
+
+    @RequestMapping("payOrderConfirm.do")
+    public ModelAndView payOrderConfirm(@RequestParam("oid")int oid){
+        ModelAndView modelAndView = new ModelAndView("frontPage/payPage");
+        Order order = orderService.getOrderById(oid);
+
+
+
+        return modelAndView;
+    }
+
+    /**
+     * 订单信息
+     *
+     * @return
+     */
+    @RequestMapping("showOrder.do")
+    public ModelAndView showOrder(HttpSession httpSession) {
+        ModelAndView modelAndView = new ModelAndView();
+        User user = (User) httpSession.getAttribute("user");
+        if (null == user) {
+            modelAndView.setViewName("redirect:login.do");
+            return modelAndView;
+        }
+        //从数据库中获取相关数据
+        List<Order> orders = orderService.getOrdersByUserId(user.getId());
+
+        for (Order order : orders) {
+            FillUtil.fillOrder(order,user,orderService,productService,
+                    userService,productImageService,categoryService,reviewService,orderItemService);
+
+        }
+
+        modelAndView.setViewName("frontPage/myOrder");
+        modelAndView.addObject("orders", orders);
 
         return modelAndView;
     }
 
 
-    //填充Product对象
-    private Product fillProduct(Product product) {
-        int pid = product.getId();
-        //展示图片
-        product.setFirstProductImage(productImageService.getFirstProductImageByProductId(pid));
-
-        //设置商品的分类
-        Category category = categoryService.getCategoryById(productService.getCategoryIdByProductId(pid));
-
-        product.setCategory(category);
-        //对产品设置缩略图和详情图
-        List<ProductImage> productSingleImage = productImageService.listProductImageByProductIdAndType(pid, "type_single");
-        List<ProductImage> productDetailImage = productImageService.listProductImageByProductIdAndType(pid, "type_detail");
-
-        product.setProductSingleImage(productSingleImage);
-        product.setProductDetailImage(productDetailImage);
-
-        //给产品设置评价数量和销量
-        product.setReviewCount(reviewService.getReviewCountByProductId(pid));
-
-        List<Integer> productNumberList = orderItemService.getNumberByProductId(pid);
-        int saleCount = 0;
-        if (!productNumberList.isEmpty()) {
-            for (Integer integer : productNumberList) {
-                saleCount += integer;
-            }
-        }
-        product.setSaleCount(saleCount);
-
-
-        return product;
-
-    }
-
-    //填充OrderItem对象
-    private OrderItem fillOrderItem(OrderItemCustom orderItemCustom) {
-        OrderItem orderItem = new OrderItem();
-        int oid = orderItemCustom.getOid();
-        int id = orderItemCustom.getId();
-        int number = orderItemCustom.getNumber();
-        int pid = orderItemCustom.getPid();
-        int uid = orderItemCustom.getUid();
-
-        logger.info("oid:" + orderItemCustom.getOid());
-        //oid不为空
-        if (0 != orderItemCustom.getOid()) {
-            Order order = orderService.getOrderById(oid);
-            orderItem.setOrder(order);
-        }
-        Product product = productService.getProductById(pid);
-        product = fillProduct(product);
-        orderItem.setProduct(product);
-
-        User user = userService.getUserById(uid);
-        orderItem.setUser(user);
-
-        orderItem.setId(id);
-        orderItem.setNumber(number);
-        //logger.info(orderItem);
-        return orderItem;
-    }
 
     //得到当前登录的User对象
-    private User getLoginUser(HttpServletRequest request) {
+    public User getLoginUser(HttpServletRequest request) {
         User user = (User) request.getSession(false).getAttribute("user");
         return user;
     }
 
     //session中设置user对象和cartItemNumber属性
-    private void sessionSetUserAndCartItemNumber(HttpServletRequest request, String userName) {
+    public void sessionSetUserAndCartItemNumber(HttpServletRequest request, String userName) {
         User user = userService.getByUserName(userName);
         request.getSession().setAttribute("user", user);
         int cartItemNumber = orderItemService.getCartItemNumber(user.getId());
@@ -591,36 +534,34 @@ public class ForeController {
 
 
     //简单购物车信息id,uid,pid,oid等等
-    private List<OrderItemCustom> getSimpleCartItemList(HttpServletRequest request) {
+    public List<OrderItemCustom> getSimpleCartItemList(HttpServletRequest request) {
         List<OrderItemCustom> simpleCartItemList = new ArrayList<>();
         User user = getLoginUser(request);
         if (null != user) {
-            logger.info("userId:" + user.getId());
             simpleCartItemList = orderItemService.getSimpleCartItemList(user.getId());
         }
         return simpleCartItemList;
     }
 
     //获取到当前用户的详细购物车信息
-    private List<OrderItem> getCartItemList(HttpServletRequest request) {
+    public List<OrderItem> getCartItemList(HttpServletRequest request) {
         List<OrderItemCustom> simpleCartItemList = getSimpleCartItemList(request);
 
         List<OrderItem> cartItemList = new ArrayList<>();
         OrderItem orderItem;
         if (!simpleCartItemList.isEmpty()) {
             for (OrderItemCustom orderItemCustom : simpleCartItemList) {
-                orderItem = fillOrderItem(orderItemCustom);
+                orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
+                        productImageService,categoryService,reviewService,orderItemService);
                 cartItemList.add(orderItem);
             }
 
         }
 
-        for (OrderItem orderItem1 : cartItemList) {
-            logger.info(orderItem1);
-        }
 
 
         return cartItemList;
     }
+
 
 }

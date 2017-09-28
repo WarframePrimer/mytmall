@@ -27,16 +27,18 @@
 
 
         <span class="pull-right">
-                    <a href="#">我的订单</a>
-                    <a href="cart.do">
-                        <span class="glyphicon glyphicon-shopping-cart" style="color: #c40000"></span>
-                    购物车<strong style="color: #000">
-                    <c:choose>
-                        <c:when test="${!empty cartItemNumber}">${cartItemNumber}</c:when>
-                        <c:otherwise>0</c:otherwise>
-                    </c:choose>
-                    </strong>件
-                    </a>
+            <!--订单信息-->
+            <a href="showOrder.do">我的订单</a>
+            <!--购物车信息-->
+            <a href="cart.do">
+                <span class="glyphicon glyphicon-shopping-cart" style="color: #c40000"></span>
+            购物车<strong style="color: #000">
+            <c:choose>
+                <c:when test="${!empty cartItemNumber}">${cartItemNumber}</c:when>
+                <c:otherwise>0</c:otherwise>
+            </c:choose>
+            </strong>件
+            </a>
 
         </span>
 

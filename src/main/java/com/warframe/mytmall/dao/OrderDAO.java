@@ -1,5 +1,6 @@
 package com.warframe.mytmall.dao;
 
+import com.warframe.mytmall.pojo.Order;
 import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.Serializers;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,6 @@ public interface OrderDAO extends BaseDAO {
 
     @Override
     int getTotalNumber();
+
+    List<Order> getOrdersByUserId(int uid);
 }

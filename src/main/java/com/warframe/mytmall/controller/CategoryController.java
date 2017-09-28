@@ -153,8 +153,6 @@ public class CategoryController {
     public ModelAndView preEditCategory(@RequestParam(value = "cid") int cid, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         Category category = categoryService.getCategoryById(cid);
 
-        //Page page = PageUtil.getPage(pageNum);
-        //page.setTotalRecords(categoryService.getTotalNumber());
 
         ModelAndView modelAndView = new ModelAndView("admin/categoryPreEdit");
 

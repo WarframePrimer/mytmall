@@ -5,6 +5,36 @@
 
 <mapper namespace="com.warframe.mytmall.dao.OrderDAO">
 
+<!--因为前期关系和实体类之间的关系没有考虑的很到位，这里使用mybatis中的多对多映射会更加麻烦，所以先不使用-->
+    <!--&lt;!&ndash;association一对一;collection一对多&ndash;&gt;-->
+    <!--<resultMap id="orderWithOrderItemMap" type="com.warframe.mytmall.pojo.Order">-->
+        <!--<id column="id" property="id" javaType="int"/>-->
+        <!--<result column="orderCode" property="orderCode" javaType="String"/>-->
+        <!--<result column="address" property="address" javaType="String"/>-->
+        <!--<result column="post" property="post" javaType="String"/>-->
+        <!--<result column="receiver" property="receiver" javaType="String"/>-->
+        <!--<result column="mobile" property="mobile" javaType="String"/>-->
+        <!--<result column="userMessage" property="userMessage" javaType="String"/>-->
+        <!--<result column="createDate" property="createDate" jdbcType="DATE"/>-->
+        <!--<result column="payDate" property="payDate" jdbcType="DATE"/>-->
+        <!--<result column="deliveryDate" property="deliveryDate" jdbcType="DATE"/>-->
+        <!--<result column="confirmDate" property="confirmDate" jdbcType="DATE"/>-->
+        <!--<result column="status" property="status"/>-->
+
+        <!--<association property="user" javaType="com.warframe.mytmall.pojo.User" column="uid" select="findUserById"/>-->
+        <!--<collection property="orderItems" ofType="com.warframe.mytmall.pojo.OrderItem" select="findOrderItemsById" column="id"/>-->
+    <!--</resultMap>-->
+
+    <!--<select id="findUserById" parameterType="int" resultType="com.warframe.mytmall.pojo.User">-->
+        <!--SELECT * from `user` WHERE id=#{uid}-->
+    <!--</select>-->
+
+   <!---->
+    <!--<select id="findOrderItemsById" parameterType="int" resultMap="com.warframe.mytmall.pojo.OrderItem">-->
+        <!--SELECT * from `orderitem` WHERE oid=#{id}-->
+    <!--</select>-->
+
+
     <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.Order">
         select * from `order` WHERE id = #{id};
     </select>
@@ -31,8 +61,14 @@
     </delete>
 
     <!--分页查询-->
+    <!--这里面映射的Order实体对象自己进行填充加载-->
     <select id="list" parameterType="int" resultType="com.warframe.mytmall.pojo.Order">
         SELECT * FROM `order` limit #{start},#{count}
     </select>
+
+    <select id="getOrdersByUserId" parameterType="int" resultType="com.warframe.mytmall.pojo.Order">
+        SELECT * from `order` WHERE uid=#{uid}
+    </select>
+
 
 </mapper>

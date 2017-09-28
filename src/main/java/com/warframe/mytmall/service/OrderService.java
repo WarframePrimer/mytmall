@@ -26,4 +26,6 @@ public interface OrderService {
     @Transactional
     void createOrder(Order order);
 
+    List<Order> getOrdersByUserId(int uid);
+
 }

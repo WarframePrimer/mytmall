@@ -138,8 +138,6 @@
         <div class="cartIsEmpty">
             <h2>您的购物车还是空的，赶紧行动吧！</h2>
         </div>
-
-
     </c:otherwise>
 </c:choose>
 

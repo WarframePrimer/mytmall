@@ -158,3 +158,17 @@ div.cartFoot a.deleteAllProduct{
 div.cartFoot a.deleteAllProduct:hover{
     color:#c40000;
 }
+
+
+
+/*购物车是空的*/
+div.cartIsEmpty{
+    /*background-color: #0f0f0f;*/
+    height: 200px;
+    text-align: center;
+
+}
+div.cartIsEmpty h2{
+    /*background-color: #00aaee;*/
+    margin-top:150px;
+}

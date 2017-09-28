@@ -55,5 +55,5 @@ public interface OrderItemService {
 
     int updateOrderId(OrderItem orderItem);
 
-
+    List<OrderItemCustom> getOrderItemCustomByOrderId(int oid);
 }

@@ -14,6 +14,8 @@ import java.util.List;
 public class Order {
     private int id;
 
+    private int uid;
+
     private User user;
     private List<OrderItem> orderItems;
 
@@ -31,6 +33,8 @@ public class Order {
     private String post;
     private String receiver;
 
+
+    //数量和总价格后期添加
     private int totalNumber;
     private float totalPrice;
 
@@ -62,6 +66,21 @@ public class Order {
         return desc;
     }
 
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
 
     public int getId() {
         return id;
@@ -79,13 +98,6 @@ public class Order {
         this.user = user;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
 
     public String getOrderCode() {
         return orderCode;
@@ -189,5 +201,28 @@ public class Order {
 
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", uid=" + uid +
+                ", user=" + user +
+                ", orderItems=" + orderItems +
+                ", orderCode='" + orderCode + '\'' +
+                ", address='" + address + '\'' +
+                ", userMessage='" + userMessage + '\'' +
+                ", status='" + status + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", createDate=" + createDate +
+                ", payDate=" + payDate +
+                ", deliveryDate=" + deliveryDate +
+                ", confirmDate=" + confirmDate +
+                ", post='" + post + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", totalNumber=" + totalNumber +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

@@ -160,5 +160,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemDAO.updateOrderId(orderItem);
     }
 
+    @Override
+    public List<OrderItemCustom> getOrderItemCustomByOrderId(int oid) {
+        return orderItemDAO.getOrderItemCustomByOrderId(oid);
+    }
+
 
 }
