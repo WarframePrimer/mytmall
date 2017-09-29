@@ -39,10 +39,10 @@
         </table>
     </div>
     <!--订单详细信息列表-->
-    <div class="orderList">
+    <div class="orderList" id="orderList">
         <c:choose>
             <c:when test="${orders==null}">
-                <div class="orderIsNull">
+                <div class="orderIsNull" id="orderIsNull">
                     <img src="<%=request.getContextPath()%>/img/site/orderIsNull.png" alt="图片加载失败">
                     <span style="font-size: 14px;">没有符合条件的宝贝，请尝试其他搜索条件。</span>
                 </div>
@@ -61,7 +61,8 @@
                             </td>
                             <td colspan="2">
                                     <%--TODO--%>
-                                <img width="13px" src="<%=request.getContextPath()%>/img/site/tmallbuy.png" alt="图片加载失败">天猫商场
+                                <img width="13px" src="<%=request.getContextPath()%>/img/site/tmallbuy.png"
+                                     alt="图片加载失败">天猫商场
                             </td>
                             <td colspan="1">
                                 <a href="#" class="wangwangLink">
@@ -100,8 +101,9 @@
                                 ￥<fmt:formatNumber minFractionDigits="2" value="${orderItem.product.originalPrice}"/>
                                 </span>
                                     </div>
-                                    <div class="orderListItemDetailPromotePrice">￥<fmt:formatNumber minFractionDigits="2"
-                                                                                                    value="${orderItem.product.promotePrice}"/></div>
+                                    <div class="orderListItemDetailPromotePrice">￥<fmt:formatNumber
+                                            minFractionDigits="2"
+                                            value="${orderItem.product.promotePrice}"/></div>
                                 </td>
                                 <td valign="top" width="100px" class="orderListItemDetailNumberTD orderListItemDetailTD"
                                     rowspan="1">
@@ -112,7 +114,8 @@
                                                                                                  value="${orderItem.product.promotePrice*orderItem.number}"/></div>
                                     <div class="orderListItemDetailPriceWithTransport">(含运费:￥0.00)</div>
                                 </td>
-                                <td width="100px" valign="top" class="orderListItemDetailReviewTD orderListItemDetailTD">
+                                <td width="100px" valign="top"
+                                    class="orderListItemDetailReviewTD orderListItemDetailTD">
                                     <!--对于订单的不同交易状态，提供不同的提示按钮-->
                                     <c:choose>
                                         <c:when test="${order.status == 'waitPay'}">
@@ -122,11 +125,14 @@
                                         </c:when>
                                         <c:when test="${order.status == 'waitConfirm'}">
                                             <a href="#">
-                                                <button class="orderListItemConfirmBtn">确认收货</button>
+                                                <button class="btn btn-primary btn-xs orderListItemConfirmBtn">确认收货</button>
                                             </a>
                                         </c:when>
                                         <c:when test="${order.status == 'waitDelivery'}">
                                             <span>待发货</span>
+                                            <button class="btn btn-primary btn-xs callToDelivery" oid="${order.id}">
+                                                催卖家发货
+                                            </button>
                                         </c:when>
                                         <c:when test="${order.status == 'waitReview'}">
                                             <a href="#">
@@ -147,8 +153,6 @@
         </c:choose>
 
 
-
-
     </div>
 </div>
 
@@ -158,17 +162,67 @@
         $("a[orderStatus]").click(function () {
             var orderStatus = $(this).attr("orderStatus");
 
+            var orderIsNull = document.getElementById("orderIsNull");
+            if (orderIsNull != null) {
+                //每次点击之前都将之前的空页面清楚
+                document.getElementById("orderList").removeChild(orderIsNull);
+            }
+
+            //$("div.orderList").remove($("div.orderIsNull"));
+
             if ("all" == orderStatus) {
                 $("table.orderListItemTable").show();
             } else {
                 $("table.orderListItemTable").hide();
-                $("table.orderListItemTable[orderStatus= " + orderStatus + "]").show();
+                var orderItemAccordWith = $("table.orderListItemTable[orderStatus=" + orderStatus + "]");
+                if (orderItemAccordWith.length > 0) {
+                    orderItemAccordWith.show();
+                } else {
+
+                    //用原生js创建HTML标签非常麻烦，尝试使用jQuery^_^
+//                    $("div.orderIsNull").show();
+                    var orderList = document.getElementById("orderList");
+//                    alert(orderList);
+                    var orderIsNull = document.createElement("div");
+                    orderIsNull.setAttribute("class", "orderIsNull");
+                    orderIsNull.setAttribute("id", "orderIsNull");
+                    var img = document.createElement("img");
+                    img.setAttribute("src", "img/site/orderIsNull.png");
+                    var span = document.createElement("span");
+                    span.style.fontSize = "14px";
+//                    span.css("font-size","14px");
+                    span.innerHTML = "没有符合条件的宝贝，请尝试其他搜索条件。";
+//                    span.html("没有符合条件的宝贝，请尝试其他搜索条件。");
+                    orderIsNull.appendChild(img);
+                    orderIsNull.appendChild(span);
+                    orderList.appendChild(orderIsNull);
+
+
+                }
+
             }
             /*初始化被选中的orderType*/
             $("div.orderType div.orderTypeSelected").removeClass("orderTypeSelected");
             $(this).parent("div").addClass("orderTypeSelected");
 
         })
+        //点击催卖家发货所触发的事件
+        $("button.callToDelivery").click(function () {
+//            alert("click");
+            var page = "callToDelivery.do";
+            var oid = $(this).attr("oid");
+//            alert(oid);
+            $.post(
+                page,
+                {"oid": oid},
+                function (result) {
+                    if ("success" == result["msg"]) {
+                        alert("卖家已秒发，刷新一下吧^_^");
+                    }
+                }
+            )
+        })
+
     })
 </script>
 

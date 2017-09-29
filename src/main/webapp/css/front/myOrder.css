@@ -132,11 +132,11 @@ td.orderListItemDetailReviewTD button.orderListItemReviewBtn{
     padding:5px 15px;
 }
 td.orderListItemDetailReviewTD button.orderListItemConfirmBtn{
-    border-radius: 2px;
-    color: white;
-    background-color: deepskyblue;
-    border:1px solid #e8e8e8;
-    padding:5px 15px;
+    /*border-radius: 2px;*/
+    /*color: white;*/
+    /*background-color: deepskyblue;*/
+    /*border:1px solid #e8e8e8;*/
+    /*padding:5px 15px;*/
 
 }
 
@@ -153,6 +153,7 @@ td.orderListItemDetailTD{
 }
 
 
+
 /*没有符合条件的订单*/
 div.orderIsNull{
     height: 300px;
@@ -160,3 +161,4 @@ div.orderIsNull{
     padding-top: 100px;
 
 }
+

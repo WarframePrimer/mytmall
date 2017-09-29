@@ -550,6 +550,24 @@ public class ForeController {
         return modelAndView;
     }
 
+    @RequestMapping("callToDelivery.do")
+    @ResponseBody
+    public Map<String,String> callToDelivery(@RequestParam("oid")int oid){
+        Map<String,String> map = new HashMap<>(1);
+
+        Order order = orderService.getOrderById(oid);
+        //设置发货时间
+        order.setDeliveryDate(new Date());
+        //更新订单状态为待收货
+        order.setStatus("waitConfirm");
+
+        orderService.updateOrder(order);
+
+        map.put("msg","success");
+        return map;
+    }
+
+
 
 
     //得到当前登录的User对象
