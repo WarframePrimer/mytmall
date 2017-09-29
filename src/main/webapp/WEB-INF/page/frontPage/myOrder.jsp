@@ -125,7 +125,7 @@
                                         </c:when>
                                         <c:when test="${order.status == 'waitConfirm'}">
                                             <a href="#">
-                                                <button class="btn btn-primary btn-xs orderListItemConfirmBtn">确认收货</button>
+                                                <button class="btn btn-primary btn-xs orderListItemConfirmBtn" oid="${order.id}">确认收货</button>
                                             </a>
                                         </c:when>
                                         <c:when test="${order.status == 'waitDelivery'}">
@@ -211,17 +211,39 @@
 //            alert("click");
             var page = "callToDelivery.do";
             var oid = $(this).attr("oid");
+            //设置订单状态为待收货
+            var status = "waitConfirm";
 //            alert(oid);
+            updateOrder(page,oid,status);
+        })
+
+
+        //点击确认收货触发的事件
+        $("button.orderListItemConfirmBtn").click(function () {
+            var page = "confirmReceipt.do";
+            var oid = $(this).attr("oid");
+            //设置订单状态为待评价
+            var status = "waitReview";
+            updateOrder(page,oid,status);
+        })
+
+
+
+        //更新订单状态
+        function updateOrder(page,oid,status) {
             $.post(
                 page,
-                {"oid": oid},
+                {"oid": oid,"status":status},
                 function (result) {
-                    if ("success" == result["msg"]) {
+                    if ("delivered" == result["msg"]) {
                         alert("卖家已秒发，刷新一下吧^_^");
+                    }
+                    if("confirmed"==result['msg']){
+                        alert("已确认收货，刷新一下吧^_^");
                     }
                 }
             )
-        })
+        }
 
     })
 </script>

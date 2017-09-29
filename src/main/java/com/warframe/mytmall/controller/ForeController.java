@@ -552,21 +552,37 @@ public class ForeController {
 
     @RequestMapping("callToDelivery.do")
     @ResponseBody
-    public Map<String,String> callToDelivery(@RequestParam("oid")int oid){
+    public Map<String,String> callToDelivery(@RequestParam("oid")int oid,@RequestParam("status")String status){
         Map<String,String> map = new HashMap<>(1);
 
         Order order = orderService.getOrderById(oid);
         //设置发货时间
         order.setDeliveryDate(new Date());
         //更新订单状态为待收货
-        order.setStatus("waitConfirm");
+        order.setStatus(status);
 
         orderService.updateOrder(order);
 
-        map.put("msg","success");
+        map.put("msg","delivered");
         return map;
     }
 
+    @RequestMapping("confirmReceipt.do")
+    @ResponseBody
+    public Map<String,String> confirmReceipt(@RequestParam("oid")int oid,@RequestParam("status")String status){
+        Map<String,String> map = new HashMap<>(1);
+
+        Order order = orderService.getOrderById(oid);
+        //设置收货事件
+        order.setConfirmDate(new Date());
+        //更新订单状态为待评价
+        order.setStatus(status);
+
+        orderService.updateOrder(order);
+
+        map.put("msg","confirmed");
+        return map;
+    }
 
 
 
