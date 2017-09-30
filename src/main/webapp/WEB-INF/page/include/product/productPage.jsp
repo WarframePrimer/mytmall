@@ -161,7 +161,7 @@
                             ${reviewCustom.content}
                     </div>
                     <!--评论的时间-->
-                    <div class="productReviewItemDate">${reviewCustom.createDate}</div>
+                    <div class="productReviewItemDate"><fmt:formatDate value="${reviewCustom.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
                 </div>
                 <!--评论的用户-->
                 <div class="productReviewItemUserInfo">

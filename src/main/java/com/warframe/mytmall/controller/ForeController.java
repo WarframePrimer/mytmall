@@ -218,7 +218,7 @@ public class ForeController {
         List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
         //对产品具体信息进行填充
-        FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
+        FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
 
 
         //具体评价内容
@@ -356,8 +356,8 @@ public class ForeController {
          * 这样可以省去很多数据库误读脏读数据的问题
          *
          */
-        orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
-                productImageService,categoryService,reviewService,orderItemService);
+        orderItem = FillUtil.fillOrderItem(orderItemCustom, orderService, productService, userService,
+                productImageService, categoryService, reviewService, orderItemService);
         logger.info(orderItem);
         orderItemList.add(orderItem);
         //计算总价格
@@ -406,8 +406,8 @@ public class ForeController {
         OrderItem orderItem;
         for (Integer oiid : oiids) {
             OrderItemCustom orderItemCustom = orderItemService.getOrderItemCustomById(oiid);
-            orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
-                    productImageService,categoryService,reviewService,orderItemService);
+            orderItem = FillUtil.fillOrderItem(orderItemCustom, orderService, productService, userService,
+                    productImageService, categoryService, reviewService, orderItemService);
             totalPrice += orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
             orderItemList.add(orderItem);
 
@@ -476,21 +476,21 @@ public class ForeController {
 
         //重新刷新购物车数量
         sessionSetUserAndCartItemNumber(request, user.getName());
-        modelAndView.addObject("order",order);
+        modelAndView.addObject("order", order);
 
         return modelAndView;
     }
 
     //点击付款之后跳转到payPage进行支付
     @RequestMapping("payOrderConfirm.do")
-    public ModelAndView payOrderConfirm(@RequestParam("oid")int oid,HttpServletRequest request){
+    public ModelAndView payOrderConfirm(@RequestParam("oid") int oid, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("frontPage/payPage");
         User user = getLoginUser(request);
         Order order = orderService.getOrderById(oid);
-        order = FillUtil.fillOrder(order,user,orderService,productService,
-                userService,productImageService,categoryService,reviewService,orderItemService);
+        order = FillUtil.fillOrder(order, user, orderService, productService,
+                userService, productImageService, categoryService, reviewService, orderItemService);
 
-        modelAndView.addObject("order",order);
+        modelAndView.addObject("order", order);
 
         return modelAndView;
     }
@@ -498,12 +498,13 @@ public class ForeController {
     /**
      * 完成支付
      * 更新orderStatus为waitDelivery
+     *
      * @param oid
      * @param request
      * @return
      */
     @RequestMapping("payComplete.do")
-    public ModelAndView payComplete(@RequestParam("oid")int oid,HttpServletRequest request){
+    public ModelAndView payComplete(@RequestParam("oid") int oid, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("frontPage/payComplete");
         User user = getLoginUser(request);
 
@@ -511,14 +512,14 @@ public class ForeController {
         order.setPayDate(new Date());
         order.setStatus("waitDelivery");
 
-        logger.info("order:"+order);
+        logger.info("order:" + order);
         orderService.updateOrder(order);
         logger.info("order修改成功!!");
 
-        order = FillUtil.fillOrder(order,user,orderService,productService,
-                userService,productImageService,categoryService,reviewService,orderItemService);
+        order = FillUtil.fillOrder(order, user, orderService, productService,
+                userService, productImageService, categoryService, reviewService, orderItemService);
 
-        modelAndView.addObject("order",order);
+        modelAndView.addObject("order", order);
         return modelAndView;
     }
 
@@ -539,8 +540,8 @@ public class ForeController {
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
 
         for (Order order : orders) {
-            FillUtil.fillOrder(order,user,orderService,productService,
-                    userService,productImageService,categoryService,reviewService,orderItemService);
+            FillUtil.fillOrder(order, user, orderService, productService,
+                    userService, productImageService, categoryService, reviewService, orderItemService);
 
         }
 
@@ -552,8 +553,8 @@ public class ForeController {
 
     @RequestMapping("callToDelivery.do")
     @ResponseBody
-    public Map<String,String> callToDelivery(@RequestParam("oid")int oid,@RequestParam("status")String status){
-        Map<String,String> map = new HashMap<>(1);
+    public Map<String, String> callToDelivery(@RequestParam("oid") int oid, @RequestParam("status") String status) {
+        Map<String, String> map = new HashMap<>(1);
 
         Order order = orderService.getOrderById(oid);
         //设置发货时间
@@ -563,14 +564,14 @@ public class ForeController {
 
         orderService.updateOrder(order);
 
-        map.put("msg","delivered");
+        map.put("msg", "delivered");
         return map;
     }
 
     @RequestMapping("confirmReceipt.do")
     @ResponseBody
-    public Map<String,String> confirmReceipt(@RequestParam("oid")int oid,@RequestParam("status")String status){
-        Map<String,String> map = new HashMap<>(1);
+    public Map<String, String> confirmReceipt(@RequestParam("oid") int oid, @RequestParam("status") String status) {
+        Map<String, String> map = new HashMap<>(1);
 
         Order order = orderService.getOrderById(oid);
         //设置收货事件
@@ -580,10 +581,74 @@ public class ForeController {
 
         orderService.updateOrder(order);
 
-        map.put("msg","confirmed");
+        map.put("msg", "confirmed");
         return map;
     }
 
+    @RequestMapping("reviewProduct.do")
+    public ModelAndView reviewProduct(@RequestParam("pid") int pid,
+                                      @RequestParam("oid")int oid,
+                                      HttpSession httpSession) {
+        ModelAndView modelAndView = new ModelAndView("frontPage/reviewProduct");
+
+        Order order = orderService.getOrderById(oid);
+
+        Product product = productService.getProductById(pid);
+        User user = (User) httpSession.getAttribute("user");
+
+
+        //填充product
+        product = FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
+
+
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("order",order);
+        //其实没必要
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @RequestMapping("commitReview.do")
+    public ModelAndView commitReview(@RequestParam("pid") int pid,
+                                     @RequestParam("oid")int oid,
+                                     @RequestParam("content") String content,
+                                     HttpSession httpSession) {
+        ModelAndView modelAndView = new ModelAndView();
+        Product product = productService.getProductById(pid);
+        int categoryId;
+        int productId;
+
+
+        Order order = orderService.getOrderById(oid);
+        //填充product
+        product = FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
+        User user = (User) httpSession.getAttribute("user");
+
+        //转码，防止乱码
+        content = StringUtil.toUTF(content);
+
+        //提交评价
+        Review review = new Review();
+        review.setUser(user);
+        review.setProduct(product);
+        review.setContent(content);
+        review.setCreateDate(new Date());
+
+        reviewService.addReview(review);
+
+        categoryId = product.getCategory().getId();
+        productId = pid;
+
+        //添加：评价商品完成后，将订单状态设置为完成,先不考虑细节问题
+        order.setStatus("finish");
+        orderService.updateOrder(order);
+
+        modelAndView.setViewName("redirect:getProductDetail.do?pid=" + productId + "&cid=" + categoryId);
+
+        //返回商品页面
+        return modelAndView;
+    }
 
 
     //得到当前登录的User对象
@@ -619,13 +684,12 @@ public class ForeController {
         OrderItem orderItem;
         if (!simpleCartItemList.isEmpty()) {
             for (OrderItemCustom orderItemCustom : simpleCartItemList) {
-                orderItem = FillUtil.fillOrderItem(orderItemCustom,orderService,productService,userService,
-                        productImageService,categoryService,reviewService,orderItemService);
+                orderItem = FillUtil.fillOrderItem(orderItemCustom, orderService, productService, userService,
+                        productImageService, categoryService, reviewService, orderItemService);
                 cartItemList.add(orderItem);
             }
 
         }
-
 
 
         return cartItemList;

@@ -45,8 +45,26 @@
                 <td><fmt:formatDate value="${order.confirmDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 
                 <td>
-                    <button class="btn btn-primary btn-xs">查看详情</button>
-                    <button class="btn btn-primary btn-xs">发货</button>
+                    <c:if test="${'waitPay'==order.status}">
+                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn disabled btn-primary btn-xs">待买家付款</button>
+                    </c:if>
+                    <c:if test="${'waitDelivery'==order.status}">
+                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary btn-xs">发货</button>
+                    </c:if>
+                    <c:if test="${'waitConfirm'==order.status}">
+                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary disabled btn-xs">待买家确认收货</button>
+                    </c:if>
+                    <c:if test="${'waitReview'==order.status}">
+                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary disabled btn-xs">待买家评价</button>
+                    </c:if>
+                    <c:if test="${'finish'==order.status}">
+                        <button class="btn btn-primary disabled btn-xs">订单完成</button>
+                    </c:if>
+
                 </td>
 
             </tr>

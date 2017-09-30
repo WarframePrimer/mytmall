@@ -1,0 +1,177 @@
+div.reviewDiv{
+    max-width:1013px;
+    margin:20px auto;
+}
+
+div.reviewProductImage{
+    float: left;
+    border:1px solid #d4d4d4;
+    width:464px;
+    height:464px;
+}
+div.reviewProductRightDiv{
+    /*隐藏溢出的部分*/
+    overflow: hidden;
+    border-top:1px solid #d4d4d4;
+
+}
+table.reviewProductInfoTable{
+    margin:20px 20px;
+}
+table.reviewProductInfoTable td{
+    padding:10px 0;
+    color:black;
+}
+
+table.reviewProductInfoTable td.reviewProductTD{
+    color:#999999;
+}
+strong.reviewProductPromotePrice{
+    font-weight: 700;
+    font-size:20px;
+    color:#c40000;
+}
+strong.reviewProductMonthSaleNumber{
+    color:#c40000;
+}
+
+div.reviewProductInfoRightBelowDiv{
+    border:1px solid #F6F5F3;
+    margin:10px 5px;
+    background-color: #FBFBFB;
+    text-align: center;
+    height: 172px;
+    position: relative;
+}
+
+div.reviewProductInfoRightBelowDiv span.reviewProductInfoRightBelowImage{
+    position: absolute;
+    margin-top:10px;
+    display: inline-block;
+    border:1px solid #E1E1E1;
+    height: 40px;
+
+    left: 85px;
+}
+span.reviewProductInfoRightBelowText{
+    position: absolute;
+    display: inline-block;
+    border:1px solid #EFEFEF;
+    line-height: 19px;
+    border-left:0px;
+    top:10px;
+    left:110px;
+    width:282px;
+    text-align: left;
+}
+
+
+/*进行评价div的属性设置*/
+div.reviewProductDiv{
+    margin:20px 0px;
+}
+
+
+div.reviewProductTitleLeft{
+    float:left;
+    /*background-color: #c40000;*/
+}
+div.reviewProductTitleRight{
+    /*自动填满右边!!*/
+    overflow: hidden;
+}
+
+div.reviewProductTitleLeftTop{
+    height: 6px;
+    width:180px;
+    background-color: #c40000;
+}
+div.reviewProductTitleContent{
+    width:180px;
+    line-height:29px;
+    background-color: #F6F5F1;
+    text-align: center;
+    font-size:14px;
+    font-weight: bold;
+    border-left:1px solid #d5d4d4;
+    border-right:1px solid #d5d4d4;
+}
+span.reviewProductCommentNumber{
+    color:#284CA5;
+    display: inline-block;
+    margin-left:5px;
+}
+div.reviewProductTitleLeftFoot{
+    width:180px;
+    height:6px;
+    background-color: #F6F5F1;
+    border-left:1px solid #d5d4d4;
+    border-bottom:1px solid #d5d4d4;
+}
+
+div.reviewProductTitleRightTopEmpty{
+    height:35px;
+}
+div.reviewProductTitleRightFoot{
+    height:6px;
+    background-color: #F6F5F1;
+    border:1px solid #d5d4d4;
+    border-left:0px;
+}
+
+/*具体的评价内容div的设置*/
+div.reviewProductContentDiv{
+    border:1px solid #d5d4d4;
+    margin-top:20px;
+    background-color: #F6F5F1;
+}
+
+div.reviewProductContentText{
+    margin:20px 40px;
+    font-size:16px;
+    font-weight: bold;
+}
+
+table.reviewProductContentTable{
+    border:1px solid #E7E7E7;
+    background-color: white;
+    margin:20px 40px;
+    width:510px;
+    height: 141px;
+}
+table.reviewProductContentTable td{
+    border:1px solid #e7e7e7;
+    padding:10px;
+}
+
+textarea.reviewProductTextArea{
+    /*不能调整大小*/
+    resize:none;
+    width:420px;
+    height:120px;
+    border:0px;
+    outline: none;
+}
+
+/*提交评价按钮div的设置*/
+div.submitButtonDiv{
+    margin-top:20px;
+    margin-bottom:10px;
+    background-color: white;
+    height:56px;
+    text-align: center;
+    vertical-align: middle;
+}
+/*评价按钮设置*/
+button.reviewProductSubmitButton{
+    margin-top:15px;
+    margin-bottom:15px;
+    height:26px;
+    width:72px;
+    color: white;
+    background-color: #c40000;
+    border:1px solid #c40000;
+    border-radius: 2px;
+    font-weight: bold;
+
+}
