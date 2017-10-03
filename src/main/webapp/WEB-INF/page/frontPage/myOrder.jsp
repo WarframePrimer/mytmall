@@ -170,48 +170,55 @@
 
             var orderIsNull = document.getElementById("orderIsNull");
             if (orderIsNull != null) {
-                //每次点击之前都将之前的空页面清楚
+                //每次点击之前都将之前的空页面清除
                 document.getElementById("orderList").removeChild(orderIsNull);
             }
 
             //$("div.orderList").remove($("div.orderIsNull"));
 
             if ("all" == orderStatus) {
-                $("table.orderListItemTable").show();
+                if(${orders==null}){
+                    createOrderIsNullDiv();
+                }else{
+                    $("table.orderListItemTable").show();
+                }
             } else {
                 $("table.orderListItemTable").hide();
                 var orderItemAccordWith = $("table.orderListItemTable[orderStatus=" + orderStatus + "]");
                 if (orderItemAccordWith.length > 0) {
                     orderItemAccordWith.show();
                 } else {
-
-                    //用原生js创建HTML标签非常麻烦，尝试使用jQuery^_^
-//                    $("div.orderIsNull").show();
-                    var orderList = document.getElementById("orderList");
-//                    alert(orderList);
-                    var orderIsNull = document.createElement("div");
-                    orderIsNull.setAttribute("class", "orderIsNull");
-                    orderIsNull.setAttribute("id", "orderIsNull");
-                    var img = document.createElement("img");
-                    img.setAttribute("src", "img/site/orderIsNull.png");
-                    var span = document.createElement("span");
-                    span.style.fontSize = "14px";
-//                    span.css("font-size","14px");
-                    span.innerHTML = "没有符合条件的宝贝，请尝试其他搜索条件。";
-//                    span.html("没有符合条件的宝贝，请尝试其他搜索条件。");
-                    orderIsNull.appendChild(img);
-                    orderIsNull.appendChild(span);
-                    orderList.appendChild(orderIsNull);
-
-
+                    createOrderIsNullDiv();
                 }
 
             }
+
             /*初始化被选中的orderType*/
             $("div.orderType div.orderTypeSelected").removeClass("orderTypeSelected");
             $(this).parent("div").addClass("orderTypeSelected");
 
         })
+        //创建空点单是的div内容(使用js动态创建)
+        function createOrderIsNullDiv() {
+            //用原生js创建HTML标签非常麻烦，尝试使用jQuery^_^
+//                    $("div.orderIsNull").show();
+            var orderList = document.getElementById("orderList");
+//                    alert(orderList);
+            var orderIsNull = document.createElement("div");
+            orderIsNull.setAttribute("class", "orderIsNull");
+            orderIsNull.setAttribute("id", "orderIsNull");
+            var img = document.createElement("img");
+            img.setAttribute("src", "img/site/orderIsNull.png");
+            var span = document.createElement("span");
+            span.style.fontSize = "14px";
+//                    span.css("font-size","14px");
+            span.innerHTML = "没有符合条件的宝贝，请尝试其他搜索条件。";
+//                    span.html("没有符合条件的宝贝，请尝试其他搜索条件。");
+            orderIsNull.appendChild(img);
+            orderIsNull.appendChild(span);
+            orderList.appendChild(orderIsNull);
+        }
+
         //点击催卖家发货所触发的事件
         $("button.callToDelivery").click(function () {
 //            alert("click");

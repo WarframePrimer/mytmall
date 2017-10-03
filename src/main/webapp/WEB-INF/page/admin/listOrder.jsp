@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../include/adminHeader.jsp"%>
-<%@include file="../include/adminNav.jsp"%>
+<%@include file="../include/adminHeader.jsp" %>
+<%@include file="../include/adminNav.jsp" %>
 
 
 <div class="listDiv">
@@ -33,7 +33,7 @@
         <!--具体信息-->
         <tbody>
         <c:forEach items="${orders}" var="order">
-            <tr class="orderListTableContentTR">
+            <tr class="orderListTableContentTR" style="font-size: 14px">
                 <td>${order.id}</td>
                 <td>${order.statusDesc}</td>
                 <td>${order.totalPrice}</td>
@@ -46,27 +46,61 @@
 
                 <td>
                     <c:if test="${'waitPay'==order.status}">
-                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary btn-xs showDetails" oid="${order.id}">查看详情</button>
                         <button class="btn disabled btn-primary btn-xs">待买家付款</button>
                     </c:if>
                     <c:if test="${'waitDelivery'==order.status}">
-                        <button class="btn btn-primary btn-xs">查看详情</button>
-                        <button class="btn btn-primary btn-xs">发货</button>
+                        <button class="btn btn-primary btn-xs showDetails" oid="${order.id}">查看详情</button>
+                        <a href="#">
+                            <button class="btn btn-primary btn-xs">发货</button>
+                        </a>
                     </c:if>
                     <c:if test="${'waitConfirm'==order.status}">
-                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary btn-xs showDetails" oid="${order.id}">查看详情</button>
                         <button class="btn btn-primary disabled btn-xs">待买家确认收货</button>
                     </c:if>
                     <c:if test="${'waitReview'==order.status}">
-                        <button class="btn btn-primary btn-xs">查看详情</button>
+                        <button class="btn btn-primary btn-xs showDetails" oid="${order.id}">查看详情</button>
                         <button class="btn btn-primary disabled btn-xs">待买家评价</button>
                     </c:if>
                     <c:if test="${'finish'==order.status}">
+                        <button class="btn btn-primary btn-xs showDetails" oid="${order.id}">查看详情</button>
                         <button class="btn btn-primary disabled btn-xs">订单完成</button>
                     </c:if>
 
                 </td>
 
+            </tr>
+            <%--默认隐藏--%>
+            <tr class="orderItemDetailTR" oid="${order.id}" style="display: none">
+                <%--这里从来span为10是因为要跟上面的列td一样--%>
+                <td colspan="10" align="center">
+                    <div class="orderItemDetail">
+                        <table width="800px" align="center" class="orderItemsTable">
+                            <c:forEach items="${order.orderItems}" var="orderItem">
+                                <tr>
+                                    <td align="left">
+                                        <img width="40px" height="40px" src="<%=request.getContextPath()%>/img/productImage/${orderItem.product.firstProductImage.id}.jpg"
+                                             alt="图片加载失败">
+                                    </td>
+
+                                    <td>
+                                        <a href="<%=request.getContextPath()%>/getProductDetail.do?pid=${orderItem.product.id}&cid=${orderItem.product.category.id}" target="_blank">
+                                            <span>${orderItem.product.subTitle}</span>
+                                        </a>
+                                    </td>
+                                    <td align="right">
+                                        <span class="text-muted">${orderItem.number}个</span>
+                                    </td>
+                                    <td align="right">
+
+                                        <span class="text-muted">单价：￥${orderItem.product.promotePrice}</span>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
+                </td>
             </tr>
 
         </c:forEach>
@@ -75,8 +109,17 @@
     </table>
 
 
-    <%@ include file="../include/adminPage.jsp"%>
+    <%@ include file="../include/adminPage.jsp" %>
 </div>
 
+<script>
+    $(function () {
+        $("button.showDetails").click(function () {
+            var oid = $(this).attr("oid");
+            $("tr.orderItemDetailTR[oid=" + oid + "]").toggle();
+        })
+    })
+</script>
 
-<%@include file="../include/adminFooter.jsp"%>
+
+<%@include file="../include/adminFooter.jsp" %>

@@ -538,15 +538,21 @@ public class ForeController {
         }
         //从数据库中获取相关数据
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
+        logger.info(orders.size());
+        if(orders.size()!=0){
+            for (Order order : orders) {
+                FillUtil.fillOrder(order, user, orderService, productService,
+                        userService, productImageService, categoryService, reviewService, orderItemService);
 
-        for (Order order : orders) {
-            FillUtil.fillOrder(order, user, orderService, productService,
-                    userService, productImageService, categoryService, reviewService, orderItemService);
+                logger.info(order);
 
+            }
+            modelAndView.addObject("orders", orders);
         }
 
+
         modelAndView.setViewName("frontPage/myOrder");
-        modelAndView.addObject("orders", orders);
+
 
         return modelAndView;
     }

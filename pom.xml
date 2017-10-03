@@ -213,6 +213,7 @@
             <configuration>
                   <source>1.7</source>
                   <target>1.7</target>
+                  <encoding>${project.build.sourceEncoding}</encoding>
               </configuration>
           </plugin>
       </plugins>
