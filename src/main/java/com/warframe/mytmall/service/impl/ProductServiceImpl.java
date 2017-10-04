@@ -68,4 +68,9 @@ public class ProductServiceImpl implements ProductService{
     public int getCategoryIdByProductId(int pid) {
         return productDAO.getCategoryIdByProductId(pid);
     }
+
+    @Override
+    public List<Product> searchByKeyword(String keyword) {
+        return productDAO.searchByKeyword(keyword);
+    }
 }

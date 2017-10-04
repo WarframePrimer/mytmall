@@ -29,4 +29,6 @@ public interface ProductService {
 
     int getCategoryIdByProductId(int pid);
 
+    List<Product> searchByKeyword(String keyword);
+
 }

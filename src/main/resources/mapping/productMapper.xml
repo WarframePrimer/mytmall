@@ -55,4 +55,9 @@
         SELECT cid FROM product WHERE id=#{pid}
     </select>
 
+
+    <select id="searchByKeyword" parameterType="String" resultType="com.warframe.mytmall.pojo.Product">
+        SELECT * FROM product WHERE `name` LIKE CONCAT('%',#{keyword},'%') OR subTitle LIKE CONCAT('%',#{keyword},'%')
+    </select>
+
 </mapper>

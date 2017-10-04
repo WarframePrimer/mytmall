@@ -42,6 +42,8 @@ public interface ProductDAO extends BaseDAO {
 
     int getCategoryIdByProductId(int pid);
 
+    List<Product> searchByKeyword(String keyword);
+
 //    void addProduct(Product product);
 //
 //    Product getProductById(int id);

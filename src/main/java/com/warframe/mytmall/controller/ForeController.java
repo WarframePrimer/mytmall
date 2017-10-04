@@ -205,6 +205,26 @@ public class ForeController {
         return modelAndView;
     }
 
+    @RequestMapping("searchByKeyword.do")
+    public ModelAndView searchByKeyword(@RequestParam(value = "keyword",defaultValue = "") String keyword) {
+        ModelAndView modelAndView = new ModelAndView("frontPage/searchResult");
+
+        logger.info("keyword:" + keyword);
+
+
+        List<Product> productList = productService.searchByKeyword(keyword);
+        //如果结果只不为零，遍历所有并进行填充
+        if (productList.size() != 0) {
+            for (Product product : productList) {
+                //细节:这里传入的product是一个对象，所以在传值是其实传递的是一个引用，改变引用里面的值，对象就会改变
+                FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
+            }
+            modelAndView.addObject("productList", productList);
+        }
+        return modelAndView;
+    }
+
+
     //商品页面
     @RequestMapping("getProductDetail.do")
     public ModelAndView getProductDetail(@RequestParam("pid") int pid,
@@ -316,7 +336,6 @@ public class ForeController {
             modelAndView.setViewName("redirect:login.do");
             return modelAndView;
         }
-
         //购物车信息
         List<OrderItem> cartItemList = getCartItemList(request);
 
@@ -539,7 +558,7 @@ public class ForeController {
         //从数据库中获取相关数据
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
         logger.info(orders.size());
-        if(orders.size()!=0){
+        if (orders.size() != 0) {
             for (Order order : orders) {
                 FillUtil.fillOrder(order, user, orderService, productService,
                         userService, productImageService, categoryService, reviewService, orderItemService);
@@ -593,7 +612,7 @@ public class ForeController {
 
     @RequestMapping("reviewProduct.do")
     public ModelAndView reviewProduct(@RequestParam("pid") int pid,
-                                      @RequestParam("oid")int oid,
+                                      @RequestParam("oid") int oid,
                                       HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("frontPage/reviewProduct");
 
@@ -608,7 +627,7 @@ public class ForeController {
 
 
         modelAndView.addObject("product", product);
-        modelAndView.addObject("order",order);
+        modelAndView.addObject("order", order);
         //其实没必要
         modelAndView.addObject("user", user);
 
@@ -617,7 +636,7 @@ public class ForeController {
 
     @RequestMapping("commitReview.do")
     public ModelAndView commitReview(@RequestParam("pid") int pid,
-                                     @RequestParam("oid")int oid,
+                                     @RequestParam("oid") int oid,
                                      @RequestParam("content") String content,
                                      HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
