@@ -17,6 +17,9 @@
 <head>
     <meta charset="UTF-8">
     <title>tmallDemo</title>
+    <!--添加网站icon-->
+    <link rel="icon" href="<%=request.getContextPath()%>/img/site/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/img/site/favicon.png" type="image/x-icon" />
     <!--BootStrap3-->
     <script src="<%=request.getContextPath()%>/js/jquery/2.0.0/jquery.min.js"></script>
     <link href="<%=request.getContextPath()%>/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
