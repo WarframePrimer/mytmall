@@ -72,6 +72,7 @@
 
             </tr>
             <%--默认隐藏--%>
+            <%--在点击查看详请是，从隐藏状态toggle出来--%>
             <tr class="orderItemDetailTR" oid="${order.id}" style="display: none">
                 <%--这里从来span为10是因为要跟上面的列td一样--%>
                 <td colspan="10" align="center">

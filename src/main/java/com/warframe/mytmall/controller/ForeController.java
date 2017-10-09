@@ -205,8 +205,14 @@ public class ForeController {
         return modelAndView;
     }
 
+    /**
+     * 没有使用类似于solr和ElasticSearch等基于lucene的框架，只是简单的使用了数据库中的模糊查询，后面再改进
+     *
+     * @param keyword
+     * @return
+     */
     @RequestMapping("searchByKeyword.do")
-    public ModelAndView searchByKeyword(@RequestParam(value = "keyword",defaultValue = "") String keyword) {
+    public ModelAndView searchByKeyword(@RequestParam(value = "keyword", defaultValue = "") String keyword) {
         ModelAndView modelAndView = new ModelAndView("frontPage/searchResult");
 
         logger.info("keyword:" + keyword);
@@ -217,10 +223,25 @@ public class ForeController {
         if (productList.size() != 0) {
             for (Product product : productList) {
                 //细节:这里传入的product是一个对象，所以在传值是其实传递的是一个引用，改变引用里面的值，对象就会改变
-                FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
+                FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
             }
             modelAndView.addObject("productList", productList);
         }
+        return modelAndView;
+    }
+
+    /**
+     * 通过分类进行相关搜索，并且对搜索后的结果提供按需求排序的效果
+     * @param categoryName
+     * @return
+     */
+    @RequestMapping("searchByCategory.do")
+    public ModelAndView searchByCategory(@RequestParam(value = "categoryName", required = true) String categoryName) {
+        ModelAndView modelAndView = new ModelAndView("frontPage/searchByCategoryResult");
+        logger.info("要搜索的分类名称：" + categoryName);
+
+
+
         return modelAndView;
     }
 
@@ -228,14 +249,14 @@ public class ForeController {
     //商品页面
     @RequestMapping("getProductDetail.do")
     public ModelAndView getProductDetail(@RequestParam("pid") int pid,
-                                         @RequestParam("cid") int cid) {
+                                         @RequestParam("cid")int  cid) {
         ModelAndView modelAndView = new ModelAndView("frontPage/product");
         Product product = productService.getProductById(pid);
         Category category = categoryService.getCategoryById(cid);
         product.setCategory(category);
 
         //产品属性属性值
-        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
+        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid,cid);
 
         //对产品具体信息进行填充
         FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);

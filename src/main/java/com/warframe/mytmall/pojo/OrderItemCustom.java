@@ -11,6 +11,7 @@ public class OrderItemCustom {
     private int uid;
     private int number;
 
+
     public int getId() {
         return id;
     }
@@ -61,4 +62,6 @@ public class OrderItemCustom {
     public void setNumber(int number) {
         this.number = number;
     }
+
+
 }

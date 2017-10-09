@@ -105,12 +105,13 @@
       <version>5.1.2</version>
     </dependency>
 
-    <!-- 导入java ee jar 包 -->
-    <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-api</artifactId>
-      <version>7.0</version>
-    </dependency>
+    <!--&lt;!&ndash; 导入java ee jar 包 &ndash;&gt;-->
+    <!--在tomcat启动过程并没有被加载-->
+    <!--<dependency>-->
+      <!--<groupId>javax</groupId>-->
+      <!--<artifactId>javaee-api</artifactId>-->
+      <!--<version>7.0</version>-->
+    <!--</dependency>-->
     <!-- 导入Mysql数据库链接jar包 -->
     <dependency>
       <groupId>mysql</groupId>
@@ -210,6 +211,7 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
             <!--将这个web 项目打包成的java版本为1.7-->
+            <!--可以用来修改java的版本-->
             <configuration>
                   <source>1.7</source>
                   <target>1.7</target>

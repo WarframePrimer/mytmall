@@ -32,6 +32,7 @@
     <link href="<%=request.getContextPath()%>/css/front/payComplete.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/reviewProduct.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/css/front/searchByKeyword.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/css/front/searchByCategoryResult.css" rel="stylesheet"/>
 
 
     <!--添加一些必要的js交互-->
