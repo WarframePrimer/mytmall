@@ -2,6 +2,10 @@ div.categoryPageDiv{
     max-width: 1013px;
     margin: 10px auto;
 }
+div.categoryPageDiv img.categoryPageImage{
+    width:100%;
+    margin:10px auto;
+}
 div.categorySortBar{
     background-color: #FAF9F9;
     margin: 40px 20px 20px 20px;
@@ -51,6 +55,10 @@ table.categorySortTable td:hover{
 }
 
 div.categoryProducts{
+    /*width:1080px;*/
+    /*margin:100px auto;*/
+    height: auto;
+    width: 100%;
     padding:0px 20px 40px 20px;
 }
 div.productUnit{

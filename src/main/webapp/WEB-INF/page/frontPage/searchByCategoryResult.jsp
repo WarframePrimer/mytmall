@@ -14,7 +14,7 @@
 
 <%--搜索结果--%>
 <div class="categoryPageDiv">
-    <img src="img/site/72.jpg" alt="图片加载失败">
+    <img class="categoryPageImage" src="<%=request.getContextPath()%>/img/category/${category.id}.jpg" alt="图片加载失败">
     <!--对商品进行排序分类-->
     <div class="categorySortBar">
         <!--放排序按钮的table-->
@@ -42,130 +42,27 @@
     </div>
 
     <div class="categoryProducts">
+        <c:forEach items="${productListByCategoryId}" var="product">
+            <div class="productUnit" price="${product.promotePrice}">
+                <div class="productUnitFrame">
+                    <a href="getProductDetail.do?cid=${product.category.id}&pid=${product.id}"><img height="190px" width="100%" src="<%=request.getContextPath()%>/img/productImage/${product.firstProductImage.id}.jpg" alt="图片加载失败"></a>
+                    <span class="productPrice">￥<fmt:formatNumber value="${product.promotePrice}" maxFractionDigits="2"/></span>
+                    <a href="getProductDetail.do?cid=${product.category.id}&pid=${product.id}" class="productLink">${product.subTitle}</a>
+                    <a href="#nowhere" class="tmallLink">天猫专卖</a>
+                    <div class="show1 productInfo">
+                        <span class="monthDeal">月成交<span class="productDealNumber">${product.saleCount}笔</span></span>
+                        <span class="productReview">评价<span class="productReviewNumber">${product.reviewCount}</span></span>
+                        <span class="wangwang">
+                            <a href="#nowhere" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="productUnit" price="799">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7058.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="799">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7047.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="600">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7036.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="510">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7025.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="4">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7014.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="5000">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/7003.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="200">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/6992.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="productUnit" price="1">
-            <div class="productUnitFrame">
-                <a href="#"><img src="img/site/productSingle_middle/6981.jpg" alt="图片加载失败"></a>
-                <span class="productPrice">￥799.20</span>
-                <a href="#" class="productLink"> MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮</a>
-                <a href="#" class="tmallLink">天猫专卖</a>
-                <div class="show1 productInfo">
-                    <span class="monthDeal">月成交<span class="productDealNumber">46笔</span></span>
-                    <span class="productReview">评价<span class="productReviewNumber">18</span></span>
-                    <span class="wangwang">
-                            <a href="#" class="wangwangLink"><img src="img/site/wangwang.png" alt="图片加载失败"></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-
+        </c:forEach>
     </div>
-
+    <%--清除浮动？？！！emmmmm--%>
+    <div style="clear: both"></div>
 
 </div>
 

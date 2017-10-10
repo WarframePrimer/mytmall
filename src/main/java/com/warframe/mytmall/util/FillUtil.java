@@ -34,8 +34,12 @@ public class FillUtil {
         product.setProductSingleImage(productImageService.listProductImageByProductIdAndType(pid, "type_single"));
         product.setProductDetailImage(productImageService.listProductImageByProductIdAndType(pid, "type_detail"));
 
+
+        //评价数量
         product.setReviewCount(reviewService.getReviewCountByProductId(pid));
         List<Integer> productNumberList = orderItemService.getNumberByProductId(pid);
+
+        //求出总销量(如果是月销量呢？)
         int saleCount = 0;
         if (!productNumberList.isEmpty()) {
             for (Integer integer : productNumberList) {

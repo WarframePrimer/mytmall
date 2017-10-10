@@ -232,15 +232,26 @@ public class ForeController {
 
     /**
      * 通过分类进行相关搜索，并且对搜索后的结果提供按需求排序的效果
-     * @param categoryName
+     * @param categoryId 分类编号
      * @return
      */
     @RequestMapping("searchByCategory.do")
-    public ModelAndView searchByCategory(@RequestParam(value = "categoryName", required = true) String categoryName) {
+    public ModelAndView searchByCategory(@RequestParam(value = "categoryId", required = true) int categoryId) {
         ModelAndView modelAndView = new ModelAndView("frontPage/searchByCategoryResult");
-        logger.info("要搜索的分类名称：" + categoryName);
+        logger.info("要搜索的分类编号：" + categoryId);
 
+        //获取到category
+        Category category = categoryService.getCategoryById(categoryId);
 
+        //获取该分类下的产品List 5*12 5个一排，一共12排，之后就进入下一页
+        List<Product> productListByCategoryId = productService.listProductByCategoryId(0,productService.getTotalNumberByCategoryId(categoryId),categoryId);
+        //填充product
+        for(Product product:productListByCategoryId){
+            FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
+        }
+
+        modelAndView.addObject("category",category);
+        modelAndView.addObject("productListByCategoryId",productListByCategoryId);
 
         return modelAndView;
     }

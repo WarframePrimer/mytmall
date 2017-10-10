@@ -36,7 +36,7 @@
         <c:forEach items="${categoryList}" var="category">
             <div class="eachCategory" cid="${category.id}">
                 <span class="glyphicon glyphicon-link"></span>
-                <a href="<%=request.getContextPath()%>/searchByCategory.do?categoryName=${category.name}">${category.name}</a>
+                <a href="<%=request.getContextPath()%>/searchByCategory.do?categoryId=${category.id}">${category.name}</a>
             </div>
         </c:forEach>
     </div>

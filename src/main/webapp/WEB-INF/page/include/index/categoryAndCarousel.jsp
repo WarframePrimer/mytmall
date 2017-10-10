@@ -43,6 +43,7 @@
             hideAsideCategoryInfo(cid);
         });
 
+        //mouseenter,mouseleave&&mouseover
         $("div.productAsideCategory").mouseenter(function () {
             var cid = $(this).attr("cid");
             showAsideCategoryInfo(cid);
