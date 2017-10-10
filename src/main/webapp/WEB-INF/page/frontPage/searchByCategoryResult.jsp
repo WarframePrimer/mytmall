@@ -21,11 +21,12 @@
         <table class="categorySortBarTable categorySortTable">
             <tbody>
             <tr>
-                <td class="grayColumn"><a href="#">综合<span class="glyphicon glyphicon-arrow-down"></span></a></td>
-                <td><a href="#">人气<span class="glyphicon glyphicon-arrow-down"></span></a></td>
-                <td><a href="#">新品<span class="glyphicon glyphicon-arrow-down"></span></a></td>
-                <td><a href="#">销量<span class="glyphicon glyphicon-arrow-down"></span></a></td>
-                <td><a href="#">价格<span class="glyphicon glyphicon-resize-vertical"></span></a></td>
+                <%--如果td的class为grayColumn表示被选中的条件标签--%>
+                <td <c:if test="${'all'==sortType||empty sortType}">class="grayColumn"</c:if>><a href="searchByCategory.do?categoryId=${category.id}&sort=all">综合<span class="glyphicon glyphicon-arrow-down"></span></a></td>
+                <td <c:if test="${'review'==sortType}">class="grayColumn"</c:if>><a href="searchByCategory.do?categoryId=${category.id}&sort=review">人气<span class="glyphicon glyphicon-arrow-down"></span></a></td>
+                <td <c:if test="${'date'==sortType}">class="grayColumn"</c:if>><a href="searchByCategory.do?categoryId=${category.id}&sort=date">新品<span class="glyphicon glyphicon-arrow-down"></span></a></td>
+                <td <c:if test="${'saleCount'==sortType}">class="grayColumn"</c:if>><a href="searchByCategory.do?categoryId=${category.id}&sort=saleCount">销量<span class="glyphicon glyphicon-arrow-down"></span></a></td>
+                <td <c:if test="${'price'==sortType}">class="grayColumn"</c:if>><a href="searchByCategory.do?categoryId=${category.id}&sort=price">价格<span class="glyphicon glyphicon-resize-vertical"></span></a></td>
             </tr>
             </tbody>
         </table>

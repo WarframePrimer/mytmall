@@ -1,6 +1,7 @@
 package com.warframe.mytmall.controller;
 
 
+import com.warframe.mytmall.comparator.*;
 import com.warframe.mytmall.pojo.*;
 import com.warframe.mytmall.service.*;
 import com.warframe.mytmall.util.FillUtil;
@@ -236,7 +237,8 @@ public class ForeController {
      * @return
      */
     @RequestMapping("searchByCategory.do")
-    public ModelAndView searchByCategory(@RequestParam(value = "categoryId", required = true) int categoryId) {
+    public ModelAndView searchByCategory(@RequestParam(value = "categoryId", required = true) int categoryId,
+                                         @RequestParam(value = "sort",defaultValue = "all")String sort) {
         ModelAndView modelAndView = new ModelAndView("frontPage/searchByCategoryResult");
         logger.info("要搜索的分类编号：" + categoryId);
 
@@ -250,6 +252,26 @@ public class ForeController {
             FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
         }
 
+        //针对不同的sort对list进行不同的排序
+        switch (sort){
+            case "all":
+                Collections.sort(productListByCategoryId,new ProductAllComparator());
+                break;
+            case "date":
+                Collections.sort(productListByCategoryId,new ProductDateComparator());
+                break;
+            case "saleCount":
+                Collections.sort(productListByCategoryId,new ProductSaleCountComparator());
+                break;
+            case "price":
+                Collections.sort(productListByCategoryId,new ProductPriceComparator());
+                break;
+            case "review":
+                Collections.sort(productListByCategoryId,new ProductReviewComparator());
+                break;
+        }
+
+        modelAndView.addObject("sortType",sort);
         modelAndView.addObject("category",category);
         modelAndView.addObject("productListByCategoryId",productListByCategoryId);
 
