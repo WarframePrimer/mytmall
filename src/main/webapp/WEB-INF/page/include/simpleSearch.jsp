@@ -13,17 +13,17 @@
     <a href="#"><img src="img/site/simpleLogo.png" class="simpleLogo"></a>
 
     <div class="simpleSearchDiv pull-right">
-
-        <input type="text" name="keyword" placeholder="平衡车 榨汁机"/>
-        <button type="button" class="searchButton">搜天猫</button>
-        <div class="searchBelow">
-			<span>
-				<a href="">冰箱</a><span>|</span>
-				<a href="">空调</a><span>|</span>
-				<a href="">女表</a><span>|</span>
-				<a href="">男表</a>
-			</span>
-
-        </div>
+        <form action="searchByKeyword.do">
+            <input type="text" name="keyword" placeholder="平衡车 榨汁机"/>
+            <button type="submit" class="searchButton">搜天猫</button>
+            <div class="searchBelow">
+                <span>
+                    <a href="">冰箱</a><span>|</span>
+                    <a href="">空调</a><span>|</span>
+                    <a href="">女表</a><span>|</span>
+                    <a href="">男表</a>
+                </span>
+            </div>
+        </form>
     </div>
 </div>

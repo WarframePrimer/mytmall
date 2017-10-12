@@ -32,6 +32,8 @@
         <property name="username" value="${jdbc.userName}"/>
         <property name="password" value="${jdbc.password}"/>
 
+        <property name="maxWait" value="10000"/>
+
         <!--池参数不进行配置，使用默认池参数-->
     </bean>
 

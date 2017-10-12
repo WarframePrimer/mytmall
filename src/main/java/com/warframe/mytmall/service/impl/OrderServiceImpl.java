@@ -64,11 +64,20 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderItem> orderItemList = order.getOrderItems();
         for (OrderItem orderItem : orderItemList) {
+            logger.info("新增的order为：" + order.getId());
             orderItem.setOrder(order);
-            int count = orderItemDAO.updateOrderId(orderItem);
-            if (count != 1) {
-                throw new RuntimeException("error");
+            //如果订单详情项id为零，表示其在数据库中不存在，需要先将其添加到数据库中
+            if(orderItem.getId()==0){
+                //添加后就需要进行更新了
+                orderItemDAO.add(orderItem);
+            }else{
+                int count = orderItemDAO.updateOrderId(orderItem);
+                if (count != 1) {
+                    throw new RuntimeException("error");
+                }
             }
+//            logger.info("添加orderId后的orderItemId："+ orderItem.getId());
+
         }
     }
 

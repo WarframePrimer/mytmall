@@ -520,7 +520,6 @@ public class ForeController {
 //        logger.info(address + post + receiver + mobile + userMessage);
         User user = getLoginUser(request);
         logger.info(user);
-        //TODO这个转型存在问题
         List<OrderItem> orderItemList = (List<OrderItem>) httpSession.getAttribute("orderItemList");
         logger.info("orderItemList：" + orderItemList.size());
         float totalPrice = (Float) httpSession.getAttribute("totalPrice");

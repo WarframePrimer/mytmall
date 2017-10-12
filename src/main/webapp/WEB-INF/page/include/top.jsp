@@ -44,7 +44,7 @@
 
     </div>
     <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; "
-            onclick="javascrtpt:window.location.href='http://localhost:8080/tmall/admin/category/admin_category_list.do'">
+            onclick="javascrtpt:window.location.href='http://106.15.231.173:8080/mytmall/admin/category/admin_category_list.do'">
         进入后台
     </button>
 </nav>
