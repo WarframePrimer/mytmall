@@ -5,7 +5,11 @@
 - 后端：分类管理，分类属性管理，商品管理，商品属性值管理，商品图片管理，用户管理，订单管理等等；
 - 具体的请clone项目，使用idea直接打开查看即可；
 
-地址[http://106.15.231.173:8080/mytmall/home.do]
+#### 目前项目中资源较少，考虑爬一波数据，滚去看爬虫。。。
+
+[项目地址][地址][mytmall]
+
+`最好在电脑上看，不是自适应布局...惭愧惭愧`
 
 # Demo截图
 
@@ -31,7 +35,10 @@
 ![image text](https://raw.githubusercontent.com/WarframePrimer/mytmall/master/img-folder/myOrder.jpg)
 - 评价商品
 ![image text](https://raw.githubusercontent.com/WarframePrimer/mytmall/master/img-folder/reviewProduct.jpg)
+[回到顶部](#readme)
 
+-------------------------
+[mytmall]:http://106.15.231.173:8080/mytmall/home.do "mytmall"
 
 
 
