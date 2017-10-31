@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.net.InetAddress" %><%--
   Created by IntelliJ IDEA.
   User: warframe
   Date: 2017/9/7
@@ -6,6 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    //获取本机(服务器当前)IP并保存到pageContext中
+    InetAddress addr = InetAddress.getLocalHost();
+    String ip=addr.getHostAddress().toString();//获得本机IP
+    pageContext.setAttribute("ip",ip);
+%>
 
 <!--导航栏-->
 <nav class="header">
@@ -44,8 +51,8 @@
 
     </div>
     <button class="btn btn-success btn-xs linkBack" style="position: absolute;top:3px; "
-            onclick="javascrtpt:window.location.href='http://106.15.231.173:8080/mytmall/admin/category/admin_category_list.do'">
-        进入后台
+            onclick="javascript:window.location.href='http://${ip}:8080/mytmall/admin/category/admin_category_list.do'">
+        后台管理
     </button>
 </nav>
 

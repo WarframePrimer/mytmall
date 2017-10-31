@@ -7,17 +7,15 @@ import com.warframe.mytmall.service.*;
 import com.warframe.mytmall.util.FillUtil;
 import com.warframe.mytmall.util.FormatUtil;
 import com.warframe.mytmall.util.StringUtil;
+
 import org.apache.log4j.Logger;
+
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
-
-
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -131,6 +129,8 @@ public class ForeController {
     public Map<String, String> loginAjax(@RequestParam("name") String name,
                                          @RequestParam("password") String password,
                                          HttpServletRequest request) {
+
+
         Map<String, String> map = new HashMap<>();
 
         logger.info("userName:" + name);
@@ -233,12 +233,13 @@ public class ForeController {
 
     /**
      * 通过分类进行相关搜索，并且对搜索后的结果提供按需求排序的效果
+     *
      * @param categoryId 分类编号
      * @return
      */
     @RequestMapping("searchByCategory.do")
     public ModelAndView searchByCategory(@RequestParam(value = "categoryId", required = true) int categoryId,
-                                         @RequestParam(value = "sort",defaultValue = "all")String sort) {
+                                         @RequestParam(value = "sort", defaultValue = "all") String sort) {
         ModelAndView modelAndView = new ModelAndView("frontPage/searchByCategoryResult");
         logger.info("要搜索的分类编号：" + categoryId);
 
@@ -246,34 +247,34 @@ public class ForeController {
         Category category = categoryService.getCategoryById(categoryId);
 
         //获取该分类下的产品List 5*12 5个一排，一共12排，之后就进入下一页
-        List<Product> productListByCategoryId = productService.listProductByCategoryId(0,productService.getTotalNumberByCategoryId(categoryId),categoryId);
+        List<Product> productListByCategoryId = productService.listProductByCategoryId(0, productService.getTotalNumberByCategoryId(categoryId), categoryId);
         //填充product
-        for(Product product:productListByCategoryId){
-            FillUtil.fillProduct(product,productImageService,categoryService,reviewService,orderItemService,productService);
+        for (Product product : productListByCategoryId) {
+            FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
         }
 
         //针对不同的sort对list进行不同的排序
-        switch (sort){
+        switch (sort) {
             case "all":
-                Collections.sort(productListByCategoryId,new ProductAllComparator());
+                Collections.sort(productListByCategoryId, new ProductAllComparator());
                 break;
             case "date":
-                Collections.sort(productListByCategoryId,new ProductDateComparator());
+                Collections.sort(productListByCategoryId, new ProductDateComparator());
                 break;
             case "saleCount":
-                Collections.sort(productListByCategoryId,new ProductSaleCountComparator());
+                Collections.sort(productListByCategoryId, new ProductSaleCountComparator());
                 break;
             case "price":
-                Collections.sort(productListByCategoryId,new ProductPriceComparator());
+                Collections.sort(productListByCategoryId, new ProductPriceComparator());
                 break;
             case "review":
-                Collections.sort(productListByCategoryId,new ProductReviewComparator());
+                Collections.sort(productListByCategoryId, new ProductReviewComparator());
                 break;
         }
 
-        modelAndView.addObject("sortType",sort);
-        modelAndView.addObject("category",category);
-        modelAndView.addObject("productListByCategoryId",productListByCategoryId);
+        modelAndView.addObject("sortType", sort);
+        modelAndView.addObject("category", category);
+        modelAndView.addObject("productListByCategoryId", productListByCategoryId);
 
         return modelAndView;
     }
@@ -282,14 +283,14 @@ public class ForeController {
     //商品页面
     @RequestMapping("getProductDetail.do")
     public ModelAndView getProductDetail(@RequestParam("pid") int pid,
-                                         @RequestParam("cid")int  cid) {
+                                         @RequestParam("cid") int cid) {
         ModelAndView modelAndView = new ModelAndView("frontPage/product");
         Product product = productService.getProductById(pid);
         Category category = categoryService.getCategoryById(cid);
         product.setCategory(category);
 
         //产品属性属性值
-        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid,cid);
+        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
         //对产品具体信息进行填充
         FillUtil.fillProduct(product, productImageService, categoryService, reviewService, orderItemService, productService);
@@ -306,7 +307,7 @@ public class ForeController {
             }
         }
 
-        logger.info("productInfo:" + product);
+        //logger.info("productInfo:" + product);
 
         modelAndView.addObject("product", product);
         modelAndView.addObject("propertyValueCustomList", propertyValueCustomList);
@@ -431,7 +432,7 @@ public class ForeController {
          */
         orderItem = FillUtil.fillOrderItem(orderItemCustom, orderService, productService, userService,
                 productImageService, categoryService, reviewService, orderItemService);
-        logger.info(orderItem);
+        //logger.info(orderItem);
         orderItemList.add(orderItem);
         //计算总价格
         totalPrice = orderItem.getNumber() * orderItem.getProduct().getPromotePrice();
@@ -519,9 +520,9 @@ public class ForeController {
         userMessage = StringUtil.toUTF(userMessage);
 //        logger.info(address + post + receiver + mobile + userMessage);
         User user = getLoginUser(request);
-        logger.info(user);
+        //logger.info(user);
         List<OrderItem> orderItemList = (List<OrderItem>) httpSession.getAttribute("orderItemList");
-        logger.info("orderItemList：" + orderItemList.size());
+        //logger.info("orderItemList：" + orderItemList.size());
         float totalPrice = (Float) httpSession.getAttribute("totalPrice");
         int totalNumber = 0;
         for (OrderItem orderItem : orderItemList) {
@@ -584,7 +585,7 @@ public class ForeController {
         order.setPayDate(new Date());
         order.setStatus("waitDelivery");
 
-        logger.info("order:" + order);
+        //logger.info("order:" + order);
         orderService.updateOrder(order);
         logger.info("order修改成功!!");
 
@@ -610,13 +611,13 @@ public class ForeController {
         }
         //从数据库中获取相关数据
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
-        logger.info(orders.size());
+        //logger.info(orders.size());
         if (orders.size() != 0) {
             for (Order order : orders) {
                 FillUtil.fillOrder(order, user, orderService, productService,
                         userService, productImageService, categoryService, reviewService, orderItemService);
 
-                logger.info(order);
+                //logger.info(order);
 
             }
             modelAndView.addObject("orders", orders);

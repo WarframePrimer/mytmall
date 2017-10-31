@@ -57,7 +57,7 @@ public class OrderController {
         for (Order order : orders) {
             FillUtil.fillOrder(order,userService.getUserById(order.getUid()),orderService,productService,userService,productImageService,
                     categoryService,reviewService,orderItemService);
-            logger.info(order);
+            //logger.info(order);
         }
 
 

@@ -42,7 +42,7 @@
 
             <div class="loginLink">
                 <a href="#">忘记登录密码</a>
-                <a href="#" class="pull-right">免费注册</a>
+                <a href="register.do" class="pull-right">免费注册</a>
             </div>
 
             <div class="loginButtonDiv">

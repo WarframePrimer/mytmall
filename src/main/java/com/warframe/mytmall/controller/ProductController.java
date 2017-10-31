@@ -106,7 +106,7 @@ public class ProductController {
          * 可优化
          */
         Category category = categoryService.getCategoryById(cid);
-        logger.info("category:" + category);
+        //logger.info("category:" + category);
 
         Product product = new Product();
         product.setCategory(category);
@@ -193,9 +193,11 @@ public class ProductController {
         product.setCategory(category);
         product.setCreateDate(new Date());
 
-        logger.info("修改后的商品信息：" + product);
+        //logger.info("修改后的商品信息：" + product);
 
         productService.updateProduct(product);
+
+        logger.info("成功修改商品信息!");
 
         ModelAndView modelAndView = new ModelAndView("redirect:admin_product_list.do?cid=" + cid + "&pageNum=" + pageNum);
 
