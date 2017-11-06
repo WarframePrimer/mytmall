@@ -13,3 +13,5 @@ Shiro的目标是做好Authentication(身份识别)、Authorization(权限管理
 - Session Management(会话管理):即使不是web应用也不是EJB应用，仍然可以管理具有明确用户的session
 - Cryptography(加密):利用加密算法保证数据安全
 
+- Shiro
+
