@@ -6,7 +6,7 @@
 <mapper namespace="com.warframe.mytmall.dao.PropertyValueDAO">
 
     <select id="getById" parameterType="int" resultType="com.warframe.mytmall.pojo.PropertyValue">
-        select * from propertyValue WHERE id = #{id};
+        select * from propertyvalue WHERE id = #{id};
     </select>
 
     <insert id="add" parameterType="com.warframe.mytmall.pojo.PropertyValue" useGeneratedKeys="true" keyProperty="id">

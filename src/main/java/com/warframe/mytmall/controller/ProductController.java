@@ -342,7 +342,7 @@ public class ProductController {
     /**
      * 属性值应该是可以直接进行编辑的
      * 只需要传入产品所需的属性和属性值即可
-     *
+     * <p>
      * 显示的应该是产品所属分类的所有属性
      *
      * @param pid
@@ -359,7 +359,7 @@ public class ProductController {
         logger.info("分类:" + category.getName());
         Product product = productService.getProductById(pid);
 
-        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid,cid);
+        List<PropertyValueCustom> propertyValueCustomList = propertyValueService.getPropertyValueCustomByProductIdAndCategoryId(pid, cid);
 
 
 //        Category category = categoryService.getCategoryById(cid);
@@ -371,13 +371,12 @@ public class ProductController {
 //        List<PropertyValue> propertyValues = propertyValueService.getPropertyValuesByProductId(pid);
 
 
-
-        modelAndView.addObject("product",product);
-        modelAndView.addObject("category",category);
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("category", category);
 //        modelAndView.addObject("propertyList",propertyList);
 //        modelAndView.addObject("propertyValues",propertyValues);
 
-        modelAndView.addObject("propertyValueCustomList",propertyValueCustomList);
+        modelAndView.addObject("propertyValueCustomList", propertyValueCustomList);
 
         return modelAndView;
     }
@@ -386,35 +385,40 @@ public class ProductController {
     //对产品属性值的设置以及更新
     @RequestMapping("admin_product_updatePropertyValue.do")
     @ResponseBody
-    public Map<String,Integer> updatePropertyValue(@RequestParam("propertyValue")String value,
-                                      @RequestParam("pid")int pid,
-                                      @RequestParam("ptid")int ptid,
-                                      @RequestParam("pvid")int pvid){
+    public Map<String, Integer> updatePropertyValue(@RequestParam("propertyValue") String value,
+                                                    @RequestParam("pid") int pid,
+                                                    @RequestParam("ptid") int ptid,
+                                                    @RequestParam("pvid") int pvid) {
         logger.info("propertyValue:" + value);
         logger.info("pid:" + pid);
         logger.info("ptid:" + ptid);
         logger.info("pvid:" + pvid);
 
-        Map<String,Integer> map = new HashMap<>();
-        PropertyValue propertyValue = null;
+        Map<String, Integer> map = new HashMap<>();
+        PropertyValue propertyValue;
 
-        if(pvid!=0){
+        if (pvid != 0) {
+            //如果id不等于0说明数据库中已经存在该记录那么就进行修改
             propertyValue = propertyValueService.getPropertyValueById(pvid);
-            //如果propertyValue为空就进行新增
+            //这个部署到服务器为什么会出错
             propertyValue.setProduct(productService.getProductById(pid));
             propertyValue.setProperty(propertyService.getPropertyById(ptid));
+            logger.info("显示属性值相关信息:" + propertyValue.toString());
+            logger.info("原来的属性值:" + propertyValue.getValue());
             propertyValue.setValue(value);
             propertyValueService.updatePropertyValue(propertyValue);
-        }else{
+            logger.info("修改后的属性值:" + propertyValue.getValue());
+        } else {
             //如果id为0进行插入操作
             propertyValue = new PropertyValue();
             propertyValue.setProduct(productService.getProductById(pid));
             propertyValue.setProperty(propertyService.getPropertyById(ptid));
             propertyValue.setValue(value);
+            logger.info("新增的属性值:" + propertyValue.getValue());
             propertyValueService.addPropertyValue(propertyValue);
 
             //对于新增的propertyvalue来说，应该传回一个增加后的pvid，防止进行多次add操作
-            map.put("pvid",propertyValue.getId());
+            map.put("pvid", propertyValue.getId());
 
         }
 
@@ -427,15 +431,11 @@ public class ProductController {
 //        propertyValueService.addPropertyValue(propertyValue);
 
 
-
-        map.put("info",1);
+        map.put("info", 1);
 
 
         return map;
     }
-
-
-
 
 
 }

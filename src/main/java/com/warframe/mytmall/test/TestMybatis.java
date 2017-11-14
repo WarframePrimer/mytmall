@@ -6,6 +6,8 @@ import com.warframe.mytmall.service.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -202,8 +204,6 @@ public class TestMybatis {
         orderItemCustom.setUid(6);
         orderItemCustom.setNumber(4);
         orderItemService.updateProductNumberByOrderItemId(orderItemCustom);
-
-
     }
 
     @Test
